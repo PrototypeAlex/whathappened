@@ -1,0 +1,14 @@
+{
+  "name": "what-happened",
+  "version": "0.0.0",
+  "dependencies": {
+    "sass-bootstrap": "~2.3.0",
+    "requirejs": "~2.1.4",
+    "modernizr": "~2.6.2",
+    "jquery": "~1.9.1",
+    "backbone-amd": "~1.0.0",
+    "underscore-amd": "~1.4.4",
+    "requirejs-text": "~2.0.5"
+  },
+  "devDependencies": {}
+}
