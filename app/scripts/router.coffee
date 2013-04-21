@@ -1,11 +1,14 @@
-define ["backbone", "views/base", "views/home", "views/ufo"], (Backbone, BaseView, HomeView, UfoView) ->
+define ["backbone", "views/base", "views/home", "views/page", "views/credits", "data/story", "views/ufo"], (Backbone, BaseView, HomeView, PageView, CreditsView, Story, UfoView) ->
   AppRouter = Backbone.Router.extend
     routes:
       "": "renderHome"
       "home": "renderHome"
       "ufo": "renderUfo"
+      "page/:page": "renderPage"
+      "credits": "renderCredits"
 
     initialize: ->
+      console.log Story
       @initializeBaseView()
 
     initializeBaseView: ->
@@ -19,5 +22,17 @@ define ["backbone", "views/base", "views/home", "views/ufo"], (Backbone, BaseVie
     renderUfo: (actions) ->
       ufo_view = new UfoView()
       ufo_view.render()
+
+    renderPage: (page) ->
+      page = Number(page)
+      page_model = new Backbone.Model(Story.get('pages')[page - 1])
+      page_view = new PageView
+        model: page_model
+      page_view.render()
+
+    renderCredits: ->
+      credits_view = new CreditsView()
+      credits_view.render()
+      return
 
   return AppRouter
