@@ -8,7 +8,6 @@ define ["backbone", "views/base", "views/home", "views/page", "views/credits", "
       "credits": "renderCredits"
 
     initialize: ->
-      console.log Story
       @initializeBaseView()
 
     initializeBaseView: ->

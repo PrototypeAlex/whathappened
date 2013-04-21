@@ -30,12 +30,12 @@ define ['backbone'], (Backbone) ->
 			},]
 			data_points: [{
 				id: "clouds"
-				left: "60%"
-				top: "10%"
+				left: "70%"
+				top: "03%"
 			},{
 				id: "spaceship"
-				left: "40%"
-				top: "80%"
+				left: "49%"
+				top: "88%"
 			}]
 		},{
 			content: """

@@ -14,18 +14,49 @@
 	}
 	a.data-marker{
 		position: absolute;
-		z-index: 10;
-		width: 30px;
-		height: 30px;
-		background-color: #000;
+		z-index: 20;
+		width: 20px;
+		height: 20px;
+		background-color: rgba(0, 0, 0, .3);
+		border-radius: 12px;
+		margin-left: -10px;
+		margin-top: -10px;
+		cursor: pointer;
+		border: 2px solid rgba(0,0,0, .4);
+		text-decoration: none;
+		color: #FFF;
+		display: block;
+		text-align: center;
+		font: 600 15px/22px serif;
+		font-style: italic;
 	}
 }
 
-#words{
+#left{
 	position: absolute;
 	left: 0px;
 	top: 0px;
 	bottom: 0px;
 	overflow: auto;
 	z-index: 10;
+	.content{
+		margin: 24px;
+	}
+	.close{
+		display: block;
+		width: 30px;
+		height: 30px;
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		font: 400 20px/30px Sans-Serif;
+		background: #eee;
+		text-align: center;
+		text-decoration: none;
+		color: #000;
+	}
+}
+
+.hidden{
+	display: none !important;
 }
