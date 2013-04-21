@@ -1,0 +1,31 @@
+@import 'normalize.scss/_normalize';
+
+#pictures{
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	width: 1000px;
+	z-index: 1;
+	overflow: hidden;
+	img{
+		max-width: 100%;
+		position: absolute;
+	}
+	a.data-marker{
+		position: absolute;
+		z-index: 10;
+		width: 30px;
+		height: 30px;
+		background-color: #000;
+	}
+}
+
+#words{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+	overflow: auto;
+	z-index: 10;
+}
