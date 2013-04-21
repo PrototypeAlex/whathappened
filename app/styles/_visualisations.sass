@@ -10,15 +10,20 @@
     margin: 20px
     color: white
 
-  svg
+  #js-new-zealand-svg
     width: 100%
-    background-color: white
-    height: 400px
+    height: 450px
 
     g path
       stroke-width: 1px
       stroke: #00c12b
+      fill : white
 
+      &.selected
+        fill: red
+
+      &.hovering
+        fill: green
 
     g line
       stroke-width: 1px

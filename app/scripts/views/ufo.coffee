@@ -1,4 +1,4 @@
-define ['backbone', 'text!../../templates/ufo.html', 'd3'], (Backbone, ufoTemplate, d3) ->
+define ['backbone', 'text!../../templates/ufo.html', 'text!../../templates/ufo_sightings.html', 'd3'], (Backbone, ufoTemplate, ufoSightingsTemplate, d3) ->
   UfoView = Backbone.View.extend
     el: $('#js-visualisation-container')
     width: 728
@@ -97,55 +97,19 @@ define ['backbone', 'text!../../templates/ufo.html', 'd3'], (Backbone, ufoTempla
     render: ->
       this.$el.show('slow')
       this.$el.html( _.template(ufoTemplate) )
-      @ufo_chart()
       @new_zealand()
 
-    ufo_chart: ->
-      monthly_ufo_sightings = d3.nest().key((d) => @month_names[d.time.getMonth()]).entries(@ufo_data)
-
-      margin = {
-        left: 50,
-        right: 20,
-        top: 20,
-        bottom: 50
-      }
-
-      x = d3.scale.linear()
-        .domain([0, 11])
-        .range([0 + margin.left, @width - margin.right])
-
-      y = d3.scale.linear()
-        .domain([d3.max(monthly_ufo_sightings, (d) -> d.values.length), 0])
-        .range([0 + margin.top, @height - margin.bottom])
-
-      line = d3.svg.line()
-        .x((d, i) -> x(i))
-        .y((d) -> y(d.values.length))
-
-      chart = d3.select('#js-ufo-svg')
-        .append("svg:g")
-
-      chart.append("path").attr("d", line(monthly_ufo_sightings))
-
-      chart.append("svg:line")
-        .attr("x1", x(0))
-        .attr("y1", y(0))
-        .attr("y2", y(d3.max(monthly_ufo_sightings, (d) -> d.values.length)))
-        .attr("x2", x(0))
-
-     
-      chart.append("svg:line")
-        .attr("x1", x(0))
-        .attr("y1", y(0))
-        .attr("x2", x(11))
-        .attr("y2", y(0))
+    render_ufo_template: (region) ->
+      ufo_sightings = _.filter(@ufo_data, (d) => d.region == region)
+      this.$el.find('#js-ufo-sightings').html( _.template(ufoSightingsTemplate, {ufo_sightings: ufo_sightings}) )
 
       
     new_zealand: ->
 
-      chart = d3.select('#js-clouds-svg')
+      chart = d3.select('#js-new-zealand-svg')
         .append("g")
         .attr("id", "regions")
+        .attr("transform", "translate(150, 0)")
 
       nz = {}
       nz.northland = chart.append("path")
@@ -198,12 +162,21 @@ define ['backbone', 'text!../../templates/ufo.html', 'd3'], (Backbone, ufoTempla
         .attr("d", 'M 369.46338,557.1499 C 367.1229,554.21338 370.41431,546.83208 364.10106,547.75746 C 360.94496,544.91467 354.75386,545.68163 355.51398,539.92102 C 352.37428,537.69869 351.95812,533.29185 354.67388,530.70494 C 356.74539,526.94689 353.0541,520.0866 358.68757,518.94841 C 362.58064,519.82032 363.45177,517.50499 362.92544,514.37999 C 368.76227,514.36061 366.20288,506.456 369.94337,504.31213 C 373.26093,502.30034 371.84758,496.78569 377.01529,498.78122 C 382.38514,498.09645 380.8512,491.63188 382.09536,488.07074 C 385.81115,487.8034 389.67369,481.54323 383.49925,482.30469 C 381.38034,478.32094 377.52823,474.68484 375.04707,471.33841 C 372.24678,470.75463 368.71384,471.11115 366.76931,472.49417 C 365.76211,469.56777 373.7469,465.14175 366.79032,464.66177 C 363.60509,463.09215 358.99862,455.86771 364.02478,453.39117 C 367.17863,450.55431 370.77516,447.67281 373.92437,444.59072 C 376.45104,441.16725 375.06943,447.05265 378.24915,444.34932 C 381.7751,442.88268 384.18216,439.22614 381.19548,437.78679 C 383.60816,435.83528 389.73452,434.8208 386.83884,439.59942 C 386.49111,443.40619 381.49761,446.32625 385.39472,449.81236 C 384.18747,454.09479 390.03116,454.4437 392.04554,457.76689 C 393.46948,458.48632 394.77437,460.66225 396.27942,460.38941 C 399.17612,459.37604 400.08285,456.44079 402.98406,456.20978 C 405.56961,456.8977 402.58153,462.02178 406.27209,462.3456 C 407.78342,466.53091 404.24558,469.23262 403.18674,472.10272 C 408.33248,474.17125 402.48159,482.39622 408.05622,484.25133 C 408.62515,487.84898 406.52157,493.24999 412.54243,492.74363 C 415.76996,495.26708 422.94154,498.52443 418.07436,503.04955 C 420.02165,505.84664 418.37209,506.0477 415.60271,505.92666 C 411.5324,506.57494 411.38733,512.49019 407.09175,513.45888 C 407.47442,518.48434 400.95845,519.71986 399.78454,522.53122 C 400.7148,527.78398 391.98275,523.81914 394.0739,529.50762 C 393.6199,531.87548 398.36621,532.83709 394.40327,534.48155 C 392.08072,536.62574 390.75266,540.01219 388.49307,541.21051 C 388.67339,543.86367 388.08842,546.21538 385.98797,544.1779 C 381.23862,546.47579 383.30493,553.61317 377.47885,554.78331 C 375.49549,556.33617 371.595,559.6467 369.46338,557.1499 z M 384.50388,532.65118 C 385.58382,529.75278 379.22942,522.15884 380.40958,528.65575 C 381.01703,530.48311 381.5569,535.52501 384.50388,532.65118 z')
 
       for region of nz
-        ((path, region) ->
+        ((path, region, view) =>
           path
             .attr("transform", "scale(.5)")
-            .attr("fill", "#666")
-            .on("click", -> console.log region)
-        ) nz[region], region
+            .on("mouseover", -> 
+              d3.select(this).classed("hovering", true)
+            )
+            .on("mouseout", ->
+              d3.select(this).classed("hovering", false)
+            )
+            .on("click", -> 
+              chart.selectAll('path').classed("selected", false)
+              d3.select(this).classed("selected", true)
+              view.render_ufo_template(region)
+            )
+        ) nz[region], region, @
 
 
 
