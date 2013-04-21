@@ -1,0 +1,31 @@
+#js-visualisation-container
+  background: #2c2e29
+  width: 768px
+  position: absolute
+  top: 0
+  left: 50%
+  margin-left: -384px
+
+  .inner-container
+    margin: 20px
+    color: white
+
+  #js-new-zealand-svg
+    width: 100%
+    height: 450px
+
+    g path
+      stroke-width: 1px
+      stroke: #00c12b
+      fill : white
+
+      &.selected
+        fill: red
+
+      &.hovering
+        fill: green
+
+    g line
+      stroke-width: 1px
+      stroke: black
+      fill: none
