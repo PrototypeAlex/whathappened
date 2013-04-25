@@ -16,9 +16,9 @@ define ['backbone'], (Backbone) ->
         <div id="story" class="content">
           <%= content %>
           <% if(last_page){ %>
-            <a class="btn" href="<%= next_page_url %>">credits</a>
+            <a class="btn" href="<%= next_page_url %>">credits<span class="glare"></span></a>
           <% }else{ %>
-            <a class="btn" href="<%= next_page_url %>">next page</a>
+            <a class="btn" href="<%= next_page_url %>">next page<span class="glare"></span></a>
           <% } %>
         </div>
         <div id="js-visualisation-container" class="hidden">

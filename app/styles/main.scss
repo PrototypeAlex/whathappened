@@ -132,7 +132,7 @@ html{
 
 #story{
 	font: 400 20px/33px $sans;
-	color: #bdc6d5;
+	color: #413d31;
 	p{
 		margin-right: 40px;
 	}
@@ -162,11 +162,35 @@ a.btn{
 	text-decoration: none;
 	color: #FFF;
 	background-color: #c14848;
+	border-bottom: 1px solid rgba(0, 0, 0, .4);
 	font-weight: 600;
 	padding: 0px 10px;
-	padding: 20px;
-	font: 400 20px/20px $sans;
+	padding: 14px 20px 20px 20px;
+	border-radius: 4px;
+	font: 600 20px/20px $sans;
 	text-transform: uppercase;
 	letter-spacing: 2px;
 	display: inline-block;
+	position: relative;
+	.glare{
+		position: absolute;
+		top: 50%;
+		left: 0px;
+		bottom: 0px;
+		right: 0px;
+		background-color: rgba(0, 0, 0, .1);
+		border-radius: 4px;
+	}
+	&:hover{
+		.glare{
+			top: 0px;
+			bottom: 50%;
+			background-color: rgba(255, 255, 255, .1);
+		}
+	}
+	&:active{
+		opacity: .8;
+		position: relative;
+		top: 2px;
+	}
 }

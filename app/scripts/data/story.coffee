@@ -7,12 +7,8 @@ define ['backbone'], (Backbone) ->
 				<p>The trees and the ground smelled nice. Olive held her Mother’s hand as they walked, and she looked all around her as she went.</p>
 				"""
 			images: [{
-				"src": "/images/pages/temp/base.png"
-			},{
-				"src": "/images/pages/temp/middle.png"
-			},{
-				"src": "/images/pages/temp/top.png"
-			},]
+				"src": "/images/pages/first_spread.JPG"
+			}]
 		},{
 			content: """
 				<p><span class="spoken"><span class="quote-mark left">&#8220;</span>Mamma, what happened to that flower?<span class="quote-mark right">&#8221;</span></span><br />
@@ -22,12 +18,8 @@ define ['backbone'], (Backbone) ->
 				<span class="spoken"><span class="quote-mark left">&#8220;</span>That could be<span class="quote-mark right">&#8221;</span></span> said Olive’s Mother, <span class="spoken"><span class="quote-mark left">&#8220;</span>there is always more than one answer<span class="quote-mark right">&#8221;</span></span></p>
 				"""
 			images: [{
-				"src": "/images/pages/temp/base.png"
-			},{
-				"src": "/images/pages/temp/middle.png"
-			},{
-				"src": "/images/pages/temp/top.png"
-			},]
+				"src": "/images/pages/bugs_sat_on_flower.JPG"
+			}]
 		},{
 			content: """
 				<p><span class="spoken"><span class="quote-mark left">&#8220;</span>Mamma, what happened to the ground?<span class="quote-mark right">&#8221;</span></span><br />
@@ -76,12 +68,8 @@ define ['backbone'], (Backbone) ->
 				<span class="spoken><span class="quote-mark left">&#8220;</span>That could be<span class="quote-mark right">&#8221;</span></span>, said Olive’s Mother, <span class="spoken"><span class="quote-mark left">&#8220;</span>there is always more than one answer<span class="quote-mark right">&#8221;</span></span></p>
 				"""	
 			images: [{
-				"src": "/images/pages/temp/base.png"
-			},{
-				"src": "/images/pages/temp/middle.png"
-			},{
-				"src": "/images/pages/temp/top.png"
-			},]
+				"src": "/images/pages/fruit_bat.jpg"
+			}]
 		}, {
 			content: """
 				<p>They walked until they came to a clearing where Olive’s Mother decided would be a good place for their picnic. </p>
