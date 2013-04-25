@@ -16,9 +16,9 @@ define ['backbone'], (Backbone) ->
         <div id="story" class="content">
           <%= content %>
           <% if(last_page){ %>
-            <a href="<%= next_page_url %>">credits</a>
+            <a class="btn" href="<%= next_page_url %>">credits</a>
           <% }else{ %>
-            <a href="<%= next_page_url %>">next page</a>
+            <a class="btn" href="<%= next_page_url %>">next page</a>
           <% } %>
         </div>
         <div id="js-visualisation-container" class="hidden">
@@ -35,7 +35,7 @@ define ['backbone'], (Backbone) ->
         @$('#pictures').append "<img src=\"#{img.src}\" />"
         
       _.each @model.get('data_points'), (point) =>
-        $point = $ "<a class=\"data-marker\" href=\"#\" data-id=\"#{point.id}\">i</a>"
+        $point = $ "<a class=\"data-marker\" href=\"#\" data-id=\"#{point.id}\"></a>"
         $point.css
           left: point.left
           top: point.top
@@ -45,15 +45,28 @@ define ['backbone'], (Backbone) ->
 
 
     openData: (e) ->
+      $marker = $(e.target)
+      id = Number $marker.attr('id')
       e.preventDefault()
       @$('#story').addClass 'hidden'
       @$('#js-visualisation-container').removeClass 'hidden'
+      $marker.addClass 'open'
+
+      _.each @$('.data-marker'), (el, index) =>
+        $el = $(el)
+        if !$el.hasClass("open")
+          $el.addClass 'not-me-open'
+        return
       return
 
     closeData: (e) ->
       e.preventDefault()
       @$('#story').removeClass 'hidden'
       @$('#js-visualisation-container').addClass 'hidden'
+      _.each @$('.data-marker'), (el) =>
+        $el = $(el)
+        $el.removeClass 'open'
+        $el.removeClass 'not-me-open'
       return
 
     onResize: (e) ->

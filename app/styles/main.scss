@@ -1,13 +1,53 @@
 @import 'normalize.scss/_normalize';
 
-#pictures{
-	position: absolute;
+$slab: "jubilat", "Times New Roman", Serif;
+$sans: "omnes-pro", "Helvetica Neue", Serif;
+
+html{
+	font-family: $slab;
+	background-color: #6a8596;
+}
+
+.hidden{
+	display: none !important;
+}
+
+#preloader{
+	position: fixed;
+	left: 0px;
 	top: 0px;
 	right: 0px;
 	bottom: 0px;
+	z-index: 999;
+	background-color: #6a8596;
+	.spinner{
+		position: absolute;
+		display: block;
+		width: 80px;
+		height: 80px;
+		left: 50%;
+		top: 50%;
+		margin-left: -40px;
+		color: rgba(255,255,255,0.2);
+		margin-top: -40px;
+		text-align: center;
+		font: 400 40px/80px Sans-Serif;
+	}
+	.wf-inactive &,
+	.wf-active &{
+		display: none;
+	}
+}
+
+#pictures{
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	bottom: 20px;
 	width: 1000px;
 	z-index: 1;
 	overflow: hidden;
+	border-radius: 20px;
 	img{
 		max-width: 100%;
 		position: absolute;
@@ -18,17 +58,34 @@
 		width: 20px;
 		height: 20px;
 		background-color: rgba(0, 0, 0, .3);
-		border-radius: 12px;
+		border-radius: 10px;
 		margin-left: -10px;
 		margin-top: -10px;
 		cursor: pointer;
-		border: 2px solid rgba(0,0,0, .4);
 		text-decoration: none;
 		color: #FFF;
 		display: block;
 		text-align: center;
-		font: 600 15px/22px serif;
-		font-style: italic;
+		font: 600 18px/17px $sans;
+		text-indent: 1px;
+		opacity: .8;
+		&.not-me-open{
+			opacity: 0.3;
+		}
+		&:before{
+			content: "+";
+		}
+		&:hover{
+			opacity: 1;
+			background-color: #FFF;
+		}
+		&.open,
+		&.open:hover{
+			transform:rotate(45deg);
+			-ms-transform:rotate(45deg);
+			-webkit-transform:rotate(45deg);
+			opacity: 1;
+		}
 	}
 }
 
@@ -57,6 +114,39 @@
 	}
 }
 
-.hidden{
-	display: none !important;
+#story{
+	font: 400 20px/33px $sans;
+	color: #bdc6d5;
+	p{
+		margin-right: 40px;
+	}
+	.spoken{
+		font-family: $slab;
+		font-size: 23px;
+		color: #FFF;
+		position: relative;
+		top: 2px;
+		.quote-mark{
+			position: relative;
+			margin: 0px 2px;
+			top: 6px;
+			font-size: 27px;
+			line-height: 22px;
+		}
+	}
+	.data-point{
+		cursor: pointer;
+		display: inline-block;
+		border-bottom: 2px dotted rgba(255,255,255,.3);
+	}
+}
+
+a.btn{
+	display: inline-block;
+	text-decoration: none;
+	color: #FFF;
+	background-color: #8d8368;
+	font-weight: 600;
+	padding: 0px 10px;
+	border-radius: 6px;
 }

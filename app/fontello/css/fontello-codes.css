@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+ 
+.icon-left:before { content: '\2190'; } /* '←' */
+.icon-right:before { content: '\2192'; } /* '→' */
+.icon-ccw:before { content: '\27f2'; } /* '⟲' */
+.icon-article-alt:before { content: '\e735'; } /* '' */
+.icon-arrows-cw:before { content: '\e760'; } /* '' */
+.icon-spin3:before { content: '\e832'; } /* '' */
+.icon-doc:before { content: '📄'; } /* '\1f4c4' */

@@ -15,11 +15,41 @@ define ['backbone'], (Backbone) ->
 			},]
 		},{
 			content: """
-				<p>“Mamma, what happened to that flower?”<br />
+				<p><span class="spoken"><span class="quote-mark left">&#8220;</span>Mamma, what happened to that flower?<span class="quote-mark right">&#8221;</span></span><br />
 				Olive’s Mother took a good long look and said,<br />
-				“Maybe it’s thirsty, see how the ground is dry?”<br />
-				“Or maybe four bugs sat on it at once?” said Olive<br />
-				“That could be” said Olive’s Mother, “there is always more than one answer”</p>
+				<span class="spoken"><span class="quote-mark left">&#8220;</span>Maybe it’s thirsty, see how the ground is dry?<span class="quote-mark right">&#8221;</span></span><br />
+				<span class="spoken"><span class="quote-mark left">&#8220;</span>Or maybe four bugs sat on it at once?<span class="quote-mark right">&#8221;</span></span> said Olive<br />
+				<span class="spoken"><span class="quote-mark left">&#8220;</span>That could be<span class="quote-mark right">&#8221;</span></span> said Olive’s Mother, <span class="spoken"><span class="quote-mark left">&#8220;</span>there is always more than one answer<span class="quote-mark right">&#8221;</span></span></p>
+				"""
+			images: [{
+				"src": "/images/pages/temp/base.png"
+			},{
+				"src": "/images/pages/temp/middle.png"
+			},{
+				"src": "/images/pages/temp/top.png"
+			},]
+		},{
+			content: """
+				<p><span class="spoken"><span class="quote-mark left">&#8220;</span>Mamma, what happened to the ground?<span class="quote-mark right">&#8221;</span></span><br />
+				Olive’s Mother took a good long look and said,<br />
+				<span class="spoken"><span class="quote-mark left">&#8220;</span>Maybe a rock was washed away, see that rock nearby?<span class="quote-mark right">&#8221;</span></span><br />
+				<span class="spoken"><span class="quote-mark left">&#8220;</span>Or maybe a star fell from the sky?<span class="quote-mark right">&#8221;</span></span> said Olive<br />
+				<span class="spoken"><span class="quote-mark left">&#8220;</span>That could be<span class="quote-mark right">&#8221;</span></span> said Olive’s Mother, <span class="spoken"><span class="quote-mark left">&#8220;</span>there is always more than one answer<span class="quote-mark right">&#8221;</span></span></p>
+				"""
+			images: [{
+				"src": "/images/pages/temp/base.png"
+			},{
+				"src": "/images/pages/temp/middle.png"
+			},{
+				"src": "/images/pages/temp/top.png"
+			},]
+		},{
+			content: """
+				<p><span class="spoken"><span class="quote-mark left">&#8220;</span>Mamma, what happened to the sunshine?<span class="quote-mark right">&#8221;</span></span><br />
+				Olive’s Mother took a good long look and sad,<br />
+				<span class="spoken"><span class="quote-mark left">&#8220;</span>Maybe a cloud moved over the sun, see all those clouds up there?<span class="quote-mark right">&#8221;</span></span><br />
+				<span class="spoken"><span class="quote-mark left">&#8220;</span>Or maybe a <span class="data-point" data-id="spaceship">spaceship flew past</span>?<span class="quote-mark right">&#8221;</span></span> said Olive<br />
+				<span class="spoken><span class="quote-mark left">&#8220;</span>That could be<span class="quote-mark right">&#8221;</span></span>, said Olive’s Mother, <span class="spoken"><span class="quote-mark left">&#8220;</span>there is always more than one answer<span class="quote-mark right">&#8221;</span></span></p>
 				"""
 			images: [{
 				"src": "/images/pages/temp/base.png"
@@ -37,43 +67,13 @@ define ['backbone'], (Backbone) ->
 				left: "49%"
 				top: "88%"
 			}]
-		},{
-			content: """
-				<p>“Mamma, what happened to the ground?”<br />
-				Olive’s Mother took a good long look and said,<br />
-				“Maybe a rock was washed away, see that rock nearby?”<br />
-				“Or maybe a star fell from the sky?” said Olive<br />
-				“That could be” said Olive’s Mother, “there is always more than one answer”</p>
-				"""
-			images: [{
-				"src": "/images/pages/temp/base.png"
-			},{
-				"src": "/images/pages/temp/middle.png"
-			},{
-				"src": "/images/pages/temp/top.png"
-			},]
-		},{
-			content: """
-				<p>“Mamma, what happened to the sunshine?”<br />
-				Olive’s Mother took a good long look and sad,<br />
-				“Maybe a cloud moved over the sun, see all those clouds up there?”<br />
-				“Or maybe a spaceship flew past?” said Olive<br />
-				“That could be”, said Olive’s Mother, “there is always more than one answer”</p>
-				"""
-			images: [{
-				"src": "/images/pages/temp/base.png"
-			},{
-				"src": "/images/pages/temp/middle.png"
-			},{
-				"src": "/images/pages/temp/top.png"
-			},]
 		}, {
 			content: """
-				<p>“Mamma, what happened to my hand?”<br />
+				<p><span class="spoken"><span class="quote-mark left">&#8220;</span>Mamma, what happened to my hand?<span class="quote-mark right">&#8221;</span></span><br />
 				Olive’s Mother took a good long look and said,<br />
-				“Maybe some water dripped down on it, see how the leaves are all wet?”<br />
-				“Or maybe it’s the juice from a fruit bat’s breakfast?” said Olive<br />
-				“That could be”, said Olive’s Mother, “there is always more than one answer”</p>
+				<span class="spoken"><span class="quote-mark left">&#8220;</span>Maybe some water dripped down on it, see how the leaves are all wet?<span class="quote-mark right">&#8221;</span></span><br />
+				<span class="spoken"><span class="quote-mark left">&#8220;</span>Or maybe it’s the juice from a fruit bat’s breakfast?<span class="quote-mark right">&#8221;</span></span> said Olive<br />
+				<span class="spoken><span class="quote-mark left">&#8220;</span>That could be<span class="quote-mark right">&#8221;</span></span>, said Olive’s Mother, <span class="spoken"><span class="quote-mark left">&#8220;</span>there is always more than one answer<span class="quote-mark right">&#8221;</span></span></p>
 				"""	
 			images: [{
 				"src": "/images/pages/temp/base.png"
@@ -85,8 +85,8 @@ define ['backbone'], (Backbone) ->
 		}, {
 			content: """
 				<p>They walked until they came to a clearing where Olive’s Mother decided would be a good place for their picnic. </p>
-				<p>“We saw lots of things, didn’t we Olive?” “Yes”, she replied, “we saw a flower chair, a fallen star, a spaceship and some juice that fell off a bat’s breakfast plate”. </p>
-				<p>Olive’s Mamma smiled, “I guess what we see depends on whose eyes we use.”</p>"""
+				<p><span class="spoken"><span class="quote-mark left">&#8220;</span>We saw lots of things, didn’t we Olive?<span class="quote-mark right">&#8221;</span></span> <span class="spoken"><span class="quote-mark left">&#8220;</span>Yes<span class="quote-mark right">&#8221;</span></span>, she replied, <span class="spoken"><span class="quote-mark left">&#8220;</span>we saw a flower chair, a fallen star, a spaceship and some juice that fell off a bat’s breakfast plate<span class="quote-mark right">&#8221;</span></span>. </p>
+				<p>Olive’s Mamma smiled, <span class="quote-mark left">&#8220;</span>I guess what we see depends on whose eyes we use.<span class="quote-mark right">&#8221;</span></p>"""
 			images: [{
 				"src": "/images/pages/temp/base.png"
 			},{
