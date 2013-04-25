@@ -1,0 +1,31 @@
+#home{
+	position: absolute;
+	width: 400px;
+	height: 300px;
+	left: 50%;
+	top: 30%;
+	margin-left: -200px;
+	margin-top: -150px;
+	text-align: center;
+	h1{
+		font: 400 80px/50px $script;
+		text-transform: lowercase;
+		margin-bottom: -30px;
+		z-index: 10;
+		color: #e6e6e6;
+		position: relative;
+	}
+	.olive{
+		width: 280px;
+		height: 280px;
+		background: #6a8596 url('/images/home-olive.png') no-repeat center 60px;
+		border-radius: 140px;
+		position: relative;
+		left: 50%;
+		margin-left: -140px;
+		z-index: 2;
+	}
+	p{
+		font: 400 20px/30px $slab;
+	}
+}

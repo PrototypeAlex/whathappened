@@ -1,12 +1,28 @@
+@font-face {
+	font-family: 'Fitigraf S';
+	src: url('/webfonts/fitigraf-s.eot');
+	src: url('/webfonts/fitigraf-s.eot?#iefix') format('embedded-opentype'),
+	     url('/webfonts/fitigraf-s.woff') format('woff'),
+	     url('/webfonts/fitigraf-s.ttf') format('truetype'),
+	     url('/webfonts/fitigraf-s.svg#ywftsvg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
 @import 'normalize.scss/_normalize';
 
 $slab: "jubilat", "Times New Roman", Serif;
 $sans: "omnes-pro", "Helvetica Neue", Serif;
+$script: "Fitigraf S";
 
 html{
 	font-family: $slab;
-	background-color: #6a8596;
+	background-color: #6f785b;
+	color: #413d31;
 }
+
+@import '_home.scss';
 
 .hidden{
 	display: none;
@@ -19,7 +35,7 @@ html{
 	right: 0px;
 	bottom: 0px;
 	z-index: 999;
-	background-color: #6a8596;
+	background-color: #413d31;
 	.spinner{
 		position: absolute;
 		display: block;
@@ -28,7 +44,7 @@ html{
 		left: 50%;
 		top: 50%;
 		margin-left: -40px;
-		color: rgba(255,255,255,0.2);
+		color: #6f785b;
 		margin-top: -40px;
 		text-align: center;
 		font: 400 40px/80px Sans-Serif;
@@ -145,10 +161,14 @@ a.btn{
 	display: inline-block;
 	text-decoration: none;
 	color: #FFF;
-	background-color: #8d8368;
+	background-color: #c14848;
 	font-weight: 600;
 	padding: 0px 10px;
-	border-radius: 6px;
+	padding: 20px;
+	font: 400 20px/20px $sans;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	display: inline-block;
 }
 
 @import 'visualisations'
