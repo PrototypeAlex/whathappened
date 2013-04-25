@@ -16,16 +16,22 @@
 
     g path
       stroke-width: 1px
-      stroke: #00c12b
-      fill : white
-
-      &.selected
-        fill: red
-
+      stroke: #2c2e29
+      fill : #6a8596
+      
       &.hovering
-        fill: green
+        fill: #6A856A
+      
+      &.selected
+        fill: #6A8525
 
     g line
       stroke-width: 1px
       stroke: black
       fill: none
+
+#js-ufo-sightings
+  table tbody td a
+    text-decoration: underline
+    &:hover
+      cursor: pointer

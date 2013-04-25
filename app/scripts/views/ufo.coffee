@@ -1,9 +1,9 @@
-define ['backbone', 'text!../../templates/ufo.html', 'text!../../templates/ufo_sightings.html', 'd3'], (Backbone, ufoTemplate, ufoSightingsTemplate, d3) ->
+define ['backbone', 'text!../../templates/ufo.html', 'd3'], (Backbone, ufoTemplate, d3) ->
   UfoView = Backbone.View.extend
     el: $('#js-visualisation-container')
     width: 728
     height: 400
-    month_names: [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
+    date_format: d3.time.format("%d/%m/%Y")
     ufo_data: [
       {"time": new Date("December 08, 2012 00:00:00"),"region":"auckland","location":"Tindall's Beach, Auckland, North Island","event":"two unusual orange lights ","description":"Clear starlit night. Duration of sightings approximately 10-20 seconds each. The witness was observing the night sky when she saw a large bright orange light at a high altitude tracking east to west at a speed similar to a jet airliner. After a few seconds the light suddenly disappeared. Two to three minutes later, a second similar light subsequently appeared in the same part of the sky, but tracking north to south. This light was twice as big and much brighter that the first light, but traveling at the same speed, and it disappeared in the same manner. There was no noise associated with the lights."},
       {"time": new Date("December 08, 2012 00:00:00"),"region":"auckland","location":"Torbay, Auckland, North Island","event":"two groups of reddish/orange lights","description":"Clear starlight night. Duration of sightings approximately 2 minutes. The witness saw an initial group of three bright reddish/yellow lights moving on an arc track high in the sky at a speed faster that a jet airliner. The lights were spaced apart and had no associated noise. They maintained a constant brilliancy until disappearing high in the sky. Then a group of two similar lights having the same characteristics, appeared and followed the same flight path as the previous three, disappearing at the same position. "},
@@ -101,8 +101,51 @@ define ['backbone', 'text!../../templates/ufo.html', 'text!../../templates/ufo_s
 
     render_ufo_template: (region) ->
       ufo_sightings = _.filter(@ufo_data, (d) => d.region == region)
-      this.$el.find('#js-ufo-sightings').html( _.template(ufoSightingsTemplate, {ufo_sightings: ufo_sightings}) )
 
+      readable_region = region.capitalize()
+      if region == 'Bayofplenty'
+        readable_region = 'Bay of Plenty'
+      if region == 'Eastcape'
+        readable_region = 'East Cape'
+
+      $('#js-ufo-sightings h2.heading').html("Region: #{readable_region}")
+
+      if ufo_sightings.length == 0
+        $('#js-ufo-sightings table').hide()
+        $('#js-ufo-sightings p.description').html('There have been no sightings in this region.')
+      else
+        $('#js-ufo-sightings p.description').html('')
+        $('#js-ufo-sightings table').show()
+
+      tbody = d3.select('#js-ufo-sightings table')
+        .selectAll("tbody")
+      
+      data = tbody.selectAll('tr')
+        .data(ufo_sightings, (d) -> d.description)
+        
+      data.exit()
+        .transition()
+        .remove()
+
+      tr = data.enter()
+        .append('tr')
+
+      tr.append('td')
+        .text((d) => @date_format(d.time))
+     
+      tr.append('td')
+        .attr('style', 'text-align: center')
+        .text((d) => d.location)
+
+      tr.append('td')
+        .attr('style', 'text-align: center')
+        .text((d) -> d.event)
+
+      tr.append('td')
+        .html("<a>More Information</a>")
+        .on("click", (d) -> 
+          console.log d
+        )
       
     new_zealand: ->
 
@@ -178,7 +221,8 @@ define ['backbone', 'text!../../templates/ufo.html', 'text!../../templates/ufo_s
             )
         ) nz[region], region, @
 
-
+    String.prototype.capitalize = ->
+      this.replace(/(?:^|\s)\S/g, (a) -> a.toUpperCase())
 
 
   UfoView

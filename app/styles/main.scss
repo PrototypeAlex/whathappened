@@ -9,7 +9,7 @@ html{
 }
 
 .hidden{
-	display: none !important;
+	display: none;
 }
 
 #preloader{
@@ -150,3 +150,5 @@ a.btn{
 	padding: 0px 10px;
 	border-radius: 6px;
 }
+
+@import 'visualisations'
