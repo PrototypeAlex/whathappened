@@ -1,9 +1,10 @@
-define ["backbone", "views/base", "views/home", "views/page", "views/credits", "data/story", "views/ufo"], (Backbone, BaseView, HomeView, PageView, CreditsView, Story, UfoView) ->
+define ["backbone", "views/base", "views/home", "views/page", "views/credits", "data/story", "views/ufo", "views/clouds"], (Backbone, BaseView, HomeView, PageView, CreditsView, Story, UfoView, CloudView) ->
   AppRouter = Backbone.Router.extend
     routes:
       "": "renderHome"
       "home": "renderHome"
       "ufo": "renderUfo"
+      "cloud": "renderCloud"
       "page/:page": "renderPage"
       "credits": "renderCredits"
 
@@ -20,6 +21,10 @@ define ["backbone", "views/base", "views/home", "views/page", "views/credits", "
 
     renderUfo: (actions) ->
       ufo_view = new UfoView()
+      ufo_view.render()
+
+    renderCloud: (actions) ->
+      ufo_view = new CloudView()
       ufo_view.render()
 
     renderPage: (page) ->
