@@ -1,10 +1,11 @@
-define ["backbone", "views/base", "views/home", "views/page", "views/credits", "data/story", "views/ufo", "views/clouds"], (Backbone, BaseView, HomeView, PageView, CreditsView, Story, UfoView, CloudView) ->
+define ["backbone", "views/base", "views/home", "views/page", "views/credits", "data/story", "views/ufo", "views/clouds", "views/wet_days"], (Backbone, BaseView, HomeView, PageView, CreditsView, Story, UfoView, CloudView, WetDaysView) ->
   AppRouter = Backbone.Router.extend
     routes:
       "": "renderHome"
       "home": "renderHome"
       "ufo": "renderUfo"
-      "cloud": "renderCloud"
+      "clouds": "renderCloud"
+      "wet_days": "renderWetDays"
       "page/:page": "renderPage"
       "credits": "renderCredits"
 
@@ -24,8 +25,12 @@ define ["backbone", "views/base", "views/home", "views/page", "views/credits", "
       ufo_view.render()
 
     renderCloud: (actions) ->
-      ufo_view = new CloudView()
-      ufo_view.render()
+      cloud_view = new CloudView()
+      cloud_view.render()
+
+    renderWetDays: (actions) ->
+      wet_days_view = new WetDaysView()
+      wet_days_view.render()
 
     renderPage: (page) ->
       page = Number(page)
