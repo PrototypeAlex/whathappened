@@ -16,13 +16,20 @@ $slab: "jubilat", "Times New Roman", Serif;
 $sans: "omnes-pro", "Helvetica Neue", Serif;
 $script: "Fitigraf S";
 
+$black: #413d31;
+$white: #FFF;
+$green: #6f785b;
+$red: #ce5050;
+
 html{
 	font-family: $slab;
-	background-color: #6f785b;
-	color: #413d31;
+	background-color: $green;
+	color: $black;
 }
 
+@import '_layout.scss';
 @import '_home.scss';
+@import '_info.scss';
 
 .hidden{
 	display: none;
@@ -67,16 +74,17 @@ html{
 
 #pictures{
 	position: absolute;
-	top: 20px;
-	right: 20px;
-	bottom: 20px;
-	width: 1000px;
+	top: 50%;
+	margin-top: -300px;
+	margin-left: -500px;
+	left: 50%;
+	width: 600px;
+	height: 600px;
 	z-index: 1;
 	overflow: hidden;
-	border-radius: 20px;
+	border-radius: 6px;
 	img{
 		max-width: 100%;
-		position: absolute;
 	}
 	a.data-marker{
 		position: absolute;
@@ -117,9 +125,9 @@ html{
 
 #left{
 	position: absolute;
-	left: 0px;
+	right: 60px;
 	top: 0px;
-	bottom: 0px;
+	left: 50%;
 	overflow: auto;
 	z-index: 10;
 	.content{
@@ -140,11 +148,12 @@ html{
 	}
 }
 
-#story{
+.words{
 	font: 400 20px/33px $sans;
 	color: #413d31;
 	p{
 		margin-right: 40px;
+		max-width: 500px;
 	}
 	.spoken{
 		font-family: $slab;
@@ -160,7 +169,7 @@ html{
 			line-height: 22px;
 		}
 	}
-	.data-point{
+	.data-marker{
 		cursor: pointer;
 		display: inline-block;
 		border-bottom: 2px dotted rgba(255,255,255,.3);
@@ -215,16 +224,24 @@ a.btn{
 		z-index: 100;
 		top: 50%;
 		margin-top: -30px;
-		font: 400 30px/60px Sans-Serif;
+		font: 400 30px/64px Sans-Serif;
 		text-align: center;
 		color: rgba(0, 0, 0, .2);
 		&.left{
 			left: 40px;
-			text-indent: -2px;
+			text-indent: -1px;
 		}
 		&.right{
 			right: 40px;
-			text-indent: 2px;
+			text-indent: 1px;
+		}
+		&:hover{
+			background-color: #413d31;
+			color: #FFF;
+		}
+		&:active{
+			opacity: 0.5;
+			margin-top: -28px;
 		}
 	}
 }

@@ -1,0 +1,53 @@
+#pages{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	background: #6f785b;
+	z-index: 500;
+}
+
+.page{
+	.picture{
+		position: absolute;
+		left: 10px;
+		top: 0px;
+		bottom: 0px;
+		right: 50%;
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-image: url("/images/pages/fruit_bat.jpg");
+		background-size: contain;
+	}
+	.words{
+		position: absolute;
+		left: 50%;
+		right: 80px;
+		top: 30%;
+		margin-left: 40px;
+	}
+}
+
+@media screen and (orientation:portrait) {
+	.page{
+		.picture{
+			left: 10px;
+			top: 10px;
+			right: 10px;
+			bottom: 50%;
+		}
+		.words{
+			left: 10%;
+			right: 10%;
+			bottom: auto;
+			top: 50%;
+			margin-left: 0px;
+			margin-top: 20px;
+			text-align: center;
+			p{
+				max-width: 100%;
+			}
+		}
+	}
+}

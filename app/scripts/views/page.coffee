@@ -1,10 +1,13 @@
-define ['backbone'], (Backbone) ->
+define ['backbone', 'views/info'], (Backbone, InfoView) ->
   PageView = Backbone.View.extend
-    el: $('.hero-unit')
+
+    className: 'page'
 
     events:
       'click .data-marker': 'openData'
       'click .close': 'closeData'
+
+    className: 'page'
 
     initialize: ->
       _.bindAll @
@@ -12,39 +15,45 @@ define ['backbone'], (Backbone) ->
       return
 
     template: _.template """
+      <div class="picture" style="background-image: url('<%= images[0].src %>');"></div>
+      <div class="words">
+        <%= content %>
+      </div>
       <div id="left">
-        <div id="story" class="content">
-          <%= content %>
-        </div>
         <div id="js-visualisation-container" class="hidden">
           <a href="#" class="close">&times;</a>
           <div class="content"><p>vis content...</p></div>
         </div>
       </div>
-      <div id="pictures"></div>
-      <a href="#" class="pagination arrow left"><span class="icon-left-open"></span></a>
+      <a href="<%= previous_page_url %>" class="pagination arrow left"><span class="icon-left-open"></span></a>
       <a href="<%= next_page_url %>" class="pagination arrow right"><span class="icon-right-open"></span></a>
     """
 
     render: ->
       @$el.html @template @model.toJSON()
-      _.each @model.get('images'), (img) =>
-        @$('#pictures').append "<img src=\"#{img.src}\" />"
+      # _.each @model.get('images'), (img) =>
+      #   @$('#pictures').append "<img src=\"#{img.src}\" />"
         
-      _.each @model.get('data_points'), (point) =>
-        $point = $ "<a class=\"data-marker\" href=\"#\" data-id=\"#{point.id}\"></a>"
-        $point.css
-          left: point.left
-          top: point.top
-        @$('#pictures').append $point
+      # _.each @model.get('data_points'), (point) =>
+      #   $point = $ "<a class=\"data-marker\" href=\"#\" data-id=\"#{point.id}\"></a>"
+      #   $point.css
+      #     left: point.left
+      #     top: point.top
+      #   @$('#pictures').append $point
       $(window).bind 'resize', @onResize
       @onResize()
 
 
     openData: (e) ->
       $marker = $(e.target)
-      id = Number $marker.attr('id')
+      id = $marker.attr('data-id')
+      console.log id
       e.preventDefault()
+      iv = new InfoView
+        story: @story
+        viz_id: id
+      $('body').append iv.el
+      return
       @$('#story').addClass 'hidden'
       @$('#js-visualisation-container').removeClass 'hidden'
       $marker.addClass 'open'
@@ -68,11 +77,11 @@ define ['backbone'], (Backbone) ->
 
     onResize: (e) ->
       h = $(window).height()
-      @$("#pictures").css
-        width: "#{h}px"
-      w = $(window).width()
-      @$("#left").css
-        width: "#{w - h}px"
+      # @$("#pictures").css
+      #   width: "#{h}px"
+      # w = $(window).width()
+      # @$("#left").css
+      #   width: "#{w - h}px"
       return
 
   PageView
