@@ -29,12 +29,8 @@ define ['backbone'], (Backbone) ->
 				<span class="spoken"><span class="quote-mark left">&#8220;</span>That could be<span class="quote-mark right">&#8221;</span></span> said Olive’s Mother, <span class="spoken"><span class="quote-mark left">&#8220;</span>there is always more than one answer<span class="quote-mark right">&#8221;</span></span></p>
 				"""
 			images: [{
-				"src": "/images/pages/temp/base.png"
-			},{
-				"src": "/images/pages/temp/middle.png"
-			},{
-				"src": "/images/pages/temp/top.png"
-			},]
+				"src": "/images/pages/ufo.jpg"
+			}]
 		},{
 			content: """
 				<p><span class="spoken"><span class="quote-mark left">&#8220;</span>Mamma, what happened to the sunshine?<span class="quote-mark right">&#8221;</span></span><br />
@@ -44,12 +40,8 @@ define ['backbone'], (Backbone) ->
 				<span class="spoken><span class="quote-mark left">&#8220;</span>That could be<span class="quote-mark right">&#8221;</span></span>, said Olive’s Mother, <span class="spoken"><span class="quote-mark left">&#8220;</span>there is always more than one answer<span class="quote-mark right">&#8221;</span></span></p>
 				"""
 			images: [{
-				"src": "/images/pages/temp/base.png"
-			},{
-				"src": "/images/pages/temp/middle.png"
-			},{
-				"src": "/images/pages/temp/top.png"
-			},]
+				"src": "/images/pages/ufo.jpg"
+			}]
 			data_points: [{
 				id: "clouds"
 				left: "70%"
@@ -74,7 +66,7 @@ define ['backbone'], (Backbone) ->
 			content: """
 				<p>They walked until they came to a clearing where Olive’s Mother decided would be a good place for their picnic. </p>
 				<p><span class="spoken"><span class="quote-mark left">&#8220;</span>We saw lots of things, didn’t we Olive?<span class="quote-mark right">&#8221;</span></span> <span class="spoken"><span class="quote-mark left">&#8220;</span>Yes<span class="quote-mark right">&#8221;</span></span>, she replied, <span class="spoken"><span class="quote-mark left">&#8220;</span>we saw a flower chair, a fallen star, a spaceship and some juice that fell off a bat’s breakfast plate<span class="quote-mark right">&#8221;</span></span>. </p>
-				<p>Olive’s Mamma smiled, <span class="quote-mark left">&#8220;</span>I guess what we see depends on whose eyes we use.<span class="quote-mark right">&#8221;</span></p>"""
+				<p>Olive’s Mamma smiled, <span class="spoken"><span class="quote-mark left">&#8220;</span>I guess what we see depends on whose eyes we use.<span class="quote-mark right">&#8221;</span></span></p>"""
 			images: [{
 				"src": "/images/pages/last_spread.jpg"
 			}]
@@ -88,6 +80,10 @@ define ['backbone'], (Backbone) ->
 		else
 			page.next_page_url = "#/page/#{index + 2}"
 			page.last_page = false
+		if index == 0
+			page.previous_page_url = "#/"
+		else
+			page.previous_page_url = "#/page/#{index}"
 		return
 
 	Story
