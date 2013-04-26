@@ -76,12 +76,8 @@ define ['backbone'], (Backbone) ->
 				<p><span class="spoken"><span class="quote-mark left">&#8220;</span>We saw lots of things, didn’t we Olive?<span class="quote-mark right">&#8221;</span></span> <span class="spoken"><span class="quote-mark left">&#8220;</span>Yes<span class="quote-mark right">&#8221;</span></span>, she replied, <span class="spoken"><span class="quote-mark left">&#8220;</span>we saw a flower chair, a fallen star, a spaceship and some juice that fell off a bat’s breakfast plate<span class="quote-mark right">&#8221;</span></span>. </p>
 				<p>Olive’s Mamma smiled, <span class="quote-mark left">&#8220;</span>I guess what we see depends on whose eyes we use.<span class="quote-mark right">&#8221;</span></p>"""
 			images: [{
-				"src": "/images/pages/temp/base.png"
-			},{
-				"src": "/images/pages/temp/middle.png"
-			},{
-				"src": "/images/pages/temp/top.png"
-			},]
+				"src": "/images/pages/last_spread.jpg"
+			}]
 		}]
 	})
 
