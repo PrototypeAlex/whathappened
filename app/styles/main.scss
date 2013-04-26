@@ -39,15 +39,25 @@ html{
 	.spinner{
 		position: absolute;
 		display: block;
-		width: 80px;
-		height: 80px;
+		width: 70px;
+		height: 70px;
 		left: 50%;
 		top: 50%;
-		margin-left: -40px;
+		margin-left: -35px;
 		color: #6f785b;
-		margin-top: -40px;
+		margin-top: -35px;
 		text-align: center;
-		font: 400 40px/80px Sans-Serif;
+		font: 400 54px/60px Sans-Serif;
+		overflow: hidden;
+	}
+	.circular-glare{
+		position: absolute;
+		width: 20px;
+		height: 20px;
+		border-radius: 10px;
+		background-color: rgba(255, 255, 255, 0.1);
+		top: 12px;
+		right: 12px;
 	}
 	.wf-inactive &,
 	.wf-active &{
@@ -132,7 +142,7 @@ html{
 
 #story{
 	font: 400 20px/33px $sans;
-	color: #bdc6d5;
+	color: #413d31;
 	p{
 		margin-right: 40px;
 	}
@@ -162,13 +172,61 @@ a.btn{
 	text-decoration: none;
 	color: #FFF;
 	background-color: #c14848;
+	border-bottom: 1px solid rgba(0, 0, 0, .4);
 	font-weight: 600;
 	padding: 0px 10px;
-	padding: 20px;
-	font: 400 20px/20px $sans;
+	padding: 14px 20px 20px 20px;
+	border-radius: 4px;
+	font: 600 20px/20px $sans;
 	text-transform: uppercase;
 	letter-spacing: 2px;
 	display: inline-block;
+	position: relative;
+	.glare{
+		position: absolute;
+		top: 50%;
+		left: 0px;
+		bottom: 0px;
+		right: 0px;
+		background-color: rgba(0, 0, 0, .1);
+		border-radius: 4px;
+	}
+	&:hover{
+		.glare{
+			top: 0px;
+			bottom: 50%;
+			background-color: rgba(255, 255, 255, .1);
+		}
+	}
+	&:active{
+		opacity: .8;
+		position: relative;
+		top: 2px;
+	}
+}
+
+.pagination{
+	&.arrow{
+		width: 60px;
+		height: 60px;
+		background-color: #FFF;
+		border-radius: 30px;
+		position: absolute;
+		z-index: 100;
+		top: 50%;
+		margin-top: -30px;
+		font: 400 30px/60px Sans-Serif;
+		text-align: center;
+		color: rgba(0, 0, 0, .2);
+		&.left{
+			left: 40px;
+			text-indent: -2px;
+		}
+		&.right{
+			right: 40px;
+			text-indent: 2px;
+		}
+	}
 }
 
 @import 'visualisations'
