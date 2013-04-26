@@ -1,6 +1,7 @@
-define ['backbone'], (Backbone) ->
+define ['backbone', 'views/info'], (Backbone, InfoView) ->
   PageView = Backbone.View.extend
-    el: $('.page')
+
+    className: 'page'
 
     events:
       'click .data-marker': 'openData'
@@ -45,8 +46,14 @@ define ['backbone'], (Backbone) ->
 
     openData: (e) ->
       $marker = $(e.target)
-      id = Number $marker.attr('id')
+      id = $marker.attr('data-id')
+      console.log id
       e.preventDefault()
+      iv = new InfoView
+        story: @story
+        viz_id: id
+      $('body').append iv.el
+      return
       @$('#story').addClass 'hidden'
       @$('#js-visualisation-container').removeClass 'hidden'
       $marker.addClass 'open'

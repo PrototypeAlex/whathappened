@@ -18,15 +18,18 @@ $script: "Fitigraf S";
 
 $black: #413d31;
 $white: #FFF;
+$green: #6f785b;
+$red: #ce5050;
 
 html{
 	font-family: $slab;
-	background-color: #6f785b;
+	background-color: $green;
 	color: $black;
 }
 
 @import '_layout.scss';
 @import '_home.scss';
+@import '_info.scss';
 
 .hidden{
 	display: none !important;
@@ -166,7 +169,7 @@ html{
 			line-height: 22px;
 		}
 	}
-	.data-point{
+	.data-marker{
 		cursor: pointer;
 		display: inline-block;
 		border-bottom: 2px dotted rgba(255,255,255,.3);
