@@ -18,6 +18,18 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3'], (Backbo
       querytail = "&jsonCallback=?"
       jqxhr = $.get(queryurl + querytail, callback, "jsonp")
 
+    render_geo_chart: ->
+      origin = [-71.03, 25.37]
+      velocity = [0.0040, 0.0000]
+
+      projection = d3.geo.azimuthal()
+        .scale(200)
+        .origin(origin)
+        .mode("orthographic")
+        
+      circle = d3.geo.circle()
+        .origin(projection.origin())
+
 
 
   MeteorView
