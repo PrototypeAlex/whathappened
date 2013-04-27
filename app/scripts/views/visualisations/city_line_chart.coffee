@@ -19,9 +19,7 @@ define ['backbone', 'd3'], (Backbone, d3) ->
 
     re_render_data: (region) ->
       cities = _.filter(@data, (d) => d.region == region)
-      console.log region
-      console.log cities
-      console.log @data
+
       city = @chart.selectAll(".city")
         .data(cities, (d) -> d.city)
 

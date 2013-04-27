@@ -1,9 +1,8 @@
-define ['backbone', 'text!../../templates/clouds.html', 'd3', "views/new_zealand", "views/visualisations/city_line_chart"], (Backbone, cloudTemplate, d3, NewZealandView, CityLineChartView) ->
+define ['backbone', 'text!../../../templates/clouds.html', "views/visualisations/new_zealand", "views/visualisations/city_line_chart"], (Backbone, CloudTemplate, NewZealandView, CityLineChartView) ->
   CloudView = Backbone.View.extend
 
     el: $('#js-visualisation-container')
     months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-    city_line_chart_view: null
     sunshine_hours: [
       {"region": "northland", "city": "Kaitaia", "values": [223.5, 201.7, 201.1, 160.6, 143.0, 126.8, 138.6, 161.8, 165.3, 190.7, 192.7, 209.9], "total": 2108.1},
       {"region": "auckland", "city": "Auckland", "values": [228.8, 194.9, 189.2, 157.3, 139.8, 110.3, 128.1, 142.9, 148.6, 178.1, 188.1, 197.2], "total": 2007.5},
@@ -36,13 +35,13 @@ define ['backbone', 'text!../../templates/clouds.html', 'd3', "views/new_zealand
 
     render: ->
       this.$el.show('slow')
-      this.$el.html( _.template(cloudTemplate) )
+      this.$el.html( _.template(CloudTemplate) )
 
       @new_zealand = new NewZealandView()
       @new_zealand.render()
 
       @city_line_chart_view = new CityLineChartView()
-      @city_line_chart_view.render(@sunshine_hours, "Hours of Sunshine per Month")
+      @city_line_chart_view.render(@sunshine_hours, "Hours of Sunshine per Month", [40,260])
 
       for region of @new_zealand.nz
         ((path, region, view) =>
@@ -52,5 +51,6 @@ define ['backbone', 'text!../../templates/clouds.html', 'd3', "views/new_zealand
             )
         ) @new_zealand.nz[region], region, @
 
+      @
 
   CloudView

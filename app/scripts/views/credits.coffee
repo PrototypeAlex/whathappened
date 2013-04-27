@@ -14,7 +14,7 @@ define ['backbone'], (Backbone) ->
     <span class="thing">Story:</span> Sadaf Lourie<br />
     <span class="thing">Illustration:</span> <a href="http://cargocollective.com/riccardodesign" target="_blank">Riccardo Scott</a><br />
     <span class="thing">Design/Dev:</span> <a href="http://jarredbishop.info" target="_blank">Jarred Bishop</a><br />
-    <span class="thing">Data/Dev:</span> <a href="https://twitter.com/PrototypeAlex" target="_blank">Alex Gibson</a>
+    <span class="thing">Data/Dev:</span> <a href="https://www.prototypealex.com" target="_blank">Alex Gibson</a>
     </p>
     <a href="/" class="btn">start again?<span class="glare"></span></a>
 	<p>A Mix&Mash entry.</p>

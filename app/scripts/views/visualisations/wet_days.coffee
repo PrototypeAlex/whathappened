@@ -1,4 +1,4 @@
-define ['backbone', 'text!../../templates/wet_days.html', 'd3', "views/new_zealand", "views/visualisations/city_line_chart"], (Backbone, WetDaysTemplate, d3, NewZealandView, CityLineChartView) ->
+define ['backbone', 'text!../../../templates/wet_days.html', "views/visualisations/new_zealand", "views/visualisations/city_line_chart"], (Backbone, WetDaysTemplate, NewZealandView, CityLineChartView) ->
   WetDaysView = Backbone.View.extend
 
     el: $('#js-visualisation-container')
@@ -31,7 +31,7 @@ define ['backbone', 'text!../../templates/wet_days.html', 'd3', "views/new_zeala
       {'region': 'otago', 'city': 'Queenstown', 'values': [7.2,6.2,7.4,7.4,9.0,9.2,6.9,9.1,8.5,8.8,7.6,9.6], 'total': 96.9},
       {'region': 'southland', 'city': 'Alexandra', 'values': [6.7,5.2,4.9,4.0,6.9,5.8,4.3,4.4,5.4,2.5,4.8,7.7], 'total': 64.7},
       {'region': 'southland', 'city': 'Manapouri', 'values': [9.1,7.9,9.7,10.5,11.6,12.9,10.4,11.8,12.4,12.2,10.3,11.9], 'total': 125.9},
-      {'region': 'southland', 'city': 'Dunedin', 'values': [9.7,8.5,8.9,8.3,9.8,9.4,9.3,9.6,8.7,10.1,10.0,12.0], 'total': 113.8},
+      {'region': 'otago', 'city': 'Dunedin', 'values': [9.7,8.5,8.9,8.3,9.8,9.4,9.3,9.6,8.7,10.1,10.0,12.0], 'total': 113.8},
       {'region': 'southland', 'city': 'Invercargill', 'values': [13.0,10.3,12.3,12.3,15.3,15.6,14.2,12.8,13.1,13.8,13.3,14.3], 'total': 161.0},
       {'region': 'southland', 'city': 'Chatham Islands', 'values': [7.9,7.7,11.3,11.1,14.4,16.0,14.8,14.5,11.9,11.2,9.8,9.4], 'total': 138.5}] 
 
@@ -52,5 +52,7 @@ define ['backbone', 'text!../../templates/wet_days.html', 'd3', "views/new_zeala
               view.city_line_chart_view.re_render_data(region)
             )
         ) @new_zealand.nz[region], region, @
+
+      @
 
   WetDaysView

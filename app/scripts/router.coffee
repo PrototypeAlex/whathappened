@@ -1,16 +1,20 @@
-define ["backbone", "views/base", "views/home", "views/page", "views/credits", "data/story", "views/ufo", "views/clouds", "views/wet_days"], (Backbone, BaseView, HomeView, PageView, CreditsView, Story, UfoView, CloudView, WetDaysView) ->
+define ["backbone", "views/base", "views/home", "views/page", "views/credits", "data/story", "views/visualisations/base"], (Backbone, BaseView, HomeView, PageView, CreditsView, Story, VisualisationView) ->
   AppRouter = Backbone.Router.extend
     routes:
       "": "renderHome"
       "home": "renderHome"
-      "ufo": "renderUfo"
-      "clouds": "renderCloud"
-      "wet_days": "renderWetDays"
       "page/:page": "renderPage"
       "credits": "renderCredits"
 
+      "ufo_sightings": "renderUfoSightings"
+      "sunshine_hours": "renderSunshineHours"
+      "wet_days": "renderWetDays"
+      "rain_fall": "renderRainFall"
+      "meteor_shower": "renderMeteorShower"
+
     initialize: ->
       @initializeBaseView()
+      @visualisations = new VisualisationView()
 
     initializeBaseView: ->
       base_view = new BaseView()
@@ -25,17 +29,20 @@ define ["backbone", "views/base", "views/home", "views/page", "views/credits", "
 
       @previousPage = home_view
 
-    renderUfo: (actions) ->
-      ufo_view = new UfoView()
-      ufo_view.render()
+    renderUfoSightings: ->
+      @visualisations.render_ufo_sightings()
 
-    renderCloud: (actions) ->
-      cloud_view = new CloudView()
-      cloud_view.render()
+    renderSunshineHours: ->
+      @visualisations.render_sunshine_hours()
 
-    renderWetDays: (actions) ->
-      wet_days_view = new WetDaysView()
-      wet_days_view.render()
+    renderWetDays: ->
+      @visualisations.render_wet_days()
+
+    renderRainFall: ->
+      @visualisations.render_rain_fall()
+
+    renderMeteorShower: ->
+      @visualisations.render_meteor_shower()
 
     renderPage: (page) ->
       @previousPage.remove() if @previousPage?

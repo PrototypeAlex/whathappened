@@ -1,5 +1,5 @@
-define ['backbone', 'text!../../templates/ufo.html', 'd3', "views/new_zealand"], (Backbone, ufoTemplate, d3, newZealandView) ->
-  UfoView = Backbone.View.extend
+define ['backbone', 'text!../../../templates/ufo.html', 'd3', "views/visualisations/new_zealand"], (Backbone, ufoTemplate, d3, newZealandView) ->
+  UfoSightingsView = Backbone.View.extend
     el: $('#js-visualisation-container')
     date_format: d3.time.format("%d/%m/%Y")
     ufo_data: [
@@ -161,4 +161,4 @@ define ['backbone', 'text!../../templates/ufo.html', 'd3', "views/new_zealand"],
       this.replace(/(?:^|\s)\S/g, (a) -> a.toUpperCase())
 
 
-  UfoView
+  UfoSightingsView
