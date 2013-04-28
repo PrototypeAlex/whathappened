@@ -21752,7 +21752,6 @@ define('text!views/../../templates/ufo.html',[],function () { return '<div class
     var UfoSightingsView;
     UfoSightingsView = Backbone.View.extend({
       el: $('#js-visualisation-container'),
-      date_format: d3.time.format("%d/%m/%Y"),
       ufo_data: [
         {
           "time": new Date("December 08, 2012 00:00:00"),
@@ -22296,11 +22295,12 @@ define('text!views/../../templates/ufo.html',[],function () { return '<div class
         return _results;
       },
       render_ufo_template: function(region) {
-        var data, readable_region, tbody, tr, ufo_sightings,
+        var data, date_format, readable_region, tbody, tr, ufo_sightings,
           _this = this;
         ufo_sightings = _.filter(this.ufo_data, function(d) {
           return d.region === region;
         });
+        date_format = d3.time.format("%d/%m/%Y");
         readable_region = region.capitalize();
         if (region === 'Bayofplenty') {
           readable_region = 'Bay of Plenty';
@@ -22323,7 +22323,7 @@ define('text!views/../../templates/ufo.html',[],function () { return '<div class
         data.exit().transition().remove();
         tr = data.enter().append('tr');
         tr.append('td').text(function(d) {
-          return _this.date_format(d.time);
+          return date_format(d.time);
         });
         tr.append('td').attr('style', 'text-align: center').text(function(d) {
           return d.location;
