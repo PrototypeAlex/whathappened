@@ -1,7 +1,6 @@
 define ['backbone', 'text!../../../templates/ufo.html', 'd3', "views/visualisations/new_zealand"], (Backbone, ufoTemplate, d3, newZealandView) ->
   UfoSightingsView = Backbone.View.extend
-    el: $('#js-visualisation-container')
-    date_format: d3.time.format("%d/%m/%Y")
+    el: $('#js-visualisation-container') 
     ufo_data: [
       {"time": new Date("December 08, 2012 00:00:00"),"region":"auckland","location":"Tindall's Beach, Auckland, North Island","event":"two unusual orange lights ","description":"Clear starlit night. Duration of sightings approximately 10-20 seconds each. The witness was observing the night sky when she saw a large bright orange light at a high altitude tracking east to west at a speed similar to a jet airliner. After a few seconds the light suddenly disappeared. Two to three minutes later, a second similar light subsequently appeared in the same part of the sky, but tracking north to south. This light was twice as big and much brighter that the first light, but traveling at the same speed, and it disappeared in the same manner. There was no noise associated with the lights."},
       {"time": new Date("December 08, 2012 00:00:00"),"region":"auckland","location":"Torbay, Auckland, North Island","event":"two groups of reddish/orange lights","description":"Clear starlight night. Duration of sightings approximately 2 minutes. The witness saw an initial group of three bright reddish/yellow lights moving on an arc track high in the sky at a speed faster that a jet airliner. The lights were spaced apart and had no associated noise. They maintained a constant brilliancy until disappearing high in the sky. Then a group of two similar lights having the same characteristics, appeared and followed the same flight path as the previous three, disappearing at the same position. "},
@@ -109,6 +108,7 @@ define ['backbone', 'text!../../../templates/ufo.html', 'd3', "views/visualisati
 
     render_ufo_template: (region) ->
       ufo_sightings = _.filter(@ufo_data, (d) => d.region == region)
+      date_format = d3.time.format("%d/%m/%Y")
 
       readable_region = region.capitalize()
       if region == 'Bayofplenty'
@@ -139,7 +139,7 @@ define ['backbone', 'text!../../../templates/ufo.html', 'd3', "views/visualisati
         .append('tr')
 
       tr.append('td')
-        .text((d) => @date_format(d.time))
+        .text((d) => date_format(d.time))
      
       tr.append('td')
         .attr('style', 'text-align: center')
