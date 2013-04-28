@@ -8,14 +8,14 @@
           content: "<p>On a cold and sunny morning Olive and her Mother decided to go on a bushwalk.</p>\n<p>In their bag they put lunch, water and a blanket to sit on.</p>\n<p>The trees and the ground smelled nice. Olive held her Mother’s hand as they walked, and she looked all around her as she went.</p>",
           images: [
             {
-              "src": "/images/pages/first_spread.JPG"
+              "src": "/images/pages/first_spread.jpg"
             }
           ]
         }, {
           content: "<p><span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Mamma, what happened to that flower?<span class=\"quote-mark right\">&#8221;</span></span><br />\nOlive’s Mother took a good look and said,<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Maybe it’s thirsty, see how the ground is dry?<span class=\"quote-mark right\">&#8221;</span></span><br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Or maybe four bugs sat on it at once?<span class=\"quote-mark right\">&#8221;</span></span> said Olive<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>That could be<span class=\"quote-mark right\">&#8221;</span></span> said Olive’s Mother, <span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>there is always more than one answer<span class=\"quote-mark right\">&#8221;</span></span></p>",
           images: [
             {
-              "src": "/images/pages/bugs_sat_on_flower.JPG"
+              "src": "/images/pages/bugs_sat_on_flower.jpg"
             }
           ]
         }, {
