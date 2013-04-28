@@ -7,7 +7,7 @@ define ['backbone'], (Backbone) ->
 				<p>The trees and the ground smelled nice. Olive held her Mother’s hand as they walked, and she looked all around her as she went.</p>
 				"""
 			images: [{
-				"src": "/images/pages/first_spread.JPG"
+				"src": "/images/pages/first_spread.jpg"
 			}]
 		},{
 			content: """
@@ -18,7 +18,7 @@ define ['backbone'], (Backbone) ->
 				<span class="spoken"><span class="quote-mark left">&#8220;</span>That could be<span class="quote-mark right">&#8221;</span></span> said Olive’s Mother, <span class="spoken"><span class="quote-mark left">&#8220;</span>there is always more than one answer<span class="quote-mark right">&#8221;</span></span></p>
 				"""
 			images: [{
-				"src": "/images/pages/bugs_sat_on_flower.JPG"
+				"src": "/images/pages/bugs_sat_on_flower.jpg"
 			}]
 		},{
 			content: """
