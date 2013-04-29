@@ -5,6 +5,7 @@ require.config
     underscore: "../components/underscore-amd/underscore"
     text: "../components/requirejs-text/text"
     d3: "../components/d3/d3"
+    topojson: "../components/topojson/topojson"
 
   shim:
     bootstrap:
@@ -22,9 +23,12 @@ require.config
       exports: "$"
 
     d3:
-     exports: "d3"
+      exports: "d3"
 
-  include: ["backbone", "app", "d3", "initializer"]
+    topojson:
+      exports: "topojson"
+
+  include: ["backbone", "app", "d3", "topojson", "initializer"]
 
 require ["app"], (App) ->
   App.initialize()

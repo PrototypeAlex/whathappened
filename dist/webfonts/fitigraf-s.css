@@ -1,0 +1,26 @@
+/*
+Font: 		Fitigraf
+Style: 		S
+URL: 		http://www.youworkforthem.com/product.php?sku=T4402
+Foundry: 	Nico Inosanto
+Foundry: 	http://www.youworkforthem.com/designer/363/nico-inosanto
+Copyright:	Copyright (c) 2012 by Nico Inosanto. All rights reserved.
+Version: 	1.1
+Created:	April 24, 2013
+License: 	http://www.youworkforthem.com/font-license 
+License: 	The WebFont(s) listed in this document must follow the YouWorkForThem
+			WebFont license rules. All other parties are strictly restricted 
+			from using the WebFonts(s) listed without a purchased license. 
+			All details above must always remain unaltered and visible in your CSS.
+*/
+
+@font-face {
+	font-family: 'Fitigraf S';
+	src: url('fitigraf-s.eot');
+	src: url('fitigraf-s.eot?#iefix') format('embedded-opentype'),
+	     url('fitigraf-s.woff') format('woff'),
+	     url('fitigraf-s.ttf') format('truetype'),
+	     url('fitigraf-s.svg#ywftsvg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
