@@ -12,7 +12,7 @@ define ['backbone', 'text!../../../templates/wet_days.html', "views/visualisatio
 
       @city_line_chart_view = new CityLineChartView()
 
-      d3.json('data/rain_fall.json', (data) => 
+      d3.json('data/wet_days.json', (data) => 
         @city_line_chart_view.render(data, "Wet Days per Month", [3, 18])
       )
 
