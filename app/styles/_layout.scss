@@ -15,10 +15,18 @@
 		top: 0px;
 		bottom: 0px;
 		right: 50%;
-		background-position: center center;
-		background-repeat: no-repeat;
-		background-image: url("/images/pages/fruit_bat.jpg");
-		background-size: contain;
+		.frame{
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			img{
+				width: 100%;
+				height: 100%;
+				&.loading{
+					opacity: 0;
+				}
+			}
+		}
 	}
 	.words{
 		position: absolute;

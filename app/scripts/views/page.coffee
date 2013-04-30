@@ -12,10 +12,18 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
     initialize: ->
       _.bindAll @
       @$el = $(@el)
-      return
 
     template: _.template """
-      <div class="picture" style="background-image: url('<%= images[0].src %>');"></div>
+      <div class="picture">
+        <div class="frame">
+          <div class="preloader">
+            <div class="spinner">
+              <i class="icon-cw-circled animate-spin"></i>
+              <span class="circular-glare"></span>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="words">
         <%= content %>
       </div>
@@ -31,18 +39,17 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
 
     render: ->
       @$el.html @template @model.toJSON()
-      # _.each @model.get('images'), (img) =>
-      #   @$('#pictures').append "<img src=\"#{img.src}\" />"
-        
-      # _.each @model.get('data_points'), (point) =>
-      #   $point = $ "<a class=\"data-marker\" href=\"#\" data-id=\"#{point.id}\"></a>"
-      #   $point.css
-      #     left: point.left
-      #     top: point.top
-      #   @$('#pictures').append $point
+      @$picture = @$('.picture');
+      @$frame = @$('.picture .frame');
       $(window).bind 'resize', @onResize
-      @onResize()
 
+      @img = new Image()
+      @img.onload = @imageLoaded
+      @img.src = @model.get('images')[0].src
+      @$img = $(@img)
+      @$img.addClass 'loading'
+      @$('.frame').append @img
+      @onResize()
 
     openData: (e) ->
       $marker = $(e.target)
@@ -76,12 +83,20 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
       return
 
     onResize: (e) ->
-      h = $(window).height()
-      # @$("#pictures").css
-      #   width: "#{h}px"
-      # w = $(window).width()
-      # @$("#left").css
-      #   width: "#{w - h}px"
+      if @$picture.width() > @$picture.height()
+        max = @$picture.height()
+      else
+        max = @$picture.width()
+      @$frame.css
+        width: "#{max}px"
+        height: "#{max}px"
+        marginLeft: "#{ 0 - (max / 2)}px"
+        marginTop: "#{ 0 - (max / 2)}px"
+      return
+
+    imageLoaded: ->
+      @$('.picture .preloader').addClass 'hidden'
+      @$img.removeClass 'loading'
       return
 
   PageView
