@@ -13,10 +13,14 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
     render_geo_chart: ->
       width = 728
       height = 500
+      land_feature = null
+      boundry_feature = null
+      origin = {x: 0, y: 0}
 
       projection = d3.geo.orthographic()
         .scale(248)
         .clipAngle(90)
+        .translate([364, 250])
 
       svg = d3.select("#js-globe-container").append("svg")
         .attr("width", width)
@@ -29,7 +33,6 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
         .datum({type: "Sphere"})
         .attr("id", "sphere")
         .attr("d", path)
-        .attr("transform", "translate(-116, 0)")
 
       svg.append("use")
         .attr("class", "stroke")
@@ -45,57 +48,43 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
         .datum(graticule)
         .attr("class", "graticule")
         .attr("d", path)
-        .attr("transform", "translate(-116, 0)")
 
-      λ = d3.scale.linear()
-        .domain([0, width])
-        .range([-180, 180]);      
-
-      φ = d3.scale.linear()
-        .domain([0, height])
-        .range([90, -90])
-
-      mouse_down = null
-
-      svg.on("mousedown", ->
-        mouse_down = [d3.event.pageX, d3.event.pageY]
-        d3.event.preventDefault()
-      )
-
-      svg.on("mousemove", ->
-        if mouse_down
-          p = d3.mouse(this)
-          projection.rotate([λ(p[0]), φ(p[1])])
-          svg.selectAll("path").attr("d", path)
-      )
-
-      d3.select(window).on("mouseup", ->
-        mouse_down = null
-      )
+      svg.call(d3.behavior.drag()
+        .origin( -> origin )
+        .on("drag", ->
+          origin.x = d3.event.x
+          origin.y = d3.event.y
+          projection.rotate([origin.x, -origin.y])
+          svg.selectAll('path').attr("d", path)
+        ))
 
       d3.json('data/worldcountries.geo.json', (world) => 
-        svg.insert("path", ".graticule")
+        land_feature = svg.append("path")
           .datum(topojson.feature(world, world.objects.land))
-          .attr("class", "land")
-          .attr("d", path)
-          .attr("transform", "translate(-116, 0)") 
+          .attr("class", (d) -> "land")
+          .attr("d", path) 
 
-        svg.insert("path", ".graticule")
+        boundry_feature = svg.append("path")
           .datum(topojson.mesh(world, world.objects.countries, (a, b) ->  a != b ))
           .attr("class", "boundary")
           .attr("d", path)
-          .attr("transform", "translate(-116, 0)")
       )
 
-      callback = (data) ->
-        console.log data
-        console.log data.table.rows[0]
-      
-      queryurl = "https://www.google.com/fusiontables/api/query?sql=select+*+from+1hrTPrwR5piW7e9U-LNGmcRKRDUWCwhAaqiN_yrU"
-      querytail = "&jsonCallback=?"
-      jqxhr = $.get(queryurl + querytail, callback, "jsonp")
+      d3.json('data/meteorites.json', (data) => 
+        data_grouped_yearly = d3.nest()
+          .key((d) -> d.year )
+          .entries(data)
 
 
+
+        meteorites = svg.selectAll('path.point')
+          .data(data)
+          .enter().append("path")
+          .datum((d) -> return {type: "Point", coordinates: [d.long, d.lat], radius: .1})
+          .attr("class", "point")
+          .attr('fill', 'red')
+          .attr("d", path)
+      )
 
 
 
