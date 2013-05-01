@@ -35,14 +35,13 @@ html{
 	display: none;
 }
 
-#preloader{
-	position: fixed;
+.preloader{
+	position: absolute;
 	left: 0px;
 	top: 0px;
 	right: 0px;
 	bottom: 0px;
-	z-index: 999;
-	background-color: #413d31;
+	z-index: 20;
 	.spinner{
 		position: absolute;
 		display: block;
@@ -51,7 +50,7 @@ html{
 		left: 50%;
 		top: 50%;
 		margin-left: -35px;
-		color: #6f785b;
+		color: $black;
 		margin-top: -35px;
 		text-align: center;
 		font: 400 54px/60px Sans-Serif;
@@ -66,9 +65,17 @@ html{
 		top: 12px;
 		right: 12px;
 	}
-	.wf-inactive &,
-	.wf-active &{
-		display: none;
+	&#site-preloader{
+		position: fixed;
+		background-color: #413d31;
+		z-index: 999;
+		.spinner{
+			color: #6f785b;
+		}
+		.wf-inactive &,
+		.wf-active &{
+			display: none;
+		}
 	}
 }
 

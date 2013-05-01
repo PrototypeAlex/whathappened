@@ -7,7 +7,7 @@ define ['backbone'], (Backbone) ->
 				<p>The trees and the ground smelled nice. Olive held her Mother’s hand as they walked, and she looked all around her as she went.</p>
 				"""
 			images: [{
-				"src": "/images/pages/first_spread.jpg"
+				"src": "/images/pages/spread-1.jpg"
 			}]
 		},{
 			content: """
@@ -18,7 +18,7 @@ define ['backbone'], (Backbone) ->
 				<span class="spoken"><span class="quote-mark left">&#8220;</span>That could be<span class="quote-mark right">&#8221;</span></span> said Olive’s Mother, <span class="spoken"><span class="quote-mark left">&#8220;</span>there is always more than one answer<span class="quote-mark right">&#8221;</span></span></p>
 				"""
 			images: [{
-				"src": "/images/pages/bugs_sat_on_flower.jpg"
+				"src": "/images/pages/spread-2.jpg"
 			}]
 		},{
 			content: """
@@ -29,7 +29,7 @@ define ['backbone'], (Backbone) ->
 				<span class="spoken"><span class="quote-mark left">&#8220;</span>That could be<span class="quote-mark right">&#8221;</span></span> said Olive’s Mother, <span class="spoken"><span class="quote-mark left">&#8220;</span>there is always more than one answer<span class="quote-mark right">&#8221;</span></span></p>
 				"""
 			images: [{
-				"src": "/images/pages/ufo.jpg"
+				"src": "/images/pages/spread-3.jpg"
 			}]
 		},{
 			content: """
@@ -40,7 +40,7 @@ define ['backbone'], (Backbone) ->
 				<span class="spoken><span class="quote-mark left">&#8220;</span>That could be<span class="quote-mark right">&#8221;</span></span>, said Olive’s Mother, <span class="spoken"><span class="quote-mark left">&#8220;</span>there is always more than one answer<span class="quote-mark right">&#8221;</span></span></p>
 				"""
 			images: [{
-				"src": "/images/pages/ufo.jpg"
+				"src": "/images/pages/spread-4.jpg"
 			}]
 			data_points: [{
 				id: "clouds"
@@ -60,7 +60,7 @@ define ['backbone'], (Backbone) ->
 				<span class="spoken><span class="quote-mark left">&#8220;</span>That could be<span class="quote-mark right">&#8221;</span></span>, said Olive’s Mother, <span class="spoken"><span class="quote-mark left">&#8220;</span>there is always more than one answer<span class="quote-mark right">&#8221;</span></span></p>
 				"""	
 			images: [{
-				"src": "/images/pages/fruit_bat.jpg"
+				"src": "/images/pages/spread-5.jpg"
 			}]
 		}, {
 			content: """
@@ -68,7 +68,7 @@ define ['backbone'], (Backbone) ->
 				<p><span class="spoken"><span class="quote-mark left">&#8220;</span>We saw lots of things, didn’t we Olive?<span class="quote-mark right">&#8221;</span></span> <span class="spoken"><span class="quote-mark left">&#8220;</span>Yes<span class="quote-mark right">&#8221;</span></span>, she replied, <span class="spoken"><span class="quote-mark left">&#8220;</span>we saw a flower chair, a fallen star, a spaceship and some juice that fell off a bat’s breakfast plate<span class="quote-mark right">&#8221;</span></span>. </p>
 				<p>Olive’s Mamma smiled, <span class="spoken"><span class="quote-mark left">&#8220;</span>I guess what we see depends on whose eyes we use.<span class="quote-mark right">&#8221;</span></span></p>"""
 			images: [{
-				"src": "/images/pages/last_spread.jpg"
+				"src": "/images/pages/spread-6.jpg"
 			}]
 		}]
 	})
