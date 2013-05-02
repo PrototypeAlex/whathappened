@@ -1,7 +1,6 @@
 define ['backbone', 'text!../../../templates/ufo.html', 'd3', "views/visualisations/new_zealand"], (Backbone, ufoTemplate, d3, newZealandView) ->
   UfoSightingsView = Backbone.View.extend
     
-    el: $('#js-visualisation-container') 
     ufo_data: null
 
     render: ->

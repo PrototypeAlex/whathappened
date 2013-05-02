@@ -1,8 +1,6 @@
 define ['backbone', 'text!../../../templates/rain_fall.html', "views/visualisations/new_zealand", "views/visualisations/city_line_chart"], (Backbone, RailFallTemplate, NewZealandView, CityLineChartView) ->
   RailFallView = Backbone.View.extend
 
-    el: $('#js-visualisation-container')
-
     render: ->
       this.$el.show('slow')
       this.$el.html( _.template(RailFallTemplate) )
