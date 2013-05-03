@@ -31,6 +31,11 @@ define ['backbone'], (Backbone) ->
 			images: [{
 				"src": "/images/pages/spread-3.jpg"
 			}]
+			data_points: [{
+				id: "rain_fall"
+				left: "50%"	
+				top: "42%"
+			}]
 		},{
 			content: """
 				<p><span class="spoken"><span class="quote-mark left">&#8220;</span>Mamma, what happened to the sunshine?<span class="quote-mark right">&#8221;</span></span><br />

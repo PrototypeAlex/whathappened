@@ -42,14 +42,23 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
       @$picture = @$('.picture');
       @$frame = @$('.picture .frame');
       $(window).bind 'resize', @onResize
+      @onResize()
 
+      # add image
       @img = new Image()
       @img.onload = @imageLoaded
       @img.src = @model.get('images')[0].src
       @$img = $(@img)
       @$img.addClass 'loading'
       @$('.frame').append @img
-      @onResize()
+
+      # add markers
+
+      _.each @model.get('data_points'), (point) =>
+        el = "<div class=\"data-marker\" data-id=\"#{point.id}\" style=\"left: #{point.left}; top: #{point.top};\"></div>"
+        @$frame.append el
+        console.log el
+
 
     openData: (e) ->
       $marker = $(e.target)
