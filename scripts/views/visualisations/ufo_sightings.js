@@ -3,7 +3,6 @@
   define(['backbone', 'text!../../../templates/ufo.html', 'd3', "views/visualisations/new_zealand"], function(Backbone, ufoTemplate, d3, newZealandView) {
     var UfoSightingsView;
     UfoSightingsView = Backbone.View.extend({
-      el: $('#js-visualisation-container'),
       ufo_data: null,
       render: function() {
         var region, _results,
