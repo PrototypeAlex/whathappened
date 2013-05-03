@@ -12,7 +12,7 @@
     "requirejs-text": "~2.0.5",
     "d3": "~3.1.5",
     "topojson": "~1.0.0",
-    "yepnope": "~1.5.4",
+    "yepnope": "~1.5.4"
   },
   "devDependencies": {}
 }

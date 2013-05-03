@@ -3,7 +3,6 @@
   define(['backbone', 'text!../../../templates/rain_fall.html', "views/visualisations/new_zealand", "views/visualisations/city_line_chart"], function(Backbone, RailFallTemplate, NewZealandView, CityLineChartView) {
     var RailFallView;
     RailFallView = Backbone.View.extend({
-      el: $('#js-visualisation-container'),
       render: function() {
         var region, _fn,
           _this = this;

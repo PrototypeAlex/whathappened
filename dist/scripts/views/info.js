@@ -1,6 +1,6 @@
 (function() {
 
-  define(['backbone'], function(Backbone) {
+  define(['backbone', 'views/visualisations/clouds', 'views/visualisations/ufo_sightings', 'views/visualisations/rain_fall'], function(Backbone, CloudsView, UfoView, RainView) {
     var InfoView;
     InfoView = Backbone.View.extend({
       events: {
@@ -15,9 +15,26 @@
         this.render();
         console.log(this);
       },
-      template: _.template("<div class=\"bg\"></div>\n<div class=\"document\">\n    <a href=\"#\" class=\"close\"><div class=\"circular-glare\"></div></a>\n    <div class=\"corner\"></div>\n    <div class=\"content\">\n        <p>Hey Alex. Put all your <%= options.viz_id %> stuff up in this view (info.coffee).</p>\n        <p>Nice one.</p>\n    </div>\n\n</div>"),
+      template: _.template("<div class=\"bg\"></div>\n<div class=\"document\">\n    <a href=\"#\" class=\"close\"><div class=\"circular-glare\"></div></a>\n    <div class=\"corner\"></div>\n    <div class=\"content\"></div>\n</div>"),
       render: function() {
-        return this.$el.html(this.template(this));
+        var v, view;
+        this.$el.html(this.template(this));
+        switch (this.options.viz_id) {
+          case "clouds":
+            view = CloudsView;
+            break;
+          case "spaceship":
+            view = UfoView;
+            break;
+          case "rain_fall":
+            view = RainView;
+        }
+        if (view != null) {
+          v = new view({
+            el: this.$('.content')
+          });
+          return v.render();
+        }
       },
       close: function(e) {
         e.preventDefault();

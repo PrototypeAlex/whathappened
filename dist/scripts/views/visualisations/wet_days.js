@@ -12,7 +12,7 @@
         this.new_zealand = new NewZealandView();
         this.new_zealand.render();
         this.city_line_chart_view = new CityLineChartView();
-        d3.json('data/rain_fall.json', function(data) {
+        d3.json('data/wet_days.json', function(data) {
           return _this.city_line_chart_view.render(data, "Wet Days per Month", [3, 18]);
         });
         _fn = function(path, region, view) {
