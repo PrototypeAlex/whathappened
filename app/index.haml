@@ -11,7 +11,8 @@
     %link{href : "webfonts/fontello/css/animation.css", rel : "stylesheet"}/
     %link{href : "styles/main.css", rel : "stylesheet"}/
 
-    %script{src : "components/modernizr/modernizr.js"}/
+    %script{src : "components/modernizr/modernizr-2.6.2.min.js"}/
+    %script{src : "components/yepnope/yepnope.1.5.4-min.js"}/
   %body
     #site-preloader.preloader
       .spinner
@@ -25,7 +26,7 @@
 
       
 
-    %script{data-main : "scripts/main", src : "components/requirejs/require.js"}/
+    %script{data-main : "scripts/main", src : "components/requirejs/requirejs-2.1.5.min.js"}/
 
     <script type="text/javascript">
       (function() {
@@ -45,5 +46,10 @@
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
+
+      yepnope({
+        test : Modernizr.inputtypes.range,
+        nope : ['/styles/fd-slider.min.css', 'scripts/fd-slider.min.js']
+      });
 
     </script>
