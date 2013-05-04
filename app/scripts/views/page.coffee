@@ -61,7 +61,7 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
       # add markers
 
       _.each @model.get('data_points'), (point) =>
-        el = "<div class=\"data-marker\" data-id=\"#{point.id}\" style=\"left: #{point.left}; top: #{point.top};\"></div>"
+        el = "<div class=\"data-marker\" data-id=\"#{point.id}\" style=\"left: #{point.left}; top: #{point.top};\">+<div class=\"glare\"></div></div>"
         @$frame.append el
         console.log el
 
