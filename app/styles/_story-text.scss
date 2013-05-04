@@ -1,0 +1,27 @@
+.words{
+	font: 400 20px/33px $sans;
+	color: #413d31;
+	p{
+		margin-right: 40px;
+		max-width: 500px;
+	}
+	.spoken{
+		font-family: $slab;
+		font-size: 23px;
+		color: #FFF;
+		position: relative;
+		top: 2px;
+		.quote-mark{
+			position: relative;
+			margin: 0px 2px;
+			top: 6px;
+			font-size: 27px;
+			line-height: 22px;
+		}
+	}
+	.data-marker{
+		cursor: pointer;
+		display: inline-block;
+		border-bottom: 2px dotted rgba(255,255,255,.3);
+	}
+}
