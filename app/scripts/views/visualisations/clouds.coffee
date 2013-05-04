@@ -1,11 +1,14 @@
 define ['backbone', 'text!../../../templates/clouds.html', "views/visualisations/new_zealand", "views/visualisations/city_line_chart"], (Backbone, CloudTemplate, NewZealandView, CityLineChartView) ->
   CloudView = Backbone.View.extend
 
-    # el: $('#js-visualisation-container')
+    el: '#js-visualisation-container'
+    template: _.template(CloudTemplate)
+
+    initialize: (options) ->
+      @parentView = options.parentView
 
     render: ->
-
-      $('#js-visualisation-container').html( _.template(CloudTemplate) )
+      @$el.html( @template )
 
       @new_zealand = new NewZealandView()
       @new_zealand.render()

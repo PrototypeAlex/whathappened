@@ -1,8 +1,14 @@
 define ['backbone', 'text!../../../templates/rain_fall.html', "views/visualisations/new_zealand", "views/visualisations/city_line_chart"], (Backbone, RailFallTemplate, NewZealandView, CityLineChartView) ->
   RailFallView = Backbone.View.extend
 
+    el: '#js-visualisation-container'
+    template: _.template(RailFallTemplate)
+
+    initialize: (options) ->
+      @parentView = options.parentView
+
     render: ->
-      $('#js-visualisation-container').html( _.template(RailFallTemplate) )
+      @$el.html( @template )
 
       @new_zealand = new NewZealandView()
       @new_zealand.render()

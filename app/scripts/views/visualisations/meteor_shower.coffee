@@ -4,17 +4,18 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
     events:
       'change #js-range-slider' : 'change_range_slider'
 
-    el: $('#js-visualisation-container')
-
+    el: '#js-visualisation-container'
+    template: _.template(MeteorShowerTemplate)
     data_grouped_yearly: null
     meteorites: null
     svg: null
     path: null
 
+    initialize: (options) ->
+      @parentView = options.parentView
+
     render: ->
-      _.bindAll @
-      @$el = $(@el)
-      $('#js-visualisation-container').html( _.template(MeteorShowerTemplate) )
+      @$el.html( @template )
       @render_geo_chart()
       @
 
