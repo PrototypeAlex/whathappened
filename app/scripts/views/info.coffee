@@ -2,45 +2,41 @@ define ['backbone', 'views/visualisations/base'], (Backbone, VisualisationView) 
     InfoView = Backbone.View.extend
 
         vizualisation_view: null
-        el: $('#info')
+        current_visualisation: null
 
         initialize: ->
-            _.bindAll @
-            @$el = $(@el)
             @vizualisation_view = new VisualisationView()
-            console.log @
-            return
 
         render: (viz_id) ->
             $('#info').removeClass('hidden')
-
+            console.log viz_id
             switch viz_id
-                when "clouds"       then @renderSunshineHours()
-                when "spaceship"    then @renderUfoSightings()
-                when "rain_fall"    then @renderRainFall()
+                when "clouds"           then @renderSunshineHours()
+                when "spaceship"        then @renderUfoSightings()
+                when "rain_fall"        then @renderRainFall()
+                when "meteor_shower"    then @renderMeteorShower()
+                when "wet_days"         then @renderWetDays()
 
 
         renderUfoSightings: ->
-            @vizualisation_view.render_ufo_sightings()
+            @current_visualisation = @vizualisation_view.render_ufo_sightings()
 
         renderSunshineHours: ->
-            @vizualisation_view.render_sunshine_hours()
+            @current_visualisation = @vizualisation_view.render_sunshine_hours()
 
         renderWetDays: ->
-            @vizualisation_view.render_wet_days()
+            @current_visualisation = @vizualisation_view.render_wet_days()
 
         renderRainFall: ->
-            console.log 'info.coffee'
-            @vizualisation_view.render_rain_fall()
+            @current_visualisation = @vizualisation_view.render_rain_fall()
 
         renderMeteorShower: ->
-            @vizualisation_view.render_meteor_shower()
+            @current_visualisation = @vizualisation_view.render_meteor_shower()
 
 
         close: (e) ->
-            e.preventDefault()
-            console.log 'gello'
-            @remove()
+            @vizualisation_view.remove()
+            $('#info').addClass('hidden')
             return
 
     InfoView
