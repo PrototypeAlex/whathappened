@@ -1,0 +1,63 @@
+#js-visualisation-container
+
+
+  .inner-container
+    margin: 20px
+    color: black
+
+  #js-new-zealand-svg
+    width: 374px
+    height: 350px
+    float: left
+
+    g path
+      stroke-width: 1px
+      stroke: #2c2e29
+      fill : #6a8596
+      
+      &.hovering
+        fill: #6A856A
+      
+      &.selected
+        fill: #6A8525
+
+    g line
+      stroke-width: 1px
+      stroke: black
+      fill: none
+
+  #js-new-zealand-legend
+    width: 374px
+    height: 350px
+    float: right
+
+#js-ufo-sightings
+  table tbody td a
+    text-decoration: underline
+    &:hover
+      cursor: pointer
+
+#js-globe-container
+  .stroke
+    fill: none
+    stroke: #000
+    stroke-width: 3px  
+  
+  .fill
+    fill: #fff
+
+  .graticule
+    fill: none
+    stroke: #777
+    stroke-width: .5px
+    stroke-opacity: .5
+   
+
+  .land
+    fill: #222
+   
+
+  .boundary
+    fill: none
+    stroke: #fff
+    stroke-width: .5px
