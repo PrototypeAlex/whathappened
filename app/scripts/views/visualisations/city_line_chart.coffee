@@ -8,12 +8,12 @@ define ['backbone', 'd3'], (Backbone, d3) ->
     color: null
     x: null
     y: null
-    y_axis_title: null
+    title: null
     y_range: null
 
     render: (data, title, y_range) ->
       @data = data
-      @y_axis_title = title
+      @title = title
       @y_range = y_range
       @create_chart()
       @create_legend()
@@ -25,7 +25,6 @@ define ['backbone', 'd3'], (Backbone, d3) ->
         .data(cities, (d) -> d.city)
 
       city.exit()
-        .transition()
         .remove()
 
       city.enter().append("g")
@@ -36,20 +35,41 @@ define ['backbone', 'd3'], (Backbone, d3) ->
         .attr("d", (d) => @line(d.values))
         .style("stroke", (d) => @color(d.city))
         .attr("fill", "none")
+        .attr("class", (d) -> d.city.split(' ').join('_'))
 
-      city.append("text")
-        .datum((d) -> {city: d.city, value: d.values[11]})
-        .attr("transform", (d) => "translate(" + @x(11) + "," + @y(d.value) + ")")
-        .attr("x", 3)
-        .attr("dy", ".35em")
-        .text((d) -> d.city)
-
-      city_legend = @legend.selectAll("div.cities")
+      city_legend = @legend.selectAll("div.city-legend")
         .data(cities, (d) -> d.city )
 
+      city_legend
+        .exit()
+        .remove()
+
+      divs = city_legend
+        .enter()
+        .append("div")
+        .attr('class', 'city-legend')
+        .on('mouseover', (d) ->
+          d3.selectAll("path.#{d.city.split(' ').join('_')}")
+            .classed("hovering", true)
+        )
+        .on('mouseout', (d) ->
+          d3.selectAll("path.#{d.city.split(' ').join('_')}")
+            .classed("hovering", false)
+        )
+     
+      divs.append('div')
+        .attr('style', (d) => "background-color: #{@color(d.city)}")
+        .attr('class', 'legend-colour')
+
+      divs.append('div')
+        .html((d) => "#{d.city}: Total #{@title} - #{d.total}")
+
+      divs.append('div')
+        .attr('class', 'clearfix')
+
+
     create_legend: ->
-      margin = {top: 10, right: 10, bottom: 10, left: 10}
-      @legend = d3.select('#js-new-zealand-svg')
+      @legend = d3.selectAll('#js-new-zealand-legend')
 
     create_chart: ->
       margin = {top: 20, right: 20, bottom: 30, left: 50}
@@ -95,7 +115,7 @@ define ['backbone', 'd3'], (Backbone, d3) ->
           .attr("dy", ".71em")
           .attr("class", "vertical-hint")
           .style("text-anchor", "end")
-          .text(@y_axis_title)
+          .text("#{@title} per month")
 
 
   CityLineChartView

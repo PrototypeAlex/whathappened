@@ -16,7 +16,7 @@ define ['backbone', 'text!../../../templates/wet_days.html', "views/visualisatio
       @city_line_chart_view = new CityLineChartView()
 
       d3.json('data/wet_days.json', (data) => 
-        @city_line_chart_view.render(data, "Wet Days per Month", [3, 18])
+        @city_line_chart_view.render(data, "Wet Days", [3, 18])
       )
 
       for region of @new_zealand.nz
@@ -24,6 +24,8 @@ define ['backbone', 'text!../../../templates/wet_days.html', "views/visualisatio
           path
             .on("click", -> 
               view.city_line_chart_view.re_render_data(region)
+              d3.selectAll('path.js-region').classed("selected", false)
+              d3.select(this).classed("selected", true)
             )
         ) @new_zealand.nz[region], region, @
 

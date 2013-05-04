@@ -38,6 +38,15 @@
     width: 374px;
     height: 350px;
     float: right;
+
+    .legend-colour{
+      width: 10px;
+      height: 10px;
+      float: left;
+    }
+    .legend-title{
+      float: right;
+    }
   }
   #js-ufo-sightings{
     table tbody td a{
@@ -93,6 +102,9 @@
       fill: none;
       stroke: #AAA;
       stroke-width: 1px;
+    }
+    path.hovering{
+      stroke-width: 3px;
     }
   }
 }

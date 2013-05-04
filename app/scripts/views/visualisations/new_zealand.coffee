@@ -68,10 +68,6 @@ define ['backbone', 'd3'], (Backbone, d3) ->
             .on("mouseout", ->
               d3.select(this).classed("hovering", false)
             )
-            .on("click", -> 
-              d3.selectAll('path.js-region').classed("selected", false)
-              d3.select(this).classed("selected", true)
-            )
             .attr('class', 'js-region')
         ) @nz[region], region, @
 
