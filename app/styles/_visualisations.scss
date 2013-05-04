@@ -9,23 +9,23 @@
     padding: 10px;
     border-radius: 10px;
     margin-bottom: 20px;
+    float: left;
   }
   #js-new-zealand-svg{
     width: 340px;
     height: 350px;
     g path{
       stroke-width: 2px;
-      stroke: #d7e8ee;
       fill : #72c366;
+      stroke: #d7e8ee;
 
       &.hovering{
         fill: $black;
-        stroke: $black;
         cursor: pointer;
       }
       
       &.selected{
-        fill: #777;
+        fill: #3c6ce6;
       }
     }
     g line{
@@ -35,14 +35,30 @@
     }
   }
   #js-new-zealand-legend{
-    width: 374px;
+    width: 370px;
     height: 350px;
+    margin-top: 20px;
     float: right;
-
+    .city-legend{
+      margin-bottom: 10px;
+    }
+    .city-name{
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+    .extra{
+      font-family: $slab;
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: #888;
+    }
     .legend-colour{
       width: 10px;
       height: 10px;
-      float: left;
+      display: inline-block;
+      border-radius: 5px;
+      margin-right: 10px;
     }
     .legend-title{
       float: right;

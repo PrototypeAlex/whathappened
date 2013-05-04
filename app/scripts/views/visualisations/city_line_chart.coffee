@@ -58,11 +58,7 @@ define ['backbone', 'd3'], (Backbone, d3) ->
         )
      
       divs.append('div')
-        .attr('style', (d) => "background-color: #{@color(d.city)}")
-        .attr('class', 'legend-colour')
-
-      divs.append('div')
-        .html((d) => "#{d.city}: Total #{@title} - #{d.total}")
+        .html((d) => "<div class=\"legend-colour\" style=\"background-color: #{@color(d.city)}\"></div><span class=\"city-name\">#{d.city}</span><br /><span class=\"extra\">Total #{@title} - #{d.total}</span>")
 
       divs.append('div')
         .attr('class', 'clearfix')
