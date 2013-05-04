@@ -15,8 +15,6 @@
 		top: 0px;
 	}
 	.corner{
-//		width: 1px;
-//		height: 1px;
 		position: absolute;
 		top: 0px;
 		right: 0px;
@@ -30,7 +28,7 @@
 		background-color: #FFF;
 		padding: 10px;
 		left: 50%;
-		margin-left: -364px;
+		margin-left: -384px;
 		margin-top: 10%;
 		.close{
 			display: inline-block;
@@ -44,11 +42,105 @@
 			font: 400 20px/30px Sans-Serif;
 		}
 		.content{
-			padding: 20px;
+			padding: 0px;
 			min-height: 400px;
 			p:last-child{
 				margin-bottom: 0px;
 			}
 		}
+	}
+}
+
+.content{
+	font: 400 16px/23px $sans;
+	margin: 10px;
+	h1{
+		font: 400 40px/40px $script;
+		border-bottom: 4px solid rgba(0, 0, 0, .1);
+		padding-bottom: 10px;
+		color: $black;
+		margin-top:  0px;
+		margin-bottom: 20px
+	}
+	p{
+		margin-right: 40px;
+	}
+}
+
+.graphics{
+	clear: both;
+	margin-bottom: 20px;
+}
+
+.infographic{
+	width: 50%;
+	float: left;
+	margin-bottom: 40px;
+	position: relative;
+	&.has-pie{
+		top: -10px;
+	}
+	.number{
+		display: inline-block;
+		color: #FFF;
+		background-color: #000000;
+		padding: 3px;
+		position: relative;
+		top: 3px;
+		border-radius: 4px;
+		font: 500 24px/40px $sans;
+		margin-bottom: 10px;
+		.digit{
+			display: inline-block;
+			width: 1.1em;
+			text-align: center;
+			background-color: #3e3e3e;
+			margin-right: 2px;
+			border-radius: 4px;
+			position: relative;
+			.glare{
+				position: absolute;
+				left: 0px;
+				top: 0px;
+				right: 0px;
+				bottom: 50%;
+				background-color: rgba(255, 255, 255, .2);
+
+			}
+			&:last-child{
+				margin-right: 0px;
+			}
+		}
+	}
+	.pie-graph{
+		display: inline-block;
+		width: 40px;
+		height: 40px;
+		border-radius: 20px;
+		background-color: $red;
+		position: relative;
+		top: 13px;
+		left: 13px;
+	}
+	.icon{
+		display: inline-block;
+		font-size: 30px;
+		position: relative;
+		top: 6px;
+		left: 6px;
+	}
+	.what{
+		font: 600 25px/30px $sans;
+		text-transform: uppercase;
+		font-weight: 700;
+		letter-spacing: 3px;
+	}
+	.extra{
+		font-size: 15px;
+		color: #6f785b;
+		font-family: $slab;
+	}
+	&:last-child{
+
 	}
 }

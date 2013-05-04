@@ -9,6 +9,15 @@
 }
 
 .page{
+	.what-happened-title{
+		font: 400 80px/50px $script;
+		color: $black;
+		position: absolute;
+		left: 30px;
+		right: 30px;
+		text-align: center;
+
+	}
 	.picture{
 		position: absolute;
 		left: 10px;
@@ -66,6 +75,9 @@
 
 @media screen and (orientation:portrait) {
 	.page{
+		.what-happened-title{
+			display: none;
+		}
 		.picture{
 			left: 10px;
 			top: 10px;

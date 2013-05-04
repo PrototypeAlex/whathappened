@@ -1,10 +1,44 @@
-.inner-container
-  %h1
-    The Long White Cloud
-  %p
-    Over a ten year period New Zealand, on average, receives 119 days of rain per year, when broken down even further there's a 28% chance of rain on a summers day and and a 37% chance of rain on a winters day. Though on a brighter note, New Zealand receives on average 2010 hours of sunshine per year, which should be ample time to get your dose of Vitamin D. 
+%h1 The Long White Cloud
 
+.graphics
+  .infographic
+    .number
+      119
+    .icon.icon-rain
+    .what
+      rainy days
+    .extra
+      Per year on average
 
-  %svg#js-new-zealand-svg
+  .infographic.has-pie
+    .number
+      28%
+    .pie-graph
+    .what
+      chance of rain
+    .extra
+      On a summers day
 
-  #js-city-line-chart
+  .infographic
+    .number
+      2010
+    .icon.icon-sun
+    .what
+      hours of sun
+    .extra
+      Per year on average
+
+  .infographic.has-pie
+    .number
+      37%
+    .pie-graph
+    .what
+      chance of rain
+    .extra
+      On a winters day
+
+.clearfix
+
+%svg#js-new-zealand-svg
+
+#js-city-line-chart

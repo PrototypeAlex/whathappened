@@ -31,6 +31,10 @@ html{
 	display: none;
 }
 
+.clearfix{
+	clear: both;
+}
+
 @import '_ui-elements';
 @import '_visualisations';
 @import '_layout.scss';

@@ -1,4 +1,4 @@
-define ['backbone', 'views/visualisations/base'], (Backbone, VisualisationView) ->
+define ['backbone', 'views/visualisations/base', 'views/infographic'], (Backbone, VisualisationView, InfographicView) ->
     InfoView = Backbone.View.extend
 
         vizualisation_view: null
@@ -16,6 +16,10 @@ define ['backbone', 'views/visualisations/base'], (Backbone, VisualisationView) 
                 when "rain_fall"        then @renderRainFall()
                 when "meteor_shower"    then @renderMeteorShower()
                 when "wet_days"         then @renderWetDays()
+
+            _.each $('#info .infographic'), (el) ->
+                v = new InfographicView
+                    el: el
 
 
         renderUfoSightings: ->
