@@ -39,6 +39,8 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
             <div class="content" id="js-visualisation-container"></div>
         </div>
       </div>
+      <div class="tool-tip">
+      </div>
     """
 
     render: ->

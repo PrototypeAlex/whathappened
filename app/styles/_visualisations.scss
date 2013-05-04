@@ -150,4 +150,13 @@ table{
     letter-spacing: 1px;
   }
 }
+
+div.tool-tip {   
+  position: absolute; 
+  z-index: 9999; 
+  visibility: hidden; 
+  background-color: white; 
+  padding: 2px; 
+  border: thin solid black;       
+}
   

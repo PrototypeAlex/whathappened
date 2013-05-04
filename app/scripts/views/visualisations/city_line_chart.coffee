@@ -11,6 +11,9 @@ define ['backbone', 'd3'], (Backbone, d3) ->
     title: null
     y_range: null
 
+    initialize: ->
+      @create_tooltip()
+
     render: (data, title, y_range) ->
       @data = data
       @title = title
@@ -29,6 +32,19 @@ define ['backbone', 'd3'], (Backbone, d3) ->
         .classed("hovering", false)
       d3.selectAll("circle.#{d.city.split(' ').join('_')}")
         .attr("r", 2)
+
+    show_tooltip: (d) ->
+      @tooltip.html("<p>#{d.value} #{@title} (#{d.city})</p>")
+      @tooltip.style("visibility", "visible")
+
+    hide_tooltip: (d) ->
+      @tooltip.style("visibility", "hidden")
+
+    move_tooltip: (d) ->
+      event = d3.event;
+      @tooltip
+        .style("top", "#{event.pageY-10}px")
+        .style("left", "#{event.pageX+10}px")
 
     re_render_data: (region) ->
       cities = _.filter(@data, (d) => d.region == region)
@@ -49,7 +65,7 @@ define ['backbone', 'd3'], (Backbone, d3) ->
         .attr("class", (d) -> d.city.split(' ').join('_'))
 
       circles = city.selectAll("circle")
-        .data((d) -> _.map(d.values, (val) => {value: val, city: d.city} ))
+        .data((d, i) => _.map(d.values, (val) => {value: val, city: d.city} ))
 
       circles.enter()
         .append("circle")
@@ -57,8 +73,15 @@ define ['backbone', 'd3'], (Backbone, d3) ->
         .attr("cx", (d, i) => @x(i))
         .attr("cy", (d) => @y(d.value))
         .attr("fill", (d) => @color(d.city))
-        .on('mouseover', (d) => @on_hover(d))
-        .on('mouseout', (d) => @off_hover(d))
+        .on('mouseover', (d) => 
+          @on_hover(d)
+          @show_tooltip(d)
+        )
+        .on('mouseout', (d) => 
+          @off_hover(d)
+          @hide_tooltip(d)
+        )
+        .on('mousemove', (d) => @move_tooltip(d))
         .attr('class', (d) -> d.city.split(' ').join('_'))
         
       city_legend = @legend.selectAll("div.city-legend")
@@ -81,6 +104,10 @@ define ['backbone', 'd3'], (Backbone, d3) ->
       divs.append('div')
         .attr('class', 'clearfix')
 
+    create_tooltip: ->
+      @tooltip = d3.select("body")
+        .append("div")
+        .attr('class', 'tool-tip')
 
     create_legend: ->
       @legend = d3.selectAll('#js-new-zealand-legend')
