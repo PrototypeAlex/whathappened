@@ -20,4 +20,3 @@ define ['backbone', 'views/visualisations/clouds', 'views/visualisations/ufo_sig
     render_meteor_shower: ->
       meteor_shower_view = new MeteorShowerView()
       meteor_shower_view.render()
-

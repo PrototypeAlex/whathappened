@@ -5,8 +5,7 @@ define ['backbone', 'text!../../../templates/clouds.html', "views/visualisations
 
     render: ->
 
-      this.$el.show('slow')
-      this.$el.html( _.template(CloudTemplate) )
+      $('#js-visualisation-container').html( _.template(CloudTemplate) )
 
       @new_zealand = new NewZealandView()
       @new_zealand.render()

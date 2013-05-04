@@ -4,8 +4,7 @@ define ['backbone', 'text!../../../templates/ufo.html', 'd3', "views/visualisati
     ufo_data: null
 
     render: ->
-      this.$el.show('slow')
-      this.$el.html( _.template(ufoTemplate) )
+      $('#js-visualisation-container').html( _.template(ufoTemplate) )
 
       @new_zealand = new newZealandView()
       @new_zealand.render()

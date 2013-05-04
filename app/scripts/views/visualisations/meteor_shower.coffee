@@ -12,8 +12,7 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
     path: null
 
     render: ->
-      this.$el.show('slow')
-      this.$el.html( _.template(MeteorShowerTemplate) )
+      $('#js-visualisation-container').html( _.template(MeteorShowerTemplate) )
       #@get_meteor_data()
       @render_geo_chart()
       @

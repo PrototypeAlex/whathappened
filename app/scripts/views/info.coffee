@@ -1,46 +1,45 @@
-define ['backbone', 'views/visualisations/clouds', 'views/visualisations/ufo_sightings', 'views/visualisations/rain_fall'], (Backbone, CloudsView, UfoView, RainView) ->
+define ['backbone', 'views/visualisations/base'], (Backbone, VisualisationView) ->
     InfoView = Backbone.View.extend
 
-        events:
-            'click .close': 'close'
-            'click .bg': 'close'
+        vizualisation_view: null
+        el: $('#info')
 
-        id: "info"
-
-        initialize: (@options) ->
+        initialize: ->
             _.bindAll @
             @$el = $(@el)
-            @render()
+            @vizualisation_view = new VisualisationView()
             console.log @
             return
 
-        template: _.template """
-            <div class="bg"></div>
-            <div class="document">
-                <a href="#" class="close"><div class="circular-glare"></div></a>
-                <div class="corner"></div>
-                <div class="content"></div>
-            </div>
-            """
+        render: (viz_id) ->
+            $('#info').removeClass('hidden')
 
-        render: ->
-            @$el.html @template @
-
-            switch @options.viz_id
-                when "clouds" then view = CloudsView
-                when "spaceship" then view = UfoView
-                when "rain_fall" then view = RainView
-
-            if view?
-                v = new view
-                    el: @$('.content')
-                v.render()
+            switch viz_id
+                when "clouds"       then @renderSunshineHours()
+                when "spaceship"    then @renderUfoSightings()
+                when "rain_fall"    then @renderRainFall()
 
 
+        renderUfoSightings: ->
+            @vizualisation_view.render_ufo_sightings()
+
+        renderSunshineHours: ->
+            @vizualisation_view.render_sunshine_hours()
+
+        renderWetDays: ->
+            @vizualisation_view.render_wet_days()
+
+        renderRainFall: ->
+            console.log 'info.coffee'
+            @vizualisation_view.render_rain_fall()
+
+        renderMeteorShower: ->
+            @vizualisation_view.render_meteor_shower()
 
 
         close: (e) ->
             e.preventDefault()
+            console.log 'gello'
             @remove()
             return
 

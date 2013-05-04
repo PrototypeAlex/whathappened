@@ -2,8 +2,7 @@ define ['backbone', 'text!../../../templates/rain_fall.html', "views/visualisati
   RailFallView = Backbone.View.extend
 
     render: ->
-      this.$el.show('slow')
-      this.$el.html( _.template(RailFallTemplate) )
+      $('#js-visualisation-container').html( _.template(RailFallTemplate) )
 
       @new_zealand = new NewZealandView()
       @new_zealand.render()

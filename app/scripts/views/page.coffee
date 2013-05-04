@@ -6,8 +6,10 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
     events:
       'click .data-marker': 'openData'
       'click .close': 'closeData'
+      'click .bg': 'closeData'
 
-    className: 'page'
+    info_view: null
+    debug: true
 
     initialize: ->
       _.bindAll @
@@ -27,14 +29,16 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
       <div class="words">
         <%= content %>
       </div>
-      <div id="left">
-        <div id="js-visualisation-container" class="hidden">
-          <a href="#" class="close">&times;</a>
-          <div class="content"><p>vis content...</p></div>
-        </div>
-      </div>
       <a href="<%= previous_page_url %>" class="pagination arrow left"><span class="icon-left-open"></span></a>
       <a href="<%= next_page_url %>" class="pagination arrow right"><span class="icon-right-open"></span></a>
+      <div id="info" class="hidden">
+        <div class="bg"></div>
+        <div class="document">
+            <a href="#" class="close"><div class="circular-glare"></div></a>
+            <div class="corner"></div>
+            <div class="content" id="js-visualisation-container"></div>
+        </div>
+      </div>
     """
 
     render: ->
@@ -52,6 +56,8 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
       @$img.addClass 'loading'
       @$('.frame').append @img
 
+      @info_view = new InfoView()
+
       # add markers
 
       _.each @model.get('data_points'), (point) =>
@@ -63,28 +69,15 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
     openData: (e) ->
       $marker = $(e.target)
       id = $marker.attr('data-id')
-      console.log id
-      e.preventDefault()
-      iv = new InfoView
-        story: @story
-        viz_id: id
-      $('body').append iv.el
-      return
-      @$('#story').addClass 'hidden'
-      @$('#js-visualisation-container').removeClass 'hidden'
-      $marker.addClass 'open'
+      @info_view.render(id)
 
-      _.each @$('.data-marker'), (el, index) =>
-        $el = $(el)
-        if !$el.hasClass("open")
-          $el.addClass 'not-me-open'
-        return
       return
 
     closeData: (e) ->
       e.preventDefault()
+      $('#info').addClass('hidden')
       @$('#story').removeClass 'hidden'
-      @$('#js-visualisation-container').addClass 'hidden'
+
       _.each @$('.data-marker'), (el) =>
         $el = $(el)
         $el.removeClass 'open'
