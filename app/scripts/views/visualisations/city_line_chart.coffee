@@ -18,6 +18,18 @@ define ['backbone', 'd3'], (Backbone, d3) ->
       @create_chart()
       @create_legend()
 
+    on_hover: (d) ->
+      d3.selectAll("path.#{d.city.split(' ').join('_')}")
+        .classed("hovering", true)
+      d3.selectAll("circle.#{d.city.split(' ').join('_')}")
+        .attr("r", 4)
+
+    off_hover: (d) ->
+      d3.selectAll("path.#{d.city.split(' ').join('_')}")
+        .classed("hovering", false)
+      d3.selectAll("circle.#{d.city.split(' ').join('_')}")
+        .attr("r", 2)
+
     re_render_data: (region) ->
       cities = _.filter(@data, (d) => d.region == region)
 
@@ -31,12 +43,24 @@ define ['backbone', 'd3'], (Backbone, d3) ->
         .attr("class", "city")
 
       city.append("path")
-        .attr("class", "line")
         .attr("d", (d) => @line(d.values))
         .style("stroke", (d) => @color(d.city))
         .attr("fill", "none")
         .attr("class", (d) -> d.city.split(' ').join('_'))
 
+      circles = city.selectAll("circle")
+        .data((d) -> _.map(d.values, (val) => {value: val, city: d.city} ))
+
+      circles.enter()
+        .append("circle")
+        .attr("r", 2)
+        .attr("cx", (d, i) => @x(i))
+        .attr("cy", (d) => @y(d.value))
+        .attr("fill", (d) => @color(d.city))
+        .on('mouseover', (d) => @on_hover(d))
+        .on('mouseout', (d) => @off_hover(d))
+        .attr('class', (d) -> d.city.split(' ').join('_'))
+        
       city_legend = @legend.selectAll("div.city-legend")
         .data(cities, (d) -> d.city )
 
@@ -48,14 +72,8 @@ define ['backbone', 'd3'], (Backbone, d3) ->
         .enter()
         .append("div")
         .attr('class', 'city-legend')
-        .on('mouseover', (d) ->
-          d3.selectAll("path.#{d.city.split(' ').join('_')}")
-            .classed("hovering", true)
-        )
-        .on('mouseout', (d) ->
-          d3.selectAll("path.#{d.city.split(' ').join('_')}")
-            .classed("hovering", false)
-        )
+        .on('mouseover', (d) => @on_hover(d))
+        .on('mouseout', (d) => @off_hover(d))
      
       divs.append('div')
         .attr('style', (d) => "background-color: #{@color(d.city)}")
@@ -90,7 +108,7 @@ define ['backbone', 'd3'], (Backbone, d3) ->
         .orient("left")
 
       @line = d3.svg.line()
-        .interpolate("basis")
+        .interpolate("cardinal")
         .x((d, i) -> @x(i))
         .y((d) -> @y(d))
 
