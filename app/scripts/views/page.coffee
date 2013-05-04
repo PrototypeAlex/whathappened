@@ -68,6 +68,8 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
 
     openData: (e) ->
       $marker = $(e.target)
+      if !$marker.hasClass 'data-marker'
+        $marker = $marker.parents('.data-marker')
       id = $marker.attr('data-id')
       @info_view.render(id)
 
