@@ -3,7 +3,6 @@
   define(['backbone', 'text!../../../templates/clouds.html', "views/visualisations/new_zealand", "views/visualisations/city_line_chart"], function(Backbone, CloudTemplate, NewZealandView, CityLineChartView) {
     var CloudView;
     CloudView = Backbone.View.extend({
-      el: $('#js-visualisation-container'),
       render: function() {
         var region, _fn,
           _this = this;
