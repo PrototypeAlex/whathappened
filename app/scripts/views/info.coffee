@@ -5,7 +5,7 @@ define ['backbone', 'views/visualisations/base', 'views/infographic'], (Backbone
         current_visualisation: null
 
         initialize: ->
-            @vizualisation_view = new VisualisationView()
+            @vizualisation_view = new VisualisationView({parentView: @})
 
         render: (viz_id) ->
             $('#info').removeClass('hidden')

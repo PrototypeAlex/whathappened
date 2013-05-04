@@ -56,7 +56,7 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
       @$img.addClass 'loading'
       @$('.frame').append @img
 
-      @info_view = new InfoView()
+      @info_view = new InfoView({parentView: @})
 
       # add markers
 
