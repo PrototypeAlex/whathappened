@@ -152,6 +152,73 @@
 		color: #6f785b;
 		font-family: $slab;
 	}
+	&.place{
+		position: relative;
+		.what,
+		.extra{
+			margin-left: 30px;
+		}
+		.gold-star{
+			position: absolute;
+			width: 50px;
+			height: 50px;
+			left: -25px;
+			top: -15px;
+			border-radius: 25px;
+			background-color: #ffd926;
+			text-align: center;
+			font: 600 30px/50px $script;
+			z-index: 10;
+			.glare{
+				position: absolute;
+				width: 24px;
+				height: 24px;
+				border-radius: 12px;
+				background-color: rgba(255, 255, 255, .4);
+				right: 6px;
+				top: 6px;
+			}
+		}
+		.sign{
+			height: 46px;
+			background-color: #3c6ce6;
+			display: inline-block;
+			padding-left: 40px;
+			padding-right: 36px;
+			overflow: hidden;
+			position: relative;
+			-webkit-border-top-right-radius: 23px;
+			-webkit-border-bottom-right-radius: 23px;
+			-moz-border-radius-topright: 23px;
+			-moz-border-radius-bottomright: 23px;
+			border-top-right-radius: 23px;
+			border-bottom-right-radius: 23px;
+			margin-bottom: 10px;
+			font: 300 30px/42px $slab;
+			color: #FFF;
+			.glare{
+				position: absolute;
+				left: 0px;
+				top: 0px;
+				right: 0px;
+				bottom: 50%;
+				background-color: rgba(255, 255, 255, .2);
+			}
+		}
+		.pole{
+			position: absolute;
+			left: 0px;
+			width: 15px;
+			bottom: 5px;
+			top: 46px;
+			background-color: #664c37;
+			.shadow{
+				position: relative;
+				background-color: rgba(0, 0, 0, .2);
+				height: 10px;
+			}
+		}
+	}
 	&:last-child{
 
 	}

@@ -18,8 +18,8 @@
       fill : #72c366;
 
       &.hovering{
-        fill: $green;
-        stroke: $green;
+        fill: $black;
+        stroke: $black;
         cursor: pointer;
       }
       
@@ -93,6 +93,31 @@
       stroke: #AAA;
       stroke-width: 1px;
     }
+  }
+}
+
+table{
+  font-size: 13px;
+  width: 100%;
+  tr{
+    border-bottom: 1px solid #EEE;
+  }
+  thead{
+
+  }
+  td,
+  th{
+    text-align: left !important;
+    vertical-align: top;
+    padding: 5px;
+    border-right: 1px solid #EEE;
+    &:last-child{
+      border-right: 0px;
+    }
+  }
+  th{
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 }
   
