@@ -1,44 +1,59 @@
 (function() {
 
-  define(['backbone', 'views/visualisations/clouds', 'views/visualisations/ufo_sightings', 'views/visualisations/rain_fall'], function(Backbone, CloudsView, UfoView, RainView) {
+  define(['backbone', 'views/visualisations/base', 'views/infographic'], function(Backbone, VisualisationView, InfographicView) {
     var InfoView;
     InfoView = Backbone.View.extend({
-      events: {
-        'click .close': 'close',
-        'click .bg': 'close'
+      vizualisation_view: null,
+      current_visualisation: null,
+      initialize: function() {
+        return this.vizualisation_view = new VisualisationView({
+          parentView: this
+        });
       },
-      id: "info",
-      initialize: function(options) {
-        this.options = options;
-        _.bindAll(this);
-        this.$el = $(this.el);
-        this.render();
-        console.log(this);
-      },
-      template: _.template("<div class=\"bg\"></div>\n<div class=\"document\">\n    <a href=\"#\" class=\"close\"><div class=\"circular-glare\"></div></a>\n    <div class=\"corner\"></div>\n    <div class=\"content\"></div>\n</div>"),
-      render: function() {
-        var v, view;
-        this.$el.html(this.template(this));
-        switch (this.options.viz_id) {
+      render: function(viz_id) {
+        $('#info').removeClass('hidden');
+        console.log(viz_id);
+        switch (viz_id) {
           case "clouds":
-            view = CloudsView;
+            this.renderSunshineHours();
             break;
           case "spaceship":
-            view = UfoView;
+            this.renderUfoSightings();
             break;
           case "rain_fall":
-            view = RainView;
+            this.renderRainFall();
+            break;
+          case "meteor_shower":
+            this.renderMeteorShower();
+            break;
+          case "wet_days":
+            this.renderWetDays();
         }
-        if (view != null) {
-          v = new view({
-            el: this.$('.content')
+        return _.each($('#info .infographic'), function(el) {
+          var v;
+          return v = new InfographicView({
+            el: el
           });
-          return v.render();
-        }
+        });
+      },
+      renderUfoSightings: function() {
+        return this.current_visualisation = this.vizualisation_view.render_ufo_sightings();
+      },
+      renderSunshineHours: function() {
+        return this.current_visualisation = this.vizualisation_view.render_sunshine_hours();
+      },
+      renderWetDays: function() {
+        return this.current_visualisation = this.vizualisation_view.render_wet_days();
+      },
+      renderRainFall: function() {
+        return this.current_visualisation = this.vizualisation_view.render_rain_fall();
+      },
+      renderMeteorShower: function() {
+        return this.current_visualisation = this.vizualisation_view.render_meteor_shower();
       },
       close: function(e) {
-        e.preventDefault();
-        this.remove();
+        this.vizualisation_view.remove();
+        $('#info').addClass('hidden');
       }
     });
     return InfoView;
