@@ -133,12 +133,19 @@
 		position: relative;
 		top: 13px;
 		left: 13px;
+		path.non-chance{
+			fill: #d4d6cd;
+		}
+		path.chance{
+			fill: #6f785b;
+		}
 	}
 	.icon{
 		display: inline-block;
 		font-size: 30px;
 		position: relative;
 		top: 6px;
+		color: #6f785b;
 		left: 6px;
 	}
 	.what{
