@@ -3,23 +3,28 @@
     margin: 20px;
     color: $black;
   }
+  .nz-map{
+    background-color: #d7e8ee;
+    width: 320px;
+    padding: 10px;
+    border-radius: 10px;
+  }
   #js-new-zealand-svg{
-    width: 300px;
+    width: 340px;
     height: 350px;
-    float: left;
-
     g path{
-      stroke-width: 1px;
-      fill : #455643;
+      stroke-width: 2px;
+      stroke: #d7e8ee;
+      fill : #72c366;
 
       &.hovering{
-        fill: #ffd926;
-        stroke: #ffd926;
+        fill: $green;
+        stroke: $green;
         cursor: pointer;
       }
       
       &.selected{
-        fill: #6A8525;
+        fill: #777;
       }
     }
     g line{
@@ -27,6 +32,11 @@
       stroke: black;
       fill: none;
     }
+  }
+  #js-new-zealand-legend{
+    width: 374px;
+    height: 350px;
+    float: right;
   }
   #js-ufo-sightings{
     table tbody td a{
@@ -58,6 +68,30 @@
       fill: none;
       stroke: #fff;
       stroke-width: .5px;
+    }
+  }
+  #js-city-line-chart{
+    text{
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    g.tick{
+      line{
+        stroke: #000;
+        fill: #000;
+        stroke-width: 1px;
+      }
+    }
+    text.vertical-hint{
+      z-index: 100;
+      background-color: #FFF;
+      color: #FF3300;
+    }
+    path.domain{
+      fill: none;
+      stroke: #AAA;
+      stroke-width: 1px;
     }
   }
 }

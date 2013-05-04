@@ -1,7 +1,15 @@
 define ['backbone', 'd3'], (Backbone, d3) ->
   CityLineChartView = Backbone.View.extend
 
-    months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    data: null
+    chart: null
+    line: null
+    color: null
+    x: null
+    y: null
+    y_axis_title: null
+    y_range: null
 
     render: (data, title, y_range) ->
       @data = data
@@ -85,6 +93,7 @@ define ['backbone', 'd3'], (Backbone, d3) ->
           .attr("transform", "rotate(-90)")
           .attr("y", 6)
           .attr("dy", ".71em")
+          .attr("class", "vertical-hint")
           .style("text-anchor", "end")
           .text(@y_axis_title)
 
