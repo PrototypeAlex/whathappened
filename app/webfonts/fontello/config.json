@@ -5,6 +5,128 @@
   "glyphs": [
     {
       "search": [
+        "sun",
+        "weather"
+      ],
+      "code": 66,
+      "uid": "95fb2e5fdd1ea7e4a420b6ed330e6b08",
+      "css": "sun",
+      "orig_css": "sun",
+      "orig_code": 66,
+      "src": "meteocons",
+      "from": 66
+    },
+    {
+      "search": [
+        "cloud",
+        "sun",
+        "weather"
+      ],
+      "code": 72,
+      "uid": "9cd3e294ca3ad3dda66bc5a804021c46",
+      "css": "cloud-sun",
+      "orig_css": "cloud-sun",
+      "orig_code": 72,
+      "src": "meteocons",
+      "from": 72
+    },
+    {
+      "search": [
+        "fog",
+        "sun",
+        "weather"
+      ],
+      "code": 74,
+      "uid": "957fd72e52a0e9eb585a0361114c4c83",
+      "css": "fog-sun",
+      "orig_css": "fog-sun",
+      "orig_code": 74,
+      "src": "meteocons",
+      "from": 74
+    },
+    {
+      "search": [
+        "fog",
+        "moon",
+        "weather"
+      ],
+      "code": 75,
+      "uid": "dbf0f9c3d15e5e8046bb5f5fb5898b49",
+      "css": "fog-moon",
+      "orig_css": "fog-moon",
+      "orig_code": 75,
+      "src": "meteocons",
+      "from": 75
+    },
+    {
+      "search": [
+        "cloud",
+        "weather"
+      ],
+      "code": 78,
+      "uid": "17463471d0f132cee16835507ea51ecf",
+      "css": "cloud",
+      "orig_css": "cloud",
+      "orig_code": 78,
+      "src": "meteocons",
+      "from": 78
+    },
+    {
+      "search": [
+        "rain",
+        "drizzle",
+        "weather"
+      ],
+      "code": 82,
+      "uid": "d577552bb94bdeb53e6517873481aeea",
+      "css": "rain",
+      "orig_css": "rain",
+      "orig_code": 82,
+      "src": "meteocons",
+      "from": 82
+    },
+    {
+      "search": [
+        "windy",
+        "weather"
+      ],
+      "code": 83,
+      "uid": "5fad7d41511701337ddd5ad9896edc4b",
+      "css": "windy",
+      "orig_css": "windy",
+      "orig_code": 83,
+      "src": "meteocons",
+      "from": 83
+    },
+    {
+      "search": [
+        "windy",
+        "rain",
+        "weather"
+      ],
+      "code": 84,
+      "uid": "86351391d6cbc7a85730414294139661",
+      "css": "windy-rain",
+      "orig_css": "windy-rain",
+      "orig_code": 84,
+      "src": "meteocons",
+      "from": 84
+    },
+    {
+      "search": [
+        "hail",
+        "weather"
+      ],
+      "code": 88,
+      "uid": "b500010a53f4807828ac252725dc6fd1",
+      "css": "hail",
+      "orig_css": "hail",
+      "orig_code": 88,
+      "src": "meteocons",
+      "from": 88
+    },
+    {
+      "search": [
         "arrow",
         "left"
       ],
@@ -136,6 +258,96 @@
       "orig_css": "arrows-cw",
       "orig_code": 59232,
       "src": "fontawesome"
+    },
+    {
+      "search": [
+        "emoticon",
+        "smiley",
+        "happy"
+      ],
+      "code": 59394,
+      "meta": {
+        "email": "berbentseva_angela@yahoo.com",
+        "author": "Angela Berbentseva, specially for fontello"
+      },
+      "uid": "c64623255a4a7c72436b199b05296c4f",
+      "css": "emo-happy",
+      "orig_css": "emo-happy",
+      "orig_code": 59394,
+      "src": "fontelico",
+      "from": 59392
+    },
+    {
+      "search": [
+        "emoticon",
+        "smiley",
+        "wink"
+      ],
+      "code": 59395,
+      "meta": {
+        "email": "berbentseva_angela@yahoo.com",
+        "author": "Angela Berbentseva, specially for fontello"
+      },
+      "uid": "1ba44825e5f10920b4e3f1d0c73f79a2",
+      "css": "emo-wink",
+      "orig_css": "emo-wink",
+      "orig_code": 59395,
+      "src": "fontelico",
+      "from": 59393
+    },
+    {
+      "search": [
+        "emoticon",
+        "smiley",
+        "unhappy"
+      ],
+      "code": 59396,
+      "meta": {
+        "email": "berbentseva_angela@yahoo.com",
+        "author": "Angela Berbentseva, specially for fontello"
+      },
+      "uid": "53ed8570225581269cd7eff5795e8bea",
+      "css": "emo-unhappy",
+      "orig_css": "emo-unhappy",
+      "orig_code": 59396,
+      "src": "fontelico",
+      "from": 59394
+    },
+    {
+      "search": [
+        "emoticon",
+        "smiley",
+        "sunglasses"
+      ],
+      "code": 59401,
+      "meta": {
+        "email": "berbentseva_angela@yahoo.com",
+        "author": "Angela Berbentseva, specially for fontello"
+      },
+      "uid": "078fec38562c3f83a1201a908040c141",
+      "css": "emo-sunglasses",
+      "orig_css": "emo-sunglasses",
+      "orig_code": 59401,
+      "src": "fontelico",
+      "from": 59401
+    },
+    {
+      "search": [
+        "emoticon",
+        "smiley",
+        "laugh"
+      ],
+      "code": 59410,
+      "meta": {
+        "email": "berbentseva_angela@yahoo.com",
+        "author": "Angela Berbentseva, specially for fontello"
+      },
+      "uid": "2bd5f98482d86649958312ea2ab5bb40",
+      "css": "emo-laugh",
+      "orig_css": "emo-laugh",
+      "orig_code": 59410,
+      "src": "fontelico",
+      "from": 59410
     },
     {
       "search": [

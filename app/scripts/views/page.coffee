@@ -16,6 +16,7 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
       @$el = $(@el)
 
     template: _.template """
+      <h1 class="what-happened-title">what happened?</h1>
       <div class="picture">
         <div class="frame">
           <div class="preloader">
