@@ -2,20 +2,13 @@ define ['backbone', 'd3'], (Backbone, d3) ->
   CityLineChartView = Backbone.View.extend
 
     months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-    data: null
-    chart: null
-    line: null
-    color: null
-    x: null
-    y: null
-    y_axis_title: null
-    y_range: null
 
     render: (data, title, y_range) ->
       @data = data
       @y_axis_title = title
       @y_range = y_range
       @create_chart()
+      @create_legend()
 
     re_render_data: (region) ->
       cities = _.filter(@data, (d) => d.region == region)
@@ -43,8 +36,15 @@ define ['backbone', 'd3'], (Backbone, d3) ->
         .attr("dy", ".35em")
         .text((d) -> d.city)
 
+      city_legend = @legend.selectAll("div.cities")
+        .data(cities, (d) -> d.city )
+
+    create_legend: ->
+      margin = {top: 10, right: 10, bottom: 10, left: 10}
+      @legend = d3.select('#js-new-zealand-svg')
+
     create_chart: ->
-      margin = {top: 20, right: 80, bottom: 30, left: 50}
+      margin = {top: 20, right: 20, bottom: 30, left: 50}
       width = 728 - margin.left - margin.right
       height = 400 - margin.top - margin.bottom
       @color = d3.scale.category10()
