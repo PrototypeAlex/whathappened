@@ -58,9 +58,7 @@ function d3_lab_rgb(l, a, b) {
 }
 
 function d3_lab_hcl(l, a, b) {
-  return l > 0
-      ? d3_hcl(Math.atan2(b, a) * d3_degrees, Math.sqrt(a * a + b * b), l)
-      : d3_hcl(NaN, NaN, l);
+  return d3_hcl(Math.atan2(b, a) * d3_degrees, Math.sqrt(a * a + b * b), l);
 }
 
 function d3_lab_xyz(x) {

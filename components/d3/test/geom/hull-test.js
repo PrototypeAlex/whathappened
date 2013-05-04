@@ -1,5 +1,4 @@
 var vows = require("vows"),
-    _ = require("../../"),
     load = require("../load"),
     assert = require("../assert");
 
@@ -27,14 +26,11 @@ suite.addBatch({
       "of two points is empty": function(h) {
         assert.deepEqual(h([[200, 200], [760, 300]]), []);
       },
-      "for three points": function(h) {
-        assert.deepEqual(h([[200, 200], [760, 300], [500, 500]]), [[500, 500], [760, 300], [200, 200]]);
+      "for three points is empty": function(h) {
+        assert.deepEqual(h([[200, 200], [760, 300], [500, 500]]), [[200, 200], [760, 300], [500, 500]]);
       },
       "for four points": function(h) {
-        assert.deepEqual(h([[200, 200], [760, 300], [500, 500], [400, 400]]), [[500, 500], [760, 300], [200, 200]]);
-      },
-      "returns a counter-clockwise polygon": function(h) {
-        assert.greater(_.geom.polygon(h([[200, 200], [760, 300], [500, 500], [400, 400]])).area(), 0);
+        assert.deepEqual(h([[200, 200], [760, 300], [500, 500], [400, 400]]), [[200, 200], [760, 300], [500, 500]]);
       }
     },
     "the hull layout with custom accessors": {
@@ -42,7 +38,7 @@ suite.addBatch({
         return hull().x(function(d) { return d.x; }).y(function(d) { return d.y; });
       },
       "of four points": function(h) {
-        assert.deepEqual(h([{x: 200, y: 200}, {x: 760, y: 300}, {x: 500, y: 500}, {x: 400, y: 400}]), [{x: 500, y: 500}, {x: 760, y: 300}, {x: 200, y: 200}]);
+        assert.deepEqual(h([{x: 200, y: 200}, {x: 760, y: 300}, {x: 500, y: 500}, {x: 400, y: 400}]), [{x: 200, y: 200}, {x: 760, y: 300}, {x: 500, y: 500}]);
       }
     },
     "the default hull layout applied directly": {
@@ -56,10 +52,10 @@ suite.addBatch({
         return h([[200, 200], [760, 300]]);
       },
       "for three points": function(h) {
-        assert.deepEqual(h([[200, 200], [760, 300], [500, 500]]), [[500, 500], [760, 300], [200, 200]]);
+        assert.deepEqual(h([[200, 200], [760, 300], [500, 500]]), [[200, 200], [760, 300], [500, 500]]);
       },
       "for four points": function(h) {
-        assert.deepEqual(h([[200, 200], [760, 300], [500, 500], [400, 400]]), [[500, 500], [760, 300], [200, 200]]);
+        assert.deepEqual(h([[200, 200], [760, 300], [500, 500], [400, 400]]), [[200, 200], [760, 300], [500, 500]]);
       }
     }
   }
