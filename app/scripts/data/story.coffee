@@ -52,7 +52,7 @@ define ['backbone'], (Backbone) ->
 		},{
 			content: """
 				<p><span class="spoken"><span class="quote-mark left">&#8220;</span>Mamma, what happened to the sunshine?<span class="quote-mark right">&#8221;</span></span><br />
-				Olive’s Mother took a good look and sad,<br />
+				Olive’s Mother took a good look and spaceshipd,<br />
 				<span class="spoken"><span class="quote-mark left">&#8220;</span>Maybe a cloud <span class="data-marker" data-id="clouds">moved over the sun</span>, see all those clouds up there?<span class="quote-mark right">&#8221;</span></span><br />
 				<span class="spoken"><span class="quote-mark left">&#8220;</span>Or maybe a <span class="data-marker" data-id="spaceship">spaceship flew past</span>?<span class="quote-mark right">&#8221;</span></span> said Olive<br />
 				<span class="spoken><span class="quote-mark left">&#8220;</span>That could be<span class="quote-mark right">&#8221;</span></span>, said Olive’s Mother, <span class="spoken"><span class="quote-mark left">&#8220;</span>there is always more than one answer<span class="quote-mark right">&#8221;</span></span></p>
@@ -75,7 +75,7 @@ define ['backbone'], (Backbone) ->
 				Olive’s Mother took a good look and said,<br />
 				<span class="spoken"><span class="quote-mark left">&#8220;</span>Maybe some <span class="data-marker" data-id="rain_fall">water dripped down</span> on it, see how the leaves are all wet?<span class="quote-mark right">&#8221;</span></span><br />
 				<span class="spoken"><span class="quote-mark left">&#8220;</span>Or maybe it’s the juice from a <span class="data-marker" data-id="fruit_bat">fruit bat</span>’s breakfast?<span class="quote-mark right">&#8221;</span></span> said Olive<br />
-				<span class="spoken><span class="quote-mark left">&#8220;</span>That could be<span class="quote-mark right">&#8221;</span></span>, said Olive’s Mother, <span class="spoken"><span class="quote-mark left">&#8220;</span>there is always more than one answer<span class="quote-mark right">&#8221;</span></span></p>
+				<span class="spoken"><span class="quote-mark left">&#8220;</span>That could be<span class="quote-mark right">&#8221;</span></span>, said Olive’s Mother, <span class="spoken"><span class="quote-mark left">&#8220;</span>there is always more than one answer<span class="quote-mark right">&#8221;</span></span></p>
 				"""	
 			images: [{
 				"src": "/images/pages/spread-5.jpg"

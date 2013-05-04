@@ -1,0 +1,19 @@
+.words{
+	font: 400 23px/33px $sans;
+	letter-spacing: 0.03em;
+	color: rgba(255, 255, 255, .5);
+	p{
+		margin-right: 40px;
+		max-width: 500px;
+	}
+	.spoken{
+		font-family: $slab;
+		color: #FFF;
+		position: relative;
+	}
+	.data-marker{
+		cursor: pointer;
+		display: inline-block;
+		border-bottom: 2px dotted rgba(255,255,255,.3);
+	}
+}
