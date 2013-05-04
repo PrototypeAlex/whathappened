@@ -3,23 +3,28 @@
     margin: 20px;
     color: $black;
   }
+  .nz-map{
+    background-color: #d7e8ee;
+    width: 320px;
+    padding: 10px;
+    border-radius: 10px;
+  }
   #js-new-zealand-svg{
-    width: 300px;
+    width: 340px;
     height: 350px;
-    float: left;
-
     g path{
-      stroke-width: 1px;
-      fill : #455643;
+      stroke-width: 2px;
+      stroke: #d7e8ee;
+      fill : #72c366;
 
       &.hovering{
-        fill: #ffd926;
-        stroke: #ffd926;
+        fill: $green;
+        stroke: $green;
         cursor: pointer;
       }
       
       &.selected{
-        fill: #6A8525;
+        fill: #777;
       }
     }
     g line{
