@@ -78,7 +78,7 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
 
     closeData: (e) ->
       e.preventDefault()
-      $('#info').addClass('hidden')
+      @info_view.close()
       @$('#story').removeClass 'hidden'
 
       _.each @$('.data-marker'), (el) =>

@@ -33,8 +33,8 @@ define ['backbone'], (Backbone) ->
 			content: """
 				<p><span class="spoken"><span class="quote-mark left">&#8220;</span>Mamma, what happened to the ground?<span class="quote-mark right">&#8221;</span></span><br />
 				Olive’s Mother took a good look and said,<br />
-				<span class="spoken"><span class="quote-mark left">&#8220;</span>Maybe a rock was <span class="data-marker">washed away</span>, see that rock nearby?<span class="quote-mark right">&#8221;</span></span><br />
-				<span class="spoken"><span class="quote-mark left">&#8220;</span>Or maybe a <span class="data-marker">star fell</span> from the sky?<span class="quote-mark right">&#8221;</span></span> said Olive<br />
+				<span class="spoken"><span class="quote-mark left">&#8220;</span>Maybe a rock was <span class="data-marker" data-id="rain_fall">washed away</span>, see that rock nearby?<span class="quote-mark right">&#8221;</span></span><br />
+				<span class="spoken"><span class="quote-mark left">&#8220;</span>Or maybe a <span class="data-marker" data-id="meteor_shower">star fell</span> from the sky?<span class="quote-mark right">&#8221;</span></span> said Olive<br />
 				<span class="spoken"><span class="quote-mark left">&#8220;</span>That could be<span class="quote-mark right">&#8221;</span></span> said Olive’s Mother, <span class="spoken"><span class="quote-mark left">&#8220;</span>there is always more than one answer<span class="quote-mark right">&#8221;</span></span></p>
 				"""
 			images: [{
@@ -81,11 +81,11 @@ define ['backbone'], (Backbone) ->
 				"src": "/images/pages/spread-5.jpg"
 			}]
 			data_points: [{
-				id: "rain_fall"
+				id: "fruit_bat"
 				top: "10%"
 				left: "10%"
 				},{
-					id: "fruit_bat"
+					id: "rain_fall"
 					top: "79%"
 					left: "41%"
 				}]

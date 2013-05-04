@@ -4,16 +4,18 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
     events:
       'change #js-range-slider' : 'change_range_slider'
 
-    el: $('#js-visualisation-container')
-
+    el: '#js-visualisation-container'
+    template: _.template(MeteorShowerTemplate)
     data_grouped_yearly: null
     meteorites: null
     svg: null
     path: null
 
+    initialize: (options) ->
+      @parentView = options.parentView
+
     render: ->
-      $('#js-visualisation-container').html( _.template(MeteorShowerTemplate) )
-      #@get_meteor_data()
+      @$el.html( @template )
       @render_geo_chart()
       @
 
@@ -50,32 +52,7 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
       @svg.append("path")
         .datum(graticule)
         .attr("class", "graticule")
-        .attr("d", @path)
-
-      #@svg.call(d3.behavior.drag()
-      #  .origin( -> origin )
-      #  .on("drag", =>
-      #    origin.x = d3.event.x
-      #    origin.y = d3.event.y
-      #    projection.rotate([origin.x, -origin.y])
-      #    @svg.selectAll('path').attr("d", @path)
-      #  ))
-
-
-      #@svg.call(
-      #  d3.behavior.zoom()
-      #    .translate(projection.translate())
-      #    .scale(projection.scale())
-      #    .scaleExtent([115, height])
-      #    .on("zoom", => 
-      #      if (d3.event)
-      #        projection
-      #          .translate(d3.event.translate)
-      #          .scale(d3.event.scale)
-      #        @svg.selectAll("path").attr("d", @path)
-      #    )
-      #)        
- 
+        .attr("d", @path) 
 
       d3.json('data/worldcountries.geo.json', (world) => 
         land_feature = @svg.append("path")

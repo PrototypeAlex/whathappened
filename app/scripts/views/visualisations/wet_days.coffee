@@ -1,10 +1,14 @@
 define ['backbone', 'text!../../../templates/wet_days.html', "views/visualisations/new_zealand", "views/visualisations/city_line_chart"], (Backbone, WetDaysTemplate, NewZealandView, CityLineChartView) ->
   WetDaysView = Backbone.View.extend
 
-    el: $('#js-visualisation-container')
+    el: '#js-visualisation-container'
+    template: _.template(WetDaysTemplate)
+
+    initialize: (options) ->
+      @parentView = options.parentView
 
     render: ->
-      $('#js-visualisation-container').html( _.template(WetDaysTemplate) )
+      @$el.html( @template )
 
       @new_zealand = new NewZealandView()
       @new_zealand.render()
