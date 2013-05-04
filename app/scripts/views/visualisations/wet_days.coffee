@@ -4,8 +4,7 @@ define ['backbone', 'text!../../../templates/wet_days.html', "views/visualisatio
     el: $('#js-visualisation-container')
 
     render: ->
-      this.$el.show('slow')
-      this.$el.html( _.template(WetDaysTemplate) )
+      $('#js-visualisation-container').html( _.template(WetDaysTemplate) )
 
       @new_zealand = new NewZealandView()
       @new_zealand.render()

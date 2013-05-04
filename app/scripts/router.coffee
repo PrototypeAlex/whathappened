@@ -6,12 +6,6 @@ define ["backbone", "views/base", "views/home", "views/page", "views/credits", "
       "page/:page": "renderPage"
       "credits": "renderCredits"
 
-      "ufo_sightings": "renderUfoSightings"
-      "sunshine_hours": "renderSunshineHours"
-      "wet_days": "renderWetDays"
-      "rain_fall": "renderRainFall"
-      "meteor_shower": "renderMeteorShower"
-
     initialize: ->
       @initializeBaseView()
       @visualisations = new VisualisationView()
@@ -28,21 +22,6 @@ define ["backbone", "views/base", "views/home", "views/page", "views/credits", "
       $('body').append home_view.el
 
       @previousPage = home_view
-
-    renderUfoSightings: ->
-      @visualisations.render_ufo_sightings()
-
-    renderSunshineHours: ->
-      @visualisations.render_sunshine_hours()
-
-    renderWetDays: ->
-      @visualisations.render_wet_days()
-
-    renderRainFall: ->
-      @visualisations.render_rain_fall()
-
-    renderMeteorShower: ->
-      @visualisations.render_meteor_shower()
 
     renderPage: (page) ->
       @previousPage.remove() if @previousPage?
