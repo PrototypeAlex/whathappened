@@ -6,10 +6,6 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
 
     el: '#js-visualisation-container'
     template: _.template(MeteorShowerTemplate)
-    data_grouped_yearly: null
-    meteorites: null
-    svg: null
-    path: null
 
     initialize: (options) ->
       @parentView = options.parentView
@@ -20,23 +16,21 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
       @
 
     render_geo_chart: ->
-      width = 728
-      height = 350
+      width = 688
+      height = 370
       land_feature = null
       boundry_feature = null
-      origin = {x: 0, y: 0}
 
-      projection = d3.geo.equirectangular()
-        .scale(115)
+      @projection = d3.geo.equirectangular()
+        .scale(110)
         .translate([width / 2, height / 2])
-        .precision(.1)
 
       @svg = d3.select("#js-globe-container").append("svg")
         .attr("width", width)
         .attr("height", height)
 
       @path = d3.geo.path()
-        .projection(projection)
+        .projection(@projection)
 
       @svg.append("defs").append("path")
         .datum({type: "Sphere"})
@@ -49,10 +43,11 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
 
       graticule = d3.geo.graticule()
 
-      @svg.append("path")
-        .datum(graticule)
-        .attr("class", "graticule")
-        .attr("d", @path) 
+      # Graticule lines
+      #@svg.append("path")
+      #  .datum(graticule)
+      #  .attr("class", "graticule")
+      #  .attr("d", @path) 
 
       d3.json('data/worldcountries.geo.json', (world) => 
         land_feature = @svg.append("path")
@@ -67,6 +62,9 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
       )
 
       d3.json('data/meteorites.json', (data) => 
+        masses = _.map(data, (d) -> d.mass)
+        @explosion_scale = d3.scale.linear().domain([d3.min(masses), d3.max(masses)]).range([5, 20])
+
         @data_grouped_yearly = d3.nest()
           .key((d) -> d.year )
           .entries(data)
@@ -74,11 +72,12 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
         @meteorites = @svg.selectAll('path.point')
           .data(@data_grouped_yearly[0].values)
           
-        @meteorites.enter().append("path")
-          .datum((d) -> return {type: "Point", coordinates: [d.long, d.lat], radius: .1})
-          .attr("class", "point")
-          .attr('fill', 'red')
-          .attr("d", @path)
+        @meteorites.enter().append("circle")
+          .attr("cx", (d) => @projection([d.long, d.lat])[0])
+          .attr('cy', (d) => @projection([d.long, d.lat])[1])
+          .attr("r", (d) => "#{@explosion_scale(d.mass)}px")
+
+
       )
 
     change_range_slider: (e) ->
@@ -86,17 +85,17 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
         data = @data_grouped_yearly[$(e.target).val()]
         $('#js-current-year').html(data.key)
         
-        @meteorites = @svg.selectAll('path.point')
-          .data(data.values)
+        @meteorites = @svg.selectAll('circle')
+          .data(data.values, (d) -> (d.lat + d.long))
 
         @meteorites.exit()
-          .transition()
           .remove()
 
-        @meteorites.enter().append("path")
-          .datum((d) -> return {type: "Point", coordinates: [d.long, d.lat], radius: 100})
-          .attr("class", "point")
-          .attr('fill', 'red')
-          .attr("d", @path)
+        @meteorites.enter().append("circle")
+          .attr("cx", (d) => @projection([d.long, d.lat])[0])
+          .attr('cy', (d) => @projection([d.long, d.lat])[1])
+          .attr("r", (d) => "#{@explosion_scale(d.mass)}px")
+
+
 
   MeteorView
