@@ -65,5 +65,29 @@
       stroke-width: .5px;
     }
   }
+  #js-city-line-chart{
+    text{
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    g.tick{
+      line{
+        stroke: #000;
+        fill: #000;
+        stroke-width: 1px;
+      }
+    }
+    text.vertical-hint{
+      z-index: 100;
+      background-color: #FFF;
+      color: #FF3300;
+    }
+    path.domain{
+      fill: none;
+      stroke: #AAA;
+      stroke-width: 1px;
+    }
+  }
 }
   
