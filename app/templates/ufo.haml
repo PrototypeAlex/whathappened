@@ -1,33 +1,64 @@
-.inner-container
-  %h1
-    Unidentified Flying Objects
+%h1
+  UFO's
 
-  %p
-    There were 87 confirmed UFO sightings in New Zealand during 2012, 40% of which were reported in Auckland. As a side, Methamphetamine and Opiates are both purer and cheaper in Auckland compared to Wellington and Christchurch.
+.graphics
+  .infographic
+    .number
+      87
+    .what
+      Sightings
+    .extra
+      In 2012
 
-  %h3
-    Please select a region for additional information:
+  .infographic.place
+    .gold-star
+      \#1
+      .glare
+    .sign
+      Auckland
+      .glare
+    .pole
+      .shadow
+    .what
+      For UFO sightings
+    .extra
+      In 2012, per capita
 
+.clearfix
+
+%h2
+  %span.text
+    UFO Sightings by region
+
+
+.nz-map
   %svg#js-new-zealand-svg
 
-  #js-ufo-sightings
-    %h2.heading
-    %p.description
-    %table.table.hidden
-      %thead
-        %tr
-          %th
-            Time
-          %th
-            Location
-          %th
-            Event
-          %th
-            &nbsp;
-      %tbody
+#js-ufo-sightings
+  %h2.heading
+  %p.description
+  %table.table.hidden
+    %thead
+      %tr
+        %th
+          Time
+        %th
+          Location
+        %th
+          Event
+        %th
+          &nbsp;
+    %tbody
 
+.sources
+  %h4
+    %span.text
+      Sources
   %p
-    http://www.ndp.govt.nz/moh.nsf/pagescm/7515/$File/trends-in-drug-use-in-akld-wgtn-chch.pdf
-    http://www.ufocusnz.org.nz/content/New-Zealand-UFO-Sightings-2012/133.aspx
-    http://www.niwa.co.nz/education-and-training/schools/resources/climate/wetdays
-    http://www.niwa.co.nz/education-and-training/schools/resources/climate/sunshine
+    %a{href : "http://www.ndp.govt.nz/moh.nsf/pagescm/7515/$File/trends-in-drug-use-in-akld-wgtn-chch.pdf"} ndp.govt.nz/moh.nsf/pagescm/7515/$File/trends-in-drug-use-in-akld-wgtn-chch.pdf
+    <br />
+    %a{href : "http://www.ufocusnz.org.nz/content/New-Zealand-UFO-Sightings-2012/133.aspx"} ufocusnz.org.nz/content/New-Zealand-UFO-Sightings-2012/133.aspx
+    <br />
+    %a{href : "http://www.niwa.co.nz/education-and-training/schools/resources/climate/wetdays"} niwa.co.nz/education-and-training/schools/resources/climate/wetdays
+    <br />
+    %a{href : "http://www.niwa.co.nz/education-and-training/schools/resources/climate/sunshine"} niwa.co.nz/education-and-training/schools/resources/climate/sunshine

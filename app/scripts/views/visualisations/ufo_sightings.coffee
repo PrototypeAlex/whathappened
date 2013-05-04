@@ -37,7 +37,7 @@ define ['backbone', 'text!../../../templates/ufo.html', 'd3', "views/visualisati
       if region == 'Eastcape'
         readable_region = 'East Cape'
 
-      $('#js-ufo-sightings h2.heading').html("Region: #{readable_region}")
+      $('#js-ufo-sightings h2.heading').html("<span class=\"text\">Region: #{readable_region}</span>")
 
       if ufo_sightings.length == 0
         $('#js-ufo-sightings table').hide()
