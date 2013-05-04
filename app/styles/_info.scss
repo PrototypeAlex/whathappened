@@ -8,7 +8,7 @@
 	.bg{
 		position: absolute;
 		background-color: $green;
-		opacity: .94;
+		opacity: .91;
 		left: 0px;
 		right: 0px;
 		bottom: 0px;
@@ -29,7 +29,7 @@
 		padding: 10px;
 		left: 50%;
 		margin-left: -384px;
-		margin-top: 10%;
+		margin-top: 5%;
 		.close{
 			display: inline-block;
 			width: 20px;
@@ -148,7 +148,8 @@
 		letter-spacing: 3px;
 	}
 	.extra{
-		font-size: 15px;
+		font-size: 14px;
+		letter-spacing: 1px;
 		color: #6f785b;
 		font-family: $slab;
 	}
@@ -221,5 +222,31 @@
 	}
 	&:last-child{
 
+	}
+}
+
+.sources{
+	margin-top: 40px;
+	opacity: .3;
+	h4{
+		margin: 0px;
+		text-transform: uppercase;
+		letter-spacing: 2px;
+		font: 600 14px/20px $sans;
+		margin-bottom: 5px;
+	}
+	p{
+		margin: 0px;
+		font: 400 13px/20px $slab;
+	}
+	a{
+		color: $green;
+		text-decoration: none;
+		&:hover{
+			text-decoration: underline;
+		}
+	}
+	&:hover{
+		opacity: 1;
 	}
 }
