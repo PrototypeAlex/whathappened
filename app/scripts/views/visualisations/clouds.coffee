@@ -16,7 +16,7 @@ define ['backbone', 'text!../../../templates/clouds.html', "views/visualisations
       @city_line_chart_view = new CityLineChartView()
 
       d3.json('data/sunshine_hours.json', (data) => 
-        @city_line_chart_view.render(data, "Hours of Sunshine per Month", [40,260])
+        @city_line_chart_view.render(data, "Hours of Sunshine", [40,260])
       )
       
       for region of @new_zealand.nz
@@ -24,6 +24,8 @@ define ['backbone', 'text!../../../templates/clouds.html', "views/visualisations
           path
             .on("click", -> 
               view.city_line_chart_view.re_render_data(region)
+              d3.selectAll('path.js-region').classed("selected", false)
+              d3.select(this).classed("selected", true)
             )
         ) @new_zealand.nz[region], region, @
 

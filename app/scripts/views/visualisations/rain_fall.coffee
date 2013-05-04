@@ -16,7 +16,7 @@ define ['backbone', 'text!../../../templates/rain_fall.html', "views/visualisati
       @city_line_chart_view = new CityLineChartView()
 
       d3.json('data/rain_fall.json', (data) => 
-        @city_line_chart_view.render(data, "mm of Rain per Month", [0, 300])
+        @city_line_chart_view.render(data, "mm of Rain", [0, 300])
       )
 
       for region of @new_zealand.nz
@@ -24,6 +24,8 @@ define ['backbone', 'text!../../../templates/rain_fall.html', "views/visualisati
           path
             .on("click", -> 
               view.city_line_chart_view.re_render_data(region)
+              d3.selectAll('path.js-region').classed("selected", false)
+              d3.select(this).classed("selected", true)
             )
         ) @new_zealand.nz[region], region, @
 

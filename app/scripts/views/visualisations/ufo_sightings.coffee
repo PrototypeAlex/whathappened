@@ -23,6 +23,8 @@ define ['backbone', 'text!../../../templates/ufo.html', 'd3', "views/visualisati
           path
             .on("click", -> 
               view.render_ufo_template(region)
+              d3.selectAll('path.js-region').classed("selected", false)
+              d3.select(this).classed("selected", true)
             )
         ) @new_zealand.nz[region], region, @
 
