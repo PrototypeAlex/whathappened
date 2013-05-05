@@ -28,6 +28,9 @@
             break;
           case "wet_days":
             this.renderWetDays();
+            break;
+          case "fruit_bat":
+            this.renderFruitBats();
         }
         return _.each($('#info .infographic'), function(el) {
           var v;
@@ -50,6 +53,9 @@
       },
       renderMeteorShower: function() {
         return this.current_visualisation = this.vizualisation_view.render_meteor_shower();
+      },
+      renderFruitBats: function() {
+        return this.current_visualisation = this.vizualisation_view.render_fruit_bats();
       },
       close: function(e) {
         this.vizualisation_view.remove();
