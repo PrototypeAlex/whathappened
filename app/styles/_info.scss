@@ -14,6 +14,7 @@
 		right: 0px;
 		bottom: 0px;
 		top: 0px;
+		opacity: 0;
 	}
 	.corner{
 		position: absolute;
@@ -24,6 +25,7 @@
 		border-left-color: rgba(0, 0, 0, .2);
 	}
 	.document{
+//		opacity: 0;
 		position: relative;
 		width: 768px;
 		background-color: #FFF;

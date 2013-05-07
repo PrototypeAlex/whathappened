@@ -48,6 +48,7 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
       @$picture = @$('.picture');
       @$frame = @$('.picture .frame');
       $(window).bind 'resize', @onResize
+      $('.pagination').on 'click', @animateOut
       @onResize()
 
       # add image
@@ -65,8 +66,33 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
       _.each @model.get('data_points'), (point) =>
         el = "<div class=\"data-marker\" data-id=\"#{point.id}\" style=\"left: #{point.left}; top: #{point.top};\">+<div class=\"glare\"></div></div>"
         @$frame.append el
-        console.log el
+      
+      @animateIn()
 
+    animateIn: ->
+      elements = [
+        @$('.pagination.left')
+        @$('.picture')
+        @$('.words')
+        @$('.pagination.right')
+      ]
+
+      _.each elements, ($el, index) =>
+        $el.css
+          opacity: 0
+        TweenMax.to $el, .2, 
+          opacity: 1
+          delay: index * .1
+          ease: Quint.easeOut
+        return
+
+      _.each @$('.picture .data-marker'), (marker, index) =>
+        $marker = $(marker)
+        TweenMax.to $marker, .2,
+          opacity: 1
+          delay: .4 + (index * .2)
+        return
+      return
 
     openData: (e) ->
       $marker = $(e.target)
@@ -103,6 +129,38 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
     imageLoaded: ->
       @$('.picture .preloader').addClass 'hidden'
       @$img.removeClass 'loading'
+      return
+
+    animateOut: (e) ->
+      e.preventDefault()
+      $el = $(e.target)
+      if !$el.hasClass 'pagination'
+        $el = $el.parents('.pagination')
+      href = $el.attr('href')
+
+      elements = [
+        @$('.pagination.left')
+        @$('.picture')
+        @$('.words')
+        @$('.pagination.right')
+      ]
+      
+      _.each elements, ($el, index) =>
+        params =
+          opacity: 0
+          delay: index * .2
+          ease: Quint.easeIn
+
+        if index >= elements.length - 1
+          params.onComplete = () =>
+            window.location = href
+            @remove()
+            return
+          params.onCompleteParams = [href]
+
+        TweenMax.to $el, .4, params
+        return
+
       return
 
   PageView

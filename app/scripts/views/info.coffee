@@ -9,7 +9,10 @@ define ['backbone', 'views/visualisations/base', 'views/infographic'], (Backbone
 
         render: (viz_id) ->
             $('#info').removeClass('hidden')
-            console.log viz_id
+            @renderViz(viz_id)
+            @animateIn()
+
+        renderViz: (viz_id) ->
             switch viz_id
                 when "clouds"           then @renderSunshineHours()
                 when "spaceship"        then @renderUfoSightings()
@@ -23,6 +26,22 @@ define ['backbone', 'views/visualisations/base', 'views/infographic'], (Backbone
             _.each $('#info .infographic'), (el) ->
                 v = new InfographicView
                     el: el
+
+        animateIn: ->
+            $('#info .bg').css
+                opacity: 0
+            TweenMax.to $('#info .bg'), .2, 
+                opacity: 0.94
+
+            $('#info .document').css
+                top: "140px"
+                opacity: 0
+            TweenMax.to $('#info .document'), .2
+                top: 100
+                opacity: 1
+                ease: Quint.easeOut
+                delay: .3
+            return
 
 
         renderUfoSightings: ->
@@ -51,6 +70,22 @@ define ['backbone', 'views/visualisations/base', 'views/infographic'], (Backbone
 
 
         close: (e) ->
+            # @vizualisation_view.remove()
+            # 
+            TweenMax.to $('#info .document'), .2,
+                top: 140
+                opacity: 0
+                ease: Quint.easeIn
+
+            TweenMax.to $('#info .bg'), .2,
+                opacity: 0
+                delay: .3
+                onComplete: () =>
+                    @animationOutComplete()
+                    return
+            return
+
+        animationOutComplete: ->
             @vizualisation_view.remove()
             $('#info').addClass('hidden')
             return
