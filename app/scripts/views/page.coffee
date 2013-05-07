@@ -129,6 +129,11 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
     imageLoaded: ->
       @$('.picture .preloader').addClass 'hidden'
       @$img.removeClass 'loading'
+      @$img.css
+        opacity: 0
+      TweenMax.to @$img, .3,
+        opacity: 1
+        ease: Quint.easeOut
       return
 
     animateOut: (e) ->
