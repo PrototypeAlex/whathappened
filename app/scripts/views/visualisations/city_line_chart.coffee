@@ -11,12 +11,40 @@ define ['backbone', 'd3'], (Backbone, d3) ->
     title: null
     y_range: null
 
+    initialize: ->
+      @create_tooltip()
+
     render: (data, title, y_range) ->
       @data = data
       @title = title
       @y_range = y_range
       @create_chart()
       @create_legend()
+
+    on_hover: (d) ->
+      d3.selectAll("path.#{d.city.split(' ').join('_')}")
+        .classed("hovering", true)
+      d3.selectAll("circle.#{d.city.split(' ').join('_')}")
+        .attr("r", 4)
+
+    off_hover: (d) ->
+      d3.selectAll("path.#{d.city.split(' ').join('_')}")
+        .classed("hovering", false)
+      d3.selectAll("circle.#{d.city.split(' ').join('_')}")
+        .attr("r", 2)
+
+    show_tooltip: (d) ->
+      @tooltip.html("<p>#{d.value} #{@title} (#{d.city})</p>")
+      @tooltip.style("visibility", "visible")
+
+    hide_tooltip: (d) ->
+      @tooltip.style("visibility", "hidden")
+
+    move_tooltip: (d) ->
+      event = d3.event;
+      @tooltip
+        .style("top", "#{event.pageY-10}px")
+        .style("left", "#{event.pageX+10}px")
 
     re_render_data: (region) ->
       cities = _.filter(@data, (d) => d.region == region)
@@ -31,12 +59,31 @@ define ['backbone', 'd3'], (Backbone, d3) ->
         .attr("class", "city")
 
       city.append("path")
-        .attr("class", "line")
         .attr("d", (d) => @line(d.values))
         .style("stroke", (d) => @color(d.city))
         .attr("fill", "none")
         .attr("class", (d) -> d.city.split(' ').join('_'))
 
+      circles = city.selectAll("circle")
+        .data((d, i) => _.map(d.values, (val) => {value: val, city: d.city} ))
+
+      circles.enter()
+        .append("circle")
+        .attr("r", 2)
+        .attr("cx", (d, i) => @x(i))
+        .attr("cy", (d) => @y(d.value))
+        .attr("fill", (d) => @color(d.city))
+        .on('mouseover', (d) => 
+          @on_hover(d)
+          @show_tooltip(d)
+        )
+        .on('mouseout', (d) => 
+          @off_hover(d)
+          @hide_tooltip(d)
+        )
+        .on('mousemove', (d) => @move_tooltip(d))
+        .attr('class', (d) -> d.city.split(' ').join('_'))
+        
       city_legend = @legend.selectAll("div.city-legend")
         .data(cities, (d) -> d.city )
 
@@ -48,14 +95,8 @@ define ['backbone', 'd3'], (Backbone, d3) ->
         .enter()
         .append("div")
         .attr('class', 'city-legend')
-        .on('mouseover', (d) ->
-          d3.selectAll("path.#{d.city.split(' ').join('_')}")
-            .classed("hovering", true)
-        )
-        .on('mouseout', (d) ->
-          d3.selectAll("path.#{d.city.split(' ').join('_')}")
-            .classed("hovering", false)
-        )
+        .on('mouseover', (d) => @on_hover(d))
+        .on('mouseout', (d) => @off_hover(d))
      
       divs.append('div')
         .html((d) => "<div class=\"legend-colour\" style=\"background-color: #{@color(d.city)}\"></div><span class=\"city-name\">#{d.city}</span><br /><span class=\"extra\">Total #{@title} - #{d.total}</span>")
@@ -63,6 +104,10 @@ define ['backbone', 'd3'], (Backbone, d3) ->
       divs.append('div')
         .attr('class', 'clearfix')
 
+    create_tooltip: ->
+      @tooltip = d3.select("body")
+        .append("div")
+        .attr('class', 'tool-tip')
 
     create_legend: ->
       @legend = d3.selectAll('#js-new-zealand-legend')
@@ -86,7 +131,7 @@ define ['backbone', 'd3'], (Backbone, d3) ->
         .orient("left")
 
       @line = d3.svg.line()
-        .interpolate("basis")
+        .interpolate("cardinal")
         .x((d, i) -> @x(i))
         .y((d) -> @y(d))
 

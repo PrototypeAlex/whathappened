@@ -16,6 +16,9 @@ define ['backbone', 'views/visualisations/base', 'views/infographic'], (Backbone
                 when "rain_fall"        then @renderRainFall()
                 when "meteor_shower"    then @renderMeteorShower()
                 when "wet_days"         then @renderWetDays()
+                when "fruit_bat"        then @renderFruitBats()
+                when "bugs"             then @renderBugs()
+                when "erosion"         then @renderErosion()
 
             _.each $('#info .infographic'), (el) ->
                 v = new InfographicView
@@ -36,6 +39,15 @@ define ['backbone', 'views/visualisations/base', 'views/infographic'], (Backbone
 
         renderMeteorShower: ->
             @current_visualisation = @vizualisation_view.render_meteor_shower()
+
+        renderFruitBats: ->
+            @current_visualisation = @vizualisation_view.render_fruit_bats()
+
+        renderBugs: ->
+            @current_visualisation = @vizualisation_view.render_bugs()
+
+        renderErosion: ->
+            @current_visualisation = @vizualisation_view.render_erosion()
 
 
         close: (e) ->

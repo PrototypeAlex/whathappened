@@ -6,14 +6,16 @@
       className: 'page',
       events: {
         'click .data-marker': 'openData',
-        'click .close': 'closeData'
+        'click .close': 'closeData',
+        'click .bg': 'closeData'
       },
-      className: 'page',
+      info_view: null,
+      debug: true,
       initialize: function() {
         _.bindAll(this);
         return this.$el = $(this.el);
       },
-      template: _.template("<div class=\"picture\">\n  <div class=\"frame\">\n    <div class=\"preloader\">\n      <div class=\"spinner\">\n        <i class=\"icon-cw-circled animate-spin\"></i>\n        <span class=\"circular-glare\"></span>\n      </div>\n    </div>\n  </div>\n</div>\n<div class=\"words\">\n  <%= content %>\n</div>\n<div id=\"left\">\n  <div id=\"js-visualisation-container\" class=\"hidden\">\n    <a href=\"#\" class=\"close\">&times;</a>\n    <div class=\"content\"><p>vis content...</p></div>\n  </div>\n</div>\n<a href=\"<%= previous_page_url %>\" class=\"pagination arrow left\"><span class=\"icon-left-open\"></span></a>\n<a href=\"<%= next_page_url %>\" class=\"pagination arrow right\"><span class=\"icon-right-open\"></span></a>"),
+      template: _.template("<div class=\"picture\">\n  <div class=\"frame\">\n    <div class=\"preloader\">\n      <div class=\"spinner\">\n        <i class=\"icon-cw-circled animate-spin\"></i>\n        <span class=\"circular-glare\"></span>\n      </div>\n    </div>\n  </div>\n</div>\n<div class=\"words\">\n  <%= content %>\n</div>\n<a href=\"<%= previous_page_url %>\" class=\"pagination arrow left\"><span class=\"icon-left-open\"></span></a>\n<a href=\"<%= next_page_url %>\" class=\"pagination arrow right\"><span class=\"icon-right-open\"></span></a>\n<div id=\"info\" class=\"hidden\">\n  <div class=\"bg\"></div>\n  <div class=\"document\">\n      <a href=\"#\" class=\"close\"><div class=\"circular-glare\"></div></a>\n      <div class=\"corner\"></div>\n      <div class=\"content\" id=\"js-visualisation-container\"></div>\n  </div>\n</div>\n<div class=\"tool-tip\">\n</div>"),
       render: function() {
         var _this = this;
         this.$el.html(this.template(this.model.toJSON()));
@@ -27,6 +29,9 @@
         this.$img = $(this.img);
         this.$img.addClass('loading');
         this.$('.frame').append(this.img);
+        this.info_view = new InfoView({
+          parentView: this
+        });
         return _.each(this.model.get('data_points'), function(point) {
           var el;
           el = "<div class=\"data-marker\" data-id=\"" + point.id + "\" style=\"left: " + point.left + "; top: " + point.top + ";\">+<div class=\"glare\"></div></div>";
@@ -35,34 +40,19 @@
         });
       },
       openData: function(e) {
-        var $marker, id, iv,
-          _this = this;
+        var $marker, id;
         $marker = $(e.target);
+        if (!$marker.hasClass('data-marker')) {
+          $marker = $marker.parents('.data-marker');
+        }
         id = $marker.attr('data-id');
-        console.log(id);
-        e.preventDefault();
-        iv = new InfoView({
-          story: this.story,
-          viz_id: id
-        });
-        $('body').append(iv.el);
-        return;
-        this.$('#story').addClass('hidden');
-        this.$('#js-visualisation-container').removeClass('hidden');
-        $marker.addClass('open');
-        _.each(this.$('.data-marker'), function(el, index) {
-          var $el;
-          $el = $(el);
-          if (!$el.hasClass("open")) {
-            $el.addClass('not-me-open');
-          }
-        });
+        this.info_view.render(id);
       },
       closeData: function(e) {
         var _this = this;
         e.preventDefault();
+        this.info_view.close();
         this.$('#story').removeClass('hidden');
-        this.$('#js-visualisation-container').addClass('hidden');
         _.each(this.$('.data-marker'), function(el) {
           var $el;
           $el = $(el);

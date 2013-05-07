@@ -7,12 +7,7 @@
         "": "renderHome",
         "home": "renderHome",
         "page/:page": "renderPage",
-        "credits": "renderCredits",
-        "ufo_sightings": "renderUfoSightings",
-        "sunshine_hours": "renderSunshineHours",
-        "wet_days": "renderWetDays",
-        "rain_fall": "renderRainFall",
-        "meteor_shower": "renderMeteorShower"
+        "credits": "renderCredits"
       },
       initialize: function() {
         this.initializeBaseView();
@@ -32,21 +27,6 @@
         home_view.render();
         $('body').append(home_view.el);
         return this.previousPage = home_view;
-      },
-      renderUfoSightings: function() {
-        return this.visualisations.render_ufo_sightings();
-      },
-      renderSunshineHours: function() {
-        return this.visualisations.render_sunshine_hours();
-      },
-      renderWetDays: function() {
-        return this.visualisations.render_wet_days();
-      },
-      renderRainFall: function() {
-        return this.visualisations.render_rain_fall();
-      },
-      renderMeteorShower: function() {
-        return this.visualisations.render_meteor_shower();
       },
       renderPage: function(page) {
         var page_model, page_view;

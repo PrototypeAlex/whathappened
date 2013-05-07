@@ -16,7 +16,7 @@ define ['backbone', 'text!../../../templates/wet_days.html', "views/visualisatio
       @city_line_chart_view = new CityLineChartView()
 
       d3.json('data/wet_days.json', (data) => 
-        @city_line_chart_view.render(data, "Wet Days", [3, 18])
+        @city_line_chart_view.render(data, "Wet Days", [2, 18])
       )
 
       for region of @new_zealand.nz
