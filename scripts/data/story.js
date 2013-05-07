@@ -30,7 +30,7 @@
             }
           ]
         }, {
-          content: "<p><span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Mamma, what happened to the ground?<span class=\"quote-mark right\">&#8221;</span></span><br />\nOlive’s Mother took a good look and said,<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Maybe a rock was <span class=\"data-marker\">washed away</span>, see that rock nearby?<span class=\"quote-mark right\">&#8221;</span></span><br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Or maybe a <span class=\"data-marker\">star fell</span> from the sky?<span class=\"quote-mark right\">&#8221;</span></span> said Olive<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>That could be<span class=\"quote-mark right\">&#8221;</span></span> said Olive’s Mother, <span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>there is always more than one answer<span class=\"quote-mark right\">&#8221;</span></span></p>",
+          content: "<p><span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Mamma, what happened to the ground?<span class=\"quote-mark right\">&#8221;</span></span><br />\nOlive’s Mother took a good look and said,<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Maybe a rock was <span class=\"data-marker\" data-id=\"erosion\">washed away</span>, see that rock nearby?<span class=\"quote-mark right\">&#8221;</span></span><br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Or maybe a <span class=\"data-marker\" data-id=\"meteor_shower\">star fell</span> from the sky?<span class=\"quote-mark right\">&#8221;</span></span> said Olive<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>That could be<span class=\"quote-mark right\">&#8221;</span></span> said Olive’s Mother, <span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>there is always more than one answer<span class=\"quote-mark right\">&#8221;</span></span></p>",
           images: [
             {
               "src": "/images/pages/spread-3.jpg"
@@ -38,7 +38,7 @@
           ],
           data_points: [
             {
-              id: "rain_fall",
+              id: "erosion",
               left: "50%",
               top: "42%"
             }, {
@@ -48,7 +48,7 @@
             }
           ]
         }, {
-          content: "<p><span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Mamma, what happened to the sunshine?<span class=\"quote-mark right\">&#8221;</span></span><br />\nOlive’s Mother took a good look and sad,<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Maybe a cloud <span class=\"data-marker\" data-id=\"clouds\">moved over the sun</span>, see all those clouds up there?<span class=\"quote-mark right\">&#8221;</span></span><br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Or maybe a <span class=\"data-marker\" data-id=\"spaceship\">spaceship flew past</span>?<span class=\"quote-mark right\">&#8221;</span></span> said Olive<br />\n<span class=\"spoken><span class=\"quote-mark left\">&#8220;</span>That could be<span class=\"quote-mark right\">&#8221;</span></span>, said Olive’s Mother, <span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>there is always more than one answer<span class=\"quote-mark right\">&#8221;</span></span></p>",
+          content: "<p><span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Mamma, what happened to the sunshine?<span class=\"quote-mark right\">&#8221;</span></span><br />\nOlive’s Mother took a good look and spaceshipd,<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Maybe a cloud <span class=\"data-marker\" data-id=\"clouds\">moved over the sun</span>, see all those clouds up there?<span class=\"quote-mark right\">&#8221;</span></span><br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Or maybe a <span class=\"data-marker\" data-id=\"spaceship\">spaceship flew past</span>?<span class=\"quote-mark right\">&#8221;</span></span> said Olive<br />\n<span class=\"spoken><span class=\"quote-mark left\">&#8220;</span>That could be<span class=\"quote-mark right\">&#8221;</span></span>, said Olive’s Mother, <span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>there is always more than one answer<span class=\"quote-mark right\">&#8221;</span></span></p>",
           images: [
             {
               "src": "/images/pages/spread-4.jpg"
@@ -66,7 +66,7 @@
             }
           ]
         }, {
-          content: "<p><span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Mamma, what happened to my hand?<span class=\"quote-mark right\">&#8221;</span></span><br />\nOlive’s Mother took a good look and said,<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Maybe some <span class=\"data-marker\" data-id=\"rain_fall\">water dripped down</span> on it, see how the leaves are all wet?<span class=\"quote-mark right\">&#8221;</span></span><br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Or maybe it’s the juice from a <span class=\"data-marker\" data-id=\"fruit_bat\">fruit bat</span>’s breakfast?<span class=\"quote-mark right\">&#8221;</span></span> said Olive<br />\n<span class=\"spoken><span class=\"quote-mark left\">&#8220;</span>That could be<span class=\"quote-mark right\">&#8221;</span></span>, said Olive’s Mother, <span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>there is always more than one answer<span class=\"quote-mark right\">&#8221;</span></span></p>",
+          content: "<p><span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Mamma, what happened to my hand?<span class=\"quote-mark right\">&#8221;</span></span><br />\nOlive’s Mother took a good look and said,<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Maybe some <span class=\"data-marker\" data-id=\"wet_days\">water dripped down</span> on it, see how the leaves are all wet?<span class=\"quote-mark right\">&#8221;</span></span><br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Or maybe it’s the juice from a <span class=\"data-marker\" data-id=\"fruit_bat\">fruit bat</span>’s breakfast?<span class=\"quote-mark right\">&#8221;</span></span> said Olive<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>That could be<span class=\"quote-mark right\">&#8221;</span></span>, said Olive’s Mother, <span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>there is always more than one answer<span class=\"quote-mark right\">&#8221;</span></span></p>",
           images: [
             {
               "src": "/images/pages/spread-5.jpg"
@@ -74,11 +74,11 @@
           ],
           data_points: [
             {
-              id: "rain_fall",
+              id: "fruit_bat",
               top: "10%",
               left: "10%"
             }, {
-              id: "fruit_bat",
+              id: "wet_days",
               top: "79%",
               left: "41%"
             }

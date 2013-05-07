@@ -12772,7 +12772,7 @@ define('text',['module'], function (module) {
 
 d3 = function() {
   var d3 = {
-    version: "3.1.6"
+    version: "3.1.5"
   };
   if (!Date.now) Date.now = function() {
     return +new Date();
@@ -13338,10 +13338,11 @@ d3 = function() {
     };
     d3_selectMatches = Sizzle.matchesSelector;
   }
+  var d3_selectionPrototype = [];
   d3.selection = function() {
     return d3_selectionRoot;
   };
-  var d3_selectionPrototype = d3.selection.prototype = [];
+  d3.selection.prototype = d3_selectionPrototype;
   d3_selectionPrototype.select = function(selector) {
     var subgroups = [], subgroup, subnode, group, node;
     if (typeof selector !== "function") selector = d3_selection_selector(selector);
@@ -13859,17 +13860,14 @@ d3 = function() {
     }
     return d3_transition(subgroups, id);
   };
-  d3.select = function(node) {
-    var group = [ typeof node === "string" ? d3_select(node, d3_document) : node ];
-    group.parentNode = d3_selectRoot;
-    return d3_selection([ group ]);
+  var d3_selectionRoot = d3_selection([ [ d3_document ] ]);
+  d3_selectionRoot[0].parentNode = d3_selectRoot;
+  d3.select = function(selector) {
+    return typeof selector === "string" ? d3_selectionRoot.select(selector) : d3_selection([ [ selector ] ]);
   };
-  d3.selectAll = function(nodes) {
-    var group = d3_array(typeof nodes === "string" ? d3_selectAll(nodes, d3_document) : nodes);
-    group.parentNode = d3_selectRoot;
-    return d3_selection([ group ]);
+  d3.selectAll = function(selector) {
+    return typeof selector === "string" ? d3_selectionRoot.selectAll(selector) : d3_selection([ d3_array(selector) ]);
   };
-  var d3_selectionRoot = d3.select(d3_selectRoot);
   d3.behavior.zoom = function() {
     var translate = [ 0, 0 ], translate0, scale = 1, scale0, scaleExtent = d3_behavior_zoomInfinity, event = d3_eventDispatch(zoom, "zoom"), x0, x1, y0, y1, touchtime;
     function zoom() {
@@ -14038,8 +14036,9 @@ d3 = function() {
   };
   function d3_hsl_rgb(h, s, l) {
     var m1, m2;
-    h = isNaN(h) ? 0 : (h %= 360) < 0 ? h + 360 : h;
-    s = isNaN(s) ? 0 : s < 0 ? 0 : s > 1 ? 1 : s;
+    h = h % 360;
+    if (h < 0) h += 360;
+    s = s < 0 ? 0 : s > 1 ? 1 : s;
     l = l < 0 ? 0 : l > 1 ? 1 : l;
     m2 = l <= .5 ? l * (1 + s) : l + s - l * s;
     m1 = 2 * l - m2;
@@ -14096,8 +14095,6 @@ d3 = function() {
     return d3_hcl_lab(this.h, this.c, this.l).rgb();
   };
   function d3_hcl_lab(h, c, l) {
-    if (isNaN(h)) h = 0;
-    if (isNaN(c)) c = 0;
     return d3_lab(l, Math.cos(h *= d3_radians) * c, Math.sin(h) * c);
   }
   d3.lab = function(l, a, b) {
@@ -14131,7 +14128,7 @@ d3 = function() {
     return d3_rgb(d3_xyz_rgb(3.2404542 * x - 1.5371385 * y - .4985314 * z), d3_xyz_rgb(-.969266 * x + 1.8760108 * y + .041556 * z), d3_xyz_rgb(.0556434 * x - .2040259 * y + 1.0572252 * z));
   }
   function d3_lab_hcl(l, a, b) {
-    return l > 0 ? d3_hcl(Math.atan2(b, a) * d3_degrees, Math.sqrt(a * a + b * b), l) : d3_hcl(NaN, NaN, l);
+    return d3_hcl(Math.atan2(b, a) * d3_degrees, Math.sqrt(a * a + b * b), l);
   }
   function d3_lab_xyz(x) {
     return x > .206893034 ? x * x * x : (x - 4 / 29) / 7.787037;
@@ -14220,8 +14217,7 @@ d3 = function() {
       if (r == max) h = (g - b) / d + (g < b ? 6 : 0); else if (g == max) h = (b - r) / d + 2; else h = (r - g) / d + 4;
       h *= 60;
     } else {
-      h = NaN;
-      s = l > 0 && l < 1 ? 0 : h;
+      s = h = 0;
     }
     return d3_hsl(h, s, l);
   }
@@ -16721,7 +16717,11 @@ d3 = function() {
         vertices.push([ +fx.call(this, d = data[i], i), +fy.call(this, d, i) ]);
       }
       for (i = 1; i < n; ++i) {
-        if (vertices[i][1] < vertices[h][1] || vertices[i][1] == vertices[h][1] && vertices[i][0] < vertices[h][0]) h = i;
+        if (vertices[i][1] < vertices[h][1]) {
+          h = i;
+        } else if (vertices[i][1] == vertices[h][1]) {
+          h = vertices[i][0] < vertices[h][0] ? i : h;
+        }
       }
       for (i = 0; i < n; ++i) {
         if (i === h) continue;
@@ -16747,32 +16747,37 @@ d3 = function() {
           y2 = vertices[j][1] - vertices[h][1];
           if (x1 * x1 + y1 * y1 >= x2 * x2 + y2 * y2) {
             points[i].index = -1;
-            continue;
           } else {
             points[u].index = -1;
+            a = points[i].angle;
+            u = i;
+            v = j;
           }
+        } else {
+          a = points[i].angle;
+          u = i;
+          v = j;
         }
-        a = points[i].angle;
-        u = i;
-        v = j;
       }
       stack.push(h);
       for (i = 0, j = 0; i < 2; ++j) {
-        if (points[j].index > -1) {
+        if (points[j].index !== -1) {
           stack.push(points[j].index);
           i++;
         }
       }
       sp = stack.length;
       for (;j < plen; ++j) {
-        if (points[j].index < 0) continue;
+        if (points[j].index === -1) continue;
         while (!d3_geom_hullCCW(stack[sp - 2], stack[sp - 1], points[j].index, vertices)) {
           --sp;
         }
         stack[sp++] = points[j].index;
       }
       var poly = [];
-      for (i = sp - 1; i >= 0; --i) poly.push(data[stack[i]]);
+      for (i = 0; i < sp; ++i) {
+        poly.push(data[stack[i]]);
+      }
       return poly;
     }
     hull.x = function(_) {
@@ -17723,8 +17728,7 @@ d3 = function() {
     a = d3.hcl(a);
     b = d3.hcl(b);
     var ah = a.h, ac = a.c, al = a.l, bh = b.h - ah, bc = b.c - ac, bl = b.l - al;
-    if (isNaN(bc)) bc = 0, ac = isNaN(ac) ? b.c : ac;
-    if (isNaN(bh)) bh = 0, ah = isNaN(ah) ? b.h : ah; else if (bh > 180) bh -= 360; else if (bh < -180) bh += 360;
+    if (bh > 180) bh -= 360; else if (bh < -180) bh += 360;
     return function(t) {
       return d3_hcl_lab(ah + bh * t, ac + bc * t, al + bl * t) + "";
     };
@@ -17733,11 +17737,10 @@ d3 = function() {
   function d3_interpolateHsl(a, b) {
     a = d3.hsl(a);
     b = d3.hsl(b);
-    var ah = a.h, as = a.s, al = a.l, bh = b.h - ah, bs = b.s - as, bl = b.l - al;
-    if (isNaN(bs)) bs = 0, as = isNaN(as) ? b.s : as;
-    if (isNaN(bh)) bh = 0, ah = isNaN(ah) ? b.h : ah; else if (bh > 180) bh -= 360; else if (bh < -180) bh += 360;
+    var h0 = a.h, s0 = a.s, l0 = a.l, h1 = b.h - h0, s1 = b.s - s0, l1 = b.l - l0;
+    if (h1 > 180) h1 -= 360; else if (h1 < -180) h1 += 360;
     return function(t) {
-      return d3_hsl_rgb(ah + bh * t, as + bs * t, al + bl * t) + "";
+      return d3_hsl_rgb(h0 + h1 * t, s0 + s1 * t, l0 + l1 * t) + "";
     };
   }
   d3.interpolateLab = d3_interpolateLab;
@@ -19982,23 +19985,21 @@ d3 = function() {
     function attrNullNS() {
       this.removeAttributeNS(name.space, name.local);
     }
-    function attrTween(b) {
-      return b == null ? attrNull : (b += "", function() {
+    return d3_transition_tween(this, "attr." + nameNS, value, function(b) {
+      function attrString() {
         var a = this.getAttribute(name), i;
         return a !== b && (i = interpolate(a, b), function(t) {
           this.setAttribute(name, i(t));
         });
-      });
-    }
-    function attrTweenNS(b) {
-      return b == null ? attrNullNS : (b += "", function() {
+      }
+      function attrStringNS() {
         var a = this.getAttributeNS(name.space, name.local), i;
         return a !== b && (i = interpolate(a, b), function(t) {
           this.setAttributeNS(name.space, name.local, i(t));
         });
-      });
-    }
-    return d3_transition_tween(this, "attr." + nameNS, value, name.local ? attrTweenNS : attrTween);
+      }
+      return b == null ? name.local ? attrNullNS : attrNull : (b += "", name.local ? attrStringNS : attrString);
+    });
   };
   d3_transitionPrototype.attrTween = function(nameNS, tween) {
     var name = d3.ns.qualify(nameNS);
@@ -20030,25 +20031,24 @@ d3 = function() {
     function styleNull() {
       this.style.removeProperty(name);
     }
-    function styleString(b) {
-      return b == null ? styleNull : (b += "", function() {
+    return d3_transition_tween(this, "style." + name, value, function(b) {
+      function styleString() {
         var a = d3_window.getComputedStyle(this, null).getPropertyValue(name), i;
         return a !== b && (i = interpolate(a, b), function(t) {
           this.style.setProperty(name, i(t), priority);
         });
-      });
-    }
-    return d3_transition_tween(this, "style." + name, value, styleString);
+      }
+      return b == null ? styleNull : (b += "", styleString);
+    });
   };
   d3_transitionPrototype.styleTween = function(name, tween, priority) {
     if (arguments.length < 3) priority = "";
-    function styleTween(d, i) {
+    return this.tween("style." + name, function(d, i) {
       var f = tween.call(this, d, i, d3_window.getComputedStyle(this, null).getPropertyValue(name));
       return f && function(t) {
         this.style.setProperty(name, f(t), priority);
       };
-    }
-    return this.tween("style." + name, styleTween);
+    });
   };
   d3_transitionPrototype.text = function(value) {
     return d3_transition_tween(this, "text", value, d3_transition_text);
@@ -21077,7 +21077,7 @@ d3 = function() {
       }));
     };
     scale.ticks = function(m, k) {
-      var extent = d3_scaleExtent(scale.domain());
+      var extent = d3_time_scaleExtent(scale.domain());
       if (typeof m !== "function") {
         var span = extent[1] - extent[0], target = span / m, i = d3.bisect(d3_time_scaleSteps, target);
         if (i == d3_time_scaleSteps.length) return methods.year(extent, m);
@@ -21095,7 +21095,11 @@ d3 = function() {
     scale.copy = function() {
       return d3_time_scale(linear.copy(), methods, format);
     };
-    return d3_scale_linearRebind(scale, linear);
+    return d3.rebind(scale, linear, "range", "rangeRound", "interpolate", "clamp");
+  }
+  function d3_time_scaleExtent(domain) {
+    var start = domain[0], stop = domain[domain.length - 1];
+    return start < stop ? [ start, stop ] : [ stop, start ];
   }
   function d3_time_scaleDate(t) {
     return new Date(t);
@@ -21530,7 +21534,7 @@ define('text!views/../../templates/home.html',[],function () { return '<div id="
 
 }).call(this);
 
-define('text!views/../../templates/clouds.html',[],function () { return '<div class="inner-container"><h1>The Long White Cloud</h1><p>Over a ten year period New Zealand, on average, receives 119 days of rain per year, when broken down even further there\'s a 28% chance of rain on a summers day and and a 37% chance of rain on a winters day. Though on a brighter note, New Zealand receives on average 2010 hours of sunshine per year, which should be ample time to get your dose of Vitamin D. </p><svg id="js-new-zealand-svg"></svg><div id="js-city-line-chart"></div></div>';});
+define('text!views/../../templates/clouds.html',[],function () { return '<h1>The Long White Cloud</h1><p class="intro">Sunshine hours are relatively high in areas that are sheltered from the west. The most amount of sun in one year goes to Nelson, having 2,711 hours in 1931, and the lowest goes to Invercargil, having only 1,333 hours of sun in 1983.</p><div class="graphics"><div class="infographic"><div class="number">2010</div><div class="icon icon-sun"></div><div class="what">hours of sun</div><div class="extra">Per year on average</div></div><div class="infographic"><div class="number">2711</div><div class="icon icon-sun"></div><div class="what">hours of sun</div><div class="extra">was the most in one year (Nelson, 1931)</div></div></div><div class="clearfix"></div><h2><span class="text">Sunshine by region</span></h2><div class="nz-map"><svg id="js-new-zealand-svg"></svg></div><div id="js-new-zealand-legend"></div><div class="clearfix"></div><div id="js-city-line-chart"></div><p class="outro">The above information has been based off mean monthly values of sunshine hours for the 1981-2010 period for locations having at least 5 complete years of data.</p><div class="sources"><h4><span class="text">Sources</span></h4><p><a href="http://www.niwa.co.nz/education-and-training/schools/resources/climate/sunshine">niwa.co.nz/education-and-training/schools/resources/climate/sunshine</a><br /><a href="http://www.niwa.co.nz/education-and-training/schools/resources/climate/extreme">niwa.co.nz/education-and-training/schools/resources/climate/extreme</a><a href="http://www.niwa.co.nz/education-and-training/schools/resources/climate/overview">niwa.co.nz/education-and-training/schools/resources/climate/overview</a></p></div>';});
 
 (function() {
 
@@ -21541,7 +21545,7 @@ define('text!views/../../templates/clouds.html',[],function () { return '<div cl
       render: function() {
         var chart, region, _results,
           _this = this;
-        chart = d3.select('#js-new-zealand-svg').append("g").attr("id", "regions").attr("transform", "translate(150, 0)");
+        chart = d3.select('#js-new-zealand-svg').append("g").attr("id", "regions").attr("transform", "translate(0, 0)");
         this.nz.northland = chart.append("path").attr("d", 'M 466.26355,151.00928 C 463.7724,141.23043 457.15186,133.41672 451.74204,125.1535 C 446.3081,117.91038 440.39612,110.98272 435.63161,103.29635 C 430.51719,98.849397 425.32057,92.065868 430.54805,85.672654 C 432.58531,82.02983 435.22978,88.600489 436.5392,83.995254 C 436.87546,82.033938 446.35004,75.44248 439.09212,74.93682 C 436.41942,72.673672 434.69979,72.779191 435.62217,76.801773 C 437.02533,81.292748 430.99159,76.169855 431.29447,80.530955 C 423.44462,76.106509 427.93104,94.526163 423.02895,86.296101 C 418.39383,82.785114 422.20176,78.646194 421.77072,74.561191 C 419.18622,74.248586 417.45393,81.582932 416.50784,76.532243 C 420.01988,76.183348 418.3338,70.698424 415.73019,74.093979 C 412.079,73.655878 406.81877,66.249934 413.20077,67.074576 C 418.29068,60.69348 415.11968,51.560687 409.96788,46.280897 C 404.85566,38.251574 398.90459,30.828561 392.87568,23.486791 C 390.55341,21.865939 383.63098,15.867735 387.77035,14.970292 C 393.41308,17.535121 399.94748,12.18445 405.31089,14.883035 C 405.97065,18.082839 405.60278,23.074084 403.22059,17.804314 C 399.97217,15.351369 401.17,20.960987 398.43619,21.567435 C 399.43392,25.085446 404.49227,25.314824 403.66783,29.533276 C 406.42666,31.274446 405.8142,23.529084 406.37908,29.63615 C 404.96001,33.88235 412.74069,36.977719 411.34834,38.994575 C 406.57001,39.804438 414.59076,45.436507 417.34189,45.978614 C 422.44176,47.683297 414.15852,57.652375 422.98561,55.094535 C 428.41046,52.523341 420.93782,43.491697 428.61916,43.938557 C 434.08798,43.798068 428.95065,46.036665 426.89771,47.061939 C 425.33988,53.025162 436.71406,56.684142 438.04256,53.918217 C 435.85322,48.531126 439.29222,50.55715 442.28415,52.466531 C 446.29625,51.011149 449.35835,56.430955 445.20141,58.654902 C 446.69359,63.183852 451.45919,60.709335 450.5444,56.773311 C 455.72059,51.226558 458.47622,62.928232 463.77416,63.332625 C 466.43202,61.335008 470.93989,66.082041 468.09426,66.211677 C 464.64016,60.092015 457.85833,71.541509 465.54462,70.407087 C 467.83195,72.550136 468.01703,76.953921 470.25031,80.388378 C 471.24219,76.917264 479.66779,78.679394 474.51964,74.6229 C 467.39379,72.874166 480.7376,74.619842 480.71944,70.101139 C 482.6988,68.701315 478.86729,76.796953 481.02856,78.944716 C 480.66878,84.933259 493.00838,84.253681 487.37379,90.034238 C 491.377,91.295834 498.35325,99.908319 489.80222,98.139472 C 486.94366,101.41388 494.74074,101.37253 491.52516,104.20682 C 494.0712,105.34856 496.37022,111.34257 494.49281,111.93393 C 492.62489,108.08865 487.16108,105.24021 484.1148,108.63056 C 486.42381,105.39371 479.92315,101.28958 481.45732,106.77004 C 479.92314,110.44702 482.56975,115.66607 485.9295,111.6007 C 489.7828,110.88142 492.85472,114.21733 489.10822,116.66903 C 487.72114,122.59854 493.88038,126.09708 497.26698,128.35614 C 497.54635,134.86316 490.52487,138.79687 485.54111,141.49651 C 478.18714,142.25014 493.73336,133.30703 485.27821,131.93761 C 483.16324,132.7094 482.53281,140.48442 480.10252,135.70628 C 476.38471,136.40073 479.29857,127.81996 474.02998,131.29731 C 468.82713,135.29848 475.86926,137.73824 478.65355,139.94875 C 473.59798,144.31965 471.38463,133.50024 465.673,133.75061 C 459.99781,131.43005 460.63427,124.32761 457.29917,120.06064 C 461.12523,118.46055 456.24948,111.72611 455.91038,116.13776 C 457.79699,118.09128 451.92171,119.9976 455.49872,122.84557 C 460.14141,127.72808 460.5211,135.16356 466.27883,139.26393 C 469.78393,142.26204 475.84829,149.30499 468.14417,150.77744 L 467.05781,150.97806 L 466.26355,151.00928 L 466.26355,151.00928 z');
         this.nz.waikato = chart.append("path").attr("d", 'M 563.83508,347.99283 C 559.72687,346.73599 550.55568,348.8629 556.07406,342.49237 C 560.9318,336.94867 556.19157,331.60763 560.17783,326.55702 C 561.38092,322.02335 550.54799,327.67856 554.85973,320.68452 C 552.81399,316.48543 556.36977,312.29319 552.44382,308.82006 C 554.30222,301.88373 561.83346,296.07254 557.83502,288.54105 C 554.45927,287.44731 548.11835,284.79939 545.58896,289.30456 C 543.99516,291.98719 542.29943,295.55939 539.54916,292.64381 C 538.24579,297.15912 532.06664,299.30671 526.71507,297.92619 C 523.71177,300.7435 516.48797,298.34431 517.63935,304.12006 C 515.8973,311.27125 508.52845,306.98284 503.29897,307.42873 C 495.13457,308.55436 500.15568,295.96308 499.83865,290.75446 C 503.037,284.8807 504.8917,276.75991 502.63632,270.36798 C 505.92315,269.84383 512.40494,276.27078 511.33739,270.77034 C 521.30939,273.00653 511.7404,261.88734 508.25099,267.64771 C 506.46484,263.7481 517.38449,262.09882 512.06261,257.94482 C 509.64563,256.97676 507.38877,265.89345 507.54192,258.12263 C 507.89017,255.20363 506.64803,251.35827 510.23942,250.21973 C 511.82601,247.42827 519.89712,251.42128 517.65425,247.28885 C 520.67729,238.22884 509.39929,251.84035 510.23692,242.5719 C 508.81555,235.3606 505.92315,228.59446 503.53333,221.69024 C 504.22993,219.32053 512.03748,214.63044 509.37358,212.56947 C 504.82686,212.83654 503.47975,221.70158 501.27596,213.75408 C 500.61528,208.84845 493.21623,200.33288 495.45315,197.73807 C 501.36857,195.90247 497.59285,203.03694 501.69957,205.90265 C 502.2038,213.08926 511.57473,209.8258 515.80929,209.79508 C 519.64772,204.65338 528.84285,209.2868 532.89269,202.85344 C 539.55999,197.15774 537.74814,212.1581 545.39345,208.76318 C 549.44076,208.20213 552.21287,203.56305 552.84484,210.15688 C 559.31932,212.20004 551.4701,202.54991 552.03764,199.03559 C 554.38753,193.2355 545.8617,186.55859 546.71076,183.82965 C 552.55774,183.9861 545.59622,179.35144 550.60462,178.30737 C 549.68407,174.79155 545.03904,172.16608 549.03066,167.64074 C 546.40648,166.05836 536.05418,158.81259 541.89291,157.19017 C 545.43595,155.64672 547.4377,164.23857 549.97412,159.71317 C 553.0528,162.48736 547.62705,167.10346 553.80792,166.37878 C 554.95793,169.51914 548.646,171.25047 554.81344,172.17083 C 553.35644,175.94892 557.09639,179.72192 559.24002,174.65527 C 563.20518,173.18061 569.22825,172.63134 563.9222,177.59484 C 556.73631,177.91648 561.23451,190.15735 563.74894,183.20802 C 562.80535,179.70447 570.14314,181.72191 568.95351,186.0439 C 572.30243,189.51292 566.33288,198.44982 571.85376,197.23785 C 569.98118,200.11928 570.60263,203.45438 570.79547,203.96241 C 567.7832,209.76238 575.403,212.25244 574.06852,219.40465 C 573.09067,222.54004 569.74912,225.94322 571.40131,227.65127 C 565.2324,223.19743 568.48756,235.23722 569.41751,238.13476 C 574.36472,243.62955 572.346,250.42418 576.30753,255.67622 C 573.34687,262.60579 586.35707,262.77744 583.21875,270.98213 C 584.77697,276.10252 590.14506,277.73362 594.20614,277.52327 C 597.38611,277.88881 599.28997,284.13825 603.0431,284.28486 C 608.17391,286.4348 607.75445,295.28317 604.70816,299.91181 C 601.08603,305.48017 596.80208,310.9544 593.71742,316.73726 C 593.81265,321.58165 594.77304,327.13256 589.6715,329.82778 C 587.75715,334.1031 584.57972,339.04117 581.30633,332.36771 C 578.17416,337.46388 572.90795,340.77986 570.18847,345.76183 C 569.64957,348.16602 565.89748,348.57657 563.83508,347.99283 z M 564.8952,328.36966 C 568.99139,329.89123 568.46107,325.43887 571.29126,325.86337 C 577.11644,324.03878 585.17911,318.60345 581.98951,311.25883 C 579.22353,309.46706 576.43282,314.02764 574.79431,309.09954 C 572.21351,311.89556 573.47373,305.69362 569.41574,307.82824 C 561.72158,306.26826 558.62947,320.46771 566.12191,318.08036 C 565.84547,320.19448 558.29433,331.54778 564.8952,328.36966 z M 535.16272,225.5284 C 536.74727,219.49189 526.14944,220.23887 531.28792,224.84316 C 530.96187,226.71038 534.3547,226.20251 535.16272,225.5284 z M 549.36966,146.15303 C 549.36966,144.92659 548.08431,144.13829 547.23449,144.84356 C 546.52096,145.43575 546.30746,145.08888 546.27476,143.28436 L 546.24647,141.72183 L 545.01359,141.79419 C 544.00425,141.85344 543.78075,141.75553 543.78075,141.25404 C 543.78075,140.48343 542.86248,140.10549 542.24174,140.62063 C 541.87038,140.92883 541.6389,140.87675 541.13345,140.37132 C 540.6137,139.85153 540.55197,139.55015 540.80241,138.75458 C 542.13607,134.51756 542.06522,133.91285 540.21347,133.72859 C 538.9077,133.59866 538.8483,133.00971 540.14095,133.00971 C 541.42189,133.00971 542.24945,132.19037 541.80577,131.36139 C 541.62435,131.02239 541.32878,130.65408 541.14891,130.54292 C 540.58116,130.19205 540.79434,129.1025 541.50514,128.72209 C 542.44424,128.21951 543.09054,128.54402 543.50218,129.72472 C 543.69343,130.27337 544.13377,130.87417 544.48063,131.05982 C 545.05134,131.36525 545.06268,131.44601 544.59975,131.90892 C 543.78259,132.72608 544.98261,134.33677 546.96689,135.08616 C 548.91028,135.8201 549.30219,136.16755 548.7779,136.69182 C 548.56093,136.90879 548.38339,137.33679 548.38339,137.64292 C 548.38339,137.94904 548.16149,138.28467 547.89025,138.38875 C 547.61902,138.49283 547.39712,138.81189 547.39712,139.09777 C 547.39712,139.81873 548.37629,141.66552 548.93066,141.9901 C 549.18265,142.13764 549.76112,142.84814 550.21617,143.56898 C 550.96745,144.75915 551.00586,144.98377 550.63368,146.01299 C 550.12245,147.42678 549.36966,147.51019 549.36966,146.15304 L 549.36966,146.15303 z');
         this.nz.auckland = chart.append("path").attr("d", 'M 506.46658,209.23938 C 504.53219,208.5977 503.71082,204.21592 506.75055,205.70896 C 510.4253,204.82721 505.60106,203.17722 504.93194,203.1375 C 506.10098,202.18214 506.35055,200.54039 507.31502,202.26473 C 509.82126,202.01996 510.64699,196.34539 513.03695,199.74786 C 514.75311,202.45294 517.7096,201.19133 516.50222,198.04855 C 515.8447,194.74286 510.12786,196.88084 509.94081,192.87183 C 508.91522,190.6865 506.28035,195.94626 507.18993,192.27475 C 509.67269,190.961 511.74267,187.50039 507.14888,188.08906 C 503.88531,188.05864 499.49489,187.33554 497.59417,190.72342 C 496.38786,192.18485 497.4217,195.23799 495.38445,192.73041 C 494.0225,192.22504 492.33846,196.62935 491.08075,194.79878 C 488.60525,189.95038 487.75566,184.51485 486.64411,179.25078 C 484.98185,174.30129 481.89678,169.93302 478.71979,165.8415 C 476.37015,163.23564 473.75549,160.51503 472.82976,157.05525 C 474.45999,157.12416 475.52846,152.51357 476.67074,156.30021 C 478.01288,159.17366 480.79554,161.17802 481.66645,163.78276 C 484.57126,163.73548 479.51554,165.02401 482.13139,166.01624 C 481.11331,168.33446 485.39643,168.38235 486.21299,170.11219 C 488.82156,169.02886 488.87852,165.23396 489.95086,163.37717 C 486.79453,163.24507 490.77883,158.35399 488.01468,157.6117 C 488.70069,155.4487 488.9612,153.05085 487.66994,151.47024 C 490.89523,150.52194 486.98128,145.63485 485.59037,148.13813 C 484.49904,151.54279 478.51826,150.91566 477.84671,147.89763 C 478.66247,146.42504 478.84332,145.25347 480.45197,146.67899 C 484.09829,147.35692 486.94412,144.38916 489.37673,142.61922 C 493.5983,142.75888 491.12231,136.17594 495.41417,135.75327 C 496.93512,135.66543 497.93876,131.88627 498.96202,132.90726 C 501.32508,136.3088 503.12192,140.53761 506.99228,142.44949 C 509.41361,142.63199 508.64544,144.09488 507.12215,144.78487 C 505.20284,147.34173 510.69875,147.51687 509.50319,147.70468 C 507.51218,148.26492 503.53569,145.21801 504.69509,149.4592 C 505.30069,151.17156 505.80389,153.75972 503.35889,151.57365 C 501.69591,152.6381 504.55246,155.71969 502.05813,156.50252 C 502.94968,157.47637 504.64921,159.19513 502.39474,159.68928 C 501.87206,162.77226 502.58662,167.64391 507.09009,166.6676 C 508.2722,166.65091 510.34905,166.47481 508.07642,167.07359 C 506.49115,168.65343 501.51868,165.26232 503.79345,168.77098 C 505.7999,171.55296 506.05802,175.03799 507.20602,178.16863 C 506.37177,178.88063 504.12729,179.99922 504.09068,177.86978 C 502.63895,176.66439 501.37051,174.52891 499.06037,176.50976 C 495.38621,178.45424 497.88367,180.61907 500.03073,179.48587 C 497.83232,179.7392 498.12804,182.13257 500.21879,182.28199 C 499.44109,183.96016 500.9039,189.45069 502.52146,185.89423 C 503.3486,181.18112 508.05836,183.09765 511.28451,182.88493 C 515.18256,184.08127 509.07414,187.29899 511.69689,189.82215 C 514.3731,192.42086 514.42133,186.10936 515.17196,184.42329 C 515.85178,183.03183 516.94978,187.76053 517.22742,188.54398 C 519.4658,189.2449 522.47566,187.96829 520.23979,185.4577 C 519.6747,183.23071 525.7786,185.70792 523.71182,188.01451 C 522.19138,192.08 527.44768,192.01307 529.43351,189.8904 C 531.50835,191.01131 532.43499,188.02214 533.98585,190.32957 C 537.47042,191.73413 538.18601,195.41638 537.51777,198.75731 C 537.40569,201.81026 532.41671,200.42962 530.64846,202.86533 C 528.24017,206.12768 523.70988,206.25085 519.9541,206.48604 C 518.22799,205.03683 517.1354,206.19533 516.07625,207.77479 C 514.10719,211.53691 510.40249,207.3905 507.45285,209.3344 L 506.92771,209.31733 L 506.46658,209.23939 L 506.46658,209.23938 z');
@@ -21561,13 +21565,10 @@ define('text!views/../../templates/clouds.html',[],function () { return '<div cl
         _results = [];
         for (region in this.nz) {
           _results.push((function(path, region, view) {
-            return path.attr("transform", "scale(.5)").on("mouseover", function() {
+            return path.attr("transform", "scale(.4)").on("mouseover", function() {
               return d3.select(this).classed("hovering", true);
             }).on("mouseout", function() {
               return d3.select(this).classed("hovering", false);
-            }).on("click", function() {
-              d3.selectAll('path.js-region').classed("selected", false);
-              return d3.select(this).classed("selected", true);
             }).attr('class', 'js-region');
           })(this.nz[region], region, this));
         }
@@ -21584,23 +21585,47 @@ define('text!views/../../templates/clouds.html',[],function () { return '<div cl
   define('views/visualisations/city_line_chart',['backbone', 'd3'], function(Backbone, d3) {
     var CityLineChartView;
     CityLineChartView = Backbone.View.extend({
-      months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       data: null,
       chart: null,
       line: null,
       color: null,
       x: null,
       y: null,
-      y_axis_title: null,
+      title: null,
       y_range: null,
+      initialize: function() {
+        return this.create_tooltip();
+      },
       render: function(data, title, y_range) {
         this.data = data;
-        this.y_axis_title = title;
+        this.title = title;
         this.y_range = y_range;
-        return this.create_chart();
+        this.create_chart();
+        return this.create_legend();
+      },
+      on_hover: function(d) {
+        d3.selectAll("path." + (d.city.split(' ').join('_'))).classed("hovering", true);
+        return d3.selectAll("circle." + (d.city.split(' ').join('_'))).attr("r", 4);
+      },
+      off_hover: function(d) {
+        d3.selectAll("path." + (d.city.split(' ').join('_'))).classed("hovering", false);
+        return d3.selectAll("circle." + (d.city.split(' ').join('_'))).attr("r", 2);
+      },
+      show_tooltip: function(d) {
+        this.tooltip.html("<p>" + d.value + " " + this.title + " (" + d.city + ")</p>");
+        return this.tooltip.style("visibility", "visible");
+      },
+      hide_tooltip: function(d) {
+        return this.tooltip.style("visibility", "hidden");
+      },
+      move_tooltip: function(d) {
+        var event;
+        event = d3.event;
+        return this.tooltip.style("top", "" + (event.pageY - 10) + "px").style("left", "" + (event.pageX + 10) + "px");
       },
       re_render_data: function(region) {
-        var cities, city,
+        var circles, cities, city, city_legend, divs,
           _this = this;
         cities = _.filter(this.data, function(d) {
           return d.region === region;
@@ -21608,30 +21633,66 @@ define('text!views/../../templates/clouds.html',[],function () { return '<div cl
         city = this.chart.selectAll(".city").data(cities, function(d) {
           return d.city;
         });
-        city.exit().transition().remove();
+        city.exit().remove();
         city.enter().append("g").attr("class", "city");
-        city.append("path").attr("class", "line").attr("d", function(d) {
+        city.append("path").attr("d", function(d) {
           return _this.line(d.values);
         }).style("stroke", function(d) {
           return _this.color(d.city);
-        }).attr("fill", "none");
-        return city.append("text").datum(function(d) {
-          return {
-            city: d.city,
-            value: d.values[11]
-          };
-        }).attr("transform", function(d) {
-          return "translate(" + _this.x(11) + "," + _this.y(d.value) + ")";
-        }).attr("x", 3).attr("dy", ".35em").text(function(d) {
+        }).attr("fill", "none").attr("class", function(d) {
+          return d.city.split(' ').join('_');
+        });
+        circles = city.selectAll("circle").data(function(d, i) {
+          return _.map(d.values, function(val) {
+            return {
+              value: val,
+              city: d.city
+            };
+          });
+        });
+        circles.enter().append("circle").attr("r", 2).attr("cx", function(d, i) {
+          return _this.x(i);
+        }).attr("cy", function(d) {
+          return _this.y(d.value);
+        }).attr("fill", function(d) {
+          return _this.color(d.city);
+        }).on('mouseover', function(d) {
+          _this.on_hover(d);
+          return _this.show_tooltip(d);
+        }).on('mouseout', function(d) {
+          _this.off_hover(d);
+          return _this.hide_tooltip(d);
+        }).on('mousemove', function(d) {
+          return _this.move_tooltip(d);
+        }).attr('class', function(d) {
+          return d.city.split(' ').join('_');
+        });
+        city_legend = this.legend.selectAll("div.city-legend").data(cities, function(d) {
           return d.city;
         });
+        city_legend.exit().remove();
+        divs = city_legend.enter().append("div").attr('class', 'city-legend').on('mouseover', function(d) {
+          return _this.on_hover(d);
+        }).on('mouseout', function(d) {
+          return _this.off_hover(d);
+        });
+        divs.append('div').html(function(d) {
+          return "<div class=\"legend-colour\" style=\"background-color: " + (_this.color(d.city)) + "\"></div><span class=\"city-name\">" + d.city + "</span><br /><span class=\"extra\">Total " + _this.title + " - " + d.total + "</span>";
+        });
+        return divs.append('div').attr('class', 'clearfix');
+      },
+      create_tooltip: function() {
+        return this.tooltip = d3.select("body").append("div").attr('class', 'tool-tip');
+      },
+      create_legend: function() {
+        return this.legend = d3.selectAll('#js-new-zealand-legend');
       },
       create_chart: function() {
         var height, margin, width, xAxis, yAxis,
           _this = this;
         margin = {
           top: 20,
-          right: 80,
+          right: 20,
           bottom: 30,
           left: 50
         };
@@ -21644,14 +21705,14 @@ define('text!views/../../templates/clouds.html',[],function () { return '<div cl
           return _this.months[d];
         });
         yAxis = d3.svg.axis().scale(this.y).orient("left");
-        this.line = d3.svg.line().interpolate("basis").x(function(d, i) {
+        this.line = d3.svg.line().interpolate("cardinal").x(function(d, i) {
           return this.x(i);
         }).y(function(d) {
           return this.y(d);
         });
         this.chart = d3.select("#js-city-line-chart").append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         this.chart.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call(xAxis);
-        return this.chart.append("g").attr("class", "y axis").call(yAxis).append("text").attr("transform", "rotate(-90)").attr("y", 6).attr("dy", ".71em").style("text-anchor", "end").text(this.y_axis_title);
+        return this.chart.append("g").attr("class", "y axis").call(yAxis).append("text").attr("transform", "rotate(-90)").attr("y", 6).attr("dy", ".71em").attr("class", "vertical-hint").style("text-anchor", "end").text("" + this.title + " per month");
       }
     });
     return CityLineChartView;
@@ -21664,20 +21725,26 @@ define('text!views/../../templates/clouds.html',[],function () { return '<div cl
   define('views/visualisations/clouds',['backbone', 'text!../../../templates/clouds.html', "views/visualisations/new_zealand", "views/visualisations/city_line_chart"], function(Backbone, CloudTemplate, NewZealandView, CityLineChartView) {
     var CloudView;
     CloudView = Backbone.View.extend({
+      el: '#js-visualisation-container',
+      template: _.template(CloudTemplate),
+      initialize: function(options) {
+        return this.parentView = options.parentView;
+      },
       render: function() {
         var region, _fn,
           _this = this;
-        this.$el.show('slow');
-        this.$el.html(_.template(CloudTemplate));
+        this.$el.html(this.template);
         this.new_zealand = new NewZealandView();
         this.new_zealand.render();
         this.city_line_chart_view = new CityLineChartView();
         d3.json('data/sunshine_hours.json', function(data) {
-          return _this.city_line_chart_view.render(data, "Hours of Sunshine per Month", [40, 260]);
+          return _this.city_line_chart_view.render(data, "Hours of Sunshine", [40, 260]);
         });
         _fn = function(path, region, view) {
           return path.on("click", function() {
-            return view.city_line_chart_view.re_render_data(region);
+            view.city_line_chart_view.re_render_data(region);
+            d3.selectAll('path.js-region').classed("selected", false);
+            return d3.select(this).classed("selected", true);
           });
         };
         for (region in this.new_zealand.nz) {
@@ -21691,7 +21758,7 @@ define('text!views/../../templates/clouds.html',[],function () { return '<div cl
 
 }).call(this);
 
-define('text!views/../../templates/ufo.html',[],function () { return '<div class="inner-container"><h1>Unidentified Flying Objects</h1><p>There were 87 confirmed UFO sightings in New Zealand during 2012, 40% of which were reported in Auckland. As a side, Methamphetamine and Opiates are both purer and cheaper in Auckland compared to Wellington and Christchurch.</p><h3>Please select a region for additional information:</h3><svg id="js-new-zealand-svg"></svg><div id="js-ufo-sightings"><h2 class="heading"></h2><p class="description"></p><table class="table hidden"><thead><tr><th>Time</th><th>Location</th><th>Event</th><th>&nbsp;</th></tr></thead><tbody></tbody></table></div><p>http://www.ndp.govt.nz/moh.nsf/pagescm/7515/$File/trends-in-drug-use-in-akld-wgtn-chch.pdfhttp://www.ufocusnz.org.nz/content/New-Zealand-UFO-Sightings-2012/133.aspxhttp://www.niwa.co.nz/education-and-training/schools/resources/climate/wetdayshttp://www.niwa.co.nz/education-and-training/schools/resources/climate/sunshine</p></div>';});
+define('text!views/../../templates/ufo.html',[],function () { return '<h1>Unidentified Flying Objects</h1><p class="introduction">Although the New Zealand Defence Force does not take an official interest in UFO reports, in December 2010 it released previously secret files on hundreds of purported UFO reports. The most widely reported incident, and the only one investigated, involved the Kaikoura lights seen by a pilot in 1978. </p><div class="graphics"><div class="infographic"><div class="number">87</div><div class="what">Sightings</div><div class="extra">In 2012</div></div><div class="infographic place"><div class="gold-star">#1<div class="glare"></div></div><div class="sign">Tauranga<div class="glare"></div></div><div class="pole"><div class="shadow"></div></div><div class="what">For UFO sightings</div><div class="extra">In 2012, per capita</div></div></div><div class="clearfix"></div><h2><span class="text">UFO Sightings by region</span></h2><div class="nz-map"><svg id="js-new-zealand-svg"></svg></div><div class="clearfix"></div><div id="js-ufo-sightings"><h2 class="heading"></h2><p class="description"></p><table class="table hidden"><thead><tr><th>Time</th><th>Location</th><th>Event</th><th>&nbsp;</th></tr></thead><tbody></tbody></table></div><p class="outro">The above data was sourced from ufocusnz.org and are personal sightings from individual reports. All reports are copyrighted to UFOCUS NZ.</p><div class="sources"><h4><span class="text">Sources</span></h4><p><a href="http://www.ufocusnz.org.nz/content/New-Zealand-UFO-Sightings-2012/133.aspx">ufocusnz.org.nz/content/New-Zealand-UFO-Sightings-2012/133.aspx</a><br /></p></div>';});
 
 (function() {
 
@@ -21699,11 +21766,15 @@ define('text!views/../../templates/ufo.html',[],function () { return '<div class
     var UfoSightingsView;
     UfoSightingsView = Backbone.View.extend({
       ufo_data: null,
+      el: '#js-visualisation-container',
+      template: _.template(ufoTemplate),
+      initialize: function(options) {
+        return this.parentView = options.parentView;
+      },
       render: function() {
         var region, _results,
           _this = this;
-        this.$el.show('slow');
-        this.$el.html(_.template(ufoTemplate));
+        this.$el.html(this.template);
         this.new_zealand = new newZealandView();
         this.new_zealand.render();
         d3.json('data/ufo_sightings.json', function(data) {
@@ -21713,7 +21784,9 @@ define('text!views/../../templates/ufo.html',[],function () { return '<div class
         for (region in this.new_zealand.nz) {
           _results.push((function(path, region, view) {
             return path.on("click", function() {
-              return view.render_ufo_template(region);
+              view.render_ufo_template(region);
+              d3.selectAll('path.js-region').classed("selected", false);
+              return d3.select(this).classed("selected", true);
             });
           })(this.new_zealand.nz[region], region, this));
         }
@@ -21732,7 +21805,7 @@ define('text!views/../../templates/ufo.html',[],function () { return '<div class
         if (region === 'Eastcape') {
           readable_region = 'East Cape';
         }
-        $('#js-ufo-sightings h2.heading').html("Region: " + readable_region);
+        $('#js-ufo-sightings h2.heading').html("<span class=\"text\">Region: " + readable_region + "</span>");
         if (ufo_sightings.length === 0) {
           $('#js-ufo-sightings table').hide();
           $('#js-ufo-sightings p.description').html('There have been no sightings in this region.');
@@ -21769,27 +21842,73 @@ define('text!views/../../templates/ufo.html',[],function () { return '<div class
 
 }).call(this);
 
-define('text!views/../../templates/rain_fall.html',[],function () { return '<div class="inner-container"><h1>Droughts and Floods</h1><p>Spiel to go here </p><svg id="js-new-zealand-svg"></svg><div id="js-city-line-chart"></div></div>';});
+define('text!views/../../templates/wet_days.html',[],function () { return '<h1>Yet another rainy day</h1><p>Over the northern and central areas of New Zealand more rainfall falls in winter than in summer, dramatically increasing the amount of wet days per month, whereas for much of the southern part of New Zealand, winter is the season of least rainfall and the amount of wet days per month remain relatively constant throughout the year.</p><div class="graphics"><div class="infographic"><div class="number">119</div><div class="icon icon-rain"></div><div class="what">rainy days</div><div class="extra">Per year on average across NZ</div></div><div class="infographic"><div class="number">2½</div><div class="icon icon-rain"></div><div class="what">days of rain</div><div class="extra">on average during October in Alexandra</div></div><svg id="js-new-zealand-svg"></svg><div id="js-new-zealand-legend"></div><div id="js-city-line-chart"></div><p class="outro"></p>The above information has been based off mean monthly values of rainy days for the 1981-2010 period for locations having at least 5 complete years of data.</div><div class="sources"><h4><span class="text">Sources</span></h4><p><a href="http://www.niwa.co.nz/education-and-training/schools/resources/climate/wetdays">niwa.co.nz/education-and-training/schools/resources/climate/wetdays</a><a href="http://www.niwa.co.nz/education-and-training/schools/resources/climate/overview">niwa.co.nz/education-and-training/schools/resources/climate/overview</a></p></div>';});
+
+(function() {
+
+  define('views/visualisations/wet_days',['backbone', 'text!../../../templates/wet_days.html', "views/visualisations/new_zealand", "views/visualisations/city_line_chart"], function(Backbone, WetDaysTemplate, NewZealandView, CityLineChartView) {
+    var WetDaysView;
+    WetDaysView = Backbone.View.extend({
+      el: '#js-visualisation-container',
+      template: _.template(WetDaysTemplate),
+      initialize: function(options) {
+        return this.parentView = options.parentView;
+      },
+      render: function() {
+        var region, _fn,
+          _this = this;
+        this.$el.html(this.template);
+        this.new_zealand = new NewZealandView();
+        this.new_zealand.render();
+        this.city_line_chart_view = new CityLineChartView();
+        d3.json('data/wet_days.json', function(data) {
+          return _this.city_line_chart_view.render(data, "Wet Days", [2, 18]);
+        });
+        _fn = function(path, region, view) {
+          return path.on("click", function() {
+            view.city_line_chart_view.re_render_data(region);
+            d3.selectAll('path.js-region').classed("selected", false);
+            return d3.select(this).classed("selected", true);
+          });
+        };
+        for (region in this.new_zealand.nz) {
+          _fn(this.new_zealand.nz[region], region, this);
+        }
+        return this;
+      }
+    });
+    return WetDaysView;
+  });
+
+}).call(this);
+
+define('text!views/../../templates/rain_fall.html',[],function () { return '<h1>Rain by the bucketful</h1><p class="introduction">Most areas of New Zealand have between 600 and 1600 mm of rainfall, spread throughout the year with a dry period during the summer. Over the northern and central areas of New Zealand more rainfall falls in winter than in summer, whereas for much of the southern part of New Zealand, winter is the season of least rainfall.</p><div class="graphics"><div class="infographic"><div class="number">1300mm</div><div class="icon icon-rain"></div><div class="what">Of Rainfall</div><div class="extra">Per year on average</div></div></div><svg id="js-new-zealand-svg"></svg><div id="js-new-zealand-legend"></div><div id="js-city-line-chart"></div>';});
 
 (function() {
 
   define('views/visualisations/rain_fall',['backbone', 'text!../../../templates/rain_fall.html', "views/visualisations/new_zealand", "views/visualisations/city_line_chart"], function(Backbone, RailFallTemplate, NewZealandView, CityLineChartView) {
     var RailFallView;
     RailFallView = Backbone.View.extend({
+      el: '#js-visualisation-container',
+      template: _.template(RailFallTemplate),
+      initialize: function(options) {
+        return this.parentView = options.parentView;
+      },
       render: function() {
         var region, _fn,
           _this = this;
-        this.$el.show('slow');
-        this.$el.html(_.template(RailFallTemplate));
+        this.$el.html(this.template);
         this.new_zealand = new NewZealandView();
         this.new_zealand.render();
         this.city_line_chart_view = new CityLineChartView();
         d3.json('data/rain_fall.json', function(data) {
-          return _this.city_line_chart_view.render(data, "mm of Rain per Month", [0, 300]);
+          return _this.city_line_chart_view.render(data, "mm of Rain", [0, 300]);
         });
         _fn = function(path, region, view) {
           return path.on("click", function() {
-            return view.city_line_chart_view.re_render_data(region);
+            view.city_line_chart_view.re_render_data(region);
+            d3.selectAll('path.js-region').classed("selected", false);
+            return d3.select(this).classed("selected", true);
           });
         };
         for (region in this.new_zealand.nz) {
@@ -21803,47 +21922,342 @@ define('text!views/../../templates/rain_fall.html',[],function () { return '<div
 
 }).call(this);
 
+define('text!views/../../templates/meteor_shower.html',[],function () { return '<div class="inner-container"><h1>Shootings Stars</h1><p>Stuff to go here.</p><script \'src\'="http://d3js.org/topojson.v0.min.js"></script><input name="html5shim-2" id="js-range-slider" type="range" step="1" title="Range: 0 to 100 in steps of 1" value="0" style="width: 100%" min="0" max="246" /><h2 id="js-current-year">1332</h2><div id="js-globe-container"></div></div>';});
+
 (function() {
 
-  define('views/info',['backbone', 'views/visualisations/clouds', 'views/visualisations/ufo_sightings', 'views/visualisations/rain_fall'], function(Backbone, CloudsView, UfoView, RainView) {
+  define('views/visualisations/meteor_shower',['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojson'], function(Backbone, MeteorShowerTemplate, d3, topojson) {
+    var MeteorView;
+    MeteorView = Backbone.View.extend({
+      events: {
+        'change #js-range-slider': 'change_range_slider'
+      },
+      el: '#js-visualisation-container',
+      template: _.template(MeteorShowerTemplate),
+      initialize: function(options) {
+        return this.parentView = options.parentView;
+      },
+      render: function() {
+        this.$el.html(this.template);
+        this.render_geo_chart();
+        return this;
+      },
+      render_geo_chart: function() {
+        var boundry_feature, graticule, height, land_feature, width,
+          _this = this;
+        width = 688;
+        height = 370;
+        land_feature = null;
+        boundry_feature = null;
+        this.projection = d3.geo.equirectangular().scale(110).translate([width / 2, height / 2]);
+        this.svg = d3.select("#js-globe-container").append("svg").attr("width", width).attr("height", height);
+        this.path = d3.geo.path().projection(this.projection);
+        this.svg.append("defs").append("path").datum({
+          type: "Sphere"
+        }).attr("id", "sphere").attr("d", this.path);
+        this.svg.append("use").attr("class", "fill").attr("xlink:href", "#sphere");
+        graticule = d3.geo.graticule();
+        d3.json('data/worldcountries.geo.json', function(world) {
+          land_feature = _this.svg.append("path").datum(topojson.feature(world, world.objects.land)).attr("class", function(d) {
+            return "land";
+          }).attr("d", _this.path);
+          return boundry_feature = _this.svg.append("path").datum(topojson.mesh(world, world.objects.countries, function(a, b) {
+            return a !== b;
+          })).attr("class", "boundary").attr("d", _this.path);
+        });
+        return d3.json('data/meteorites.json', function(data) {
+          var masses;
+          masses = _.map(data, function(d) {
+            return d.mass;
+          });
+          _this.explosion_scale = d3.scale.linear().domain([d3.min(masses), d3.max(masses)]).range([5, 20]);
+          _this.data_grouped_yearly = d3.nest().key(function(d) {
+            return d.year;
+          }).entries(data);
+          _this.meteorites = _this.svg.selectAll('path.point').data(_this.data_grouped_yearly[0].values);
+          return _this.meteorites.enter().append("circle").attr("cx", function(d) {
+            return _this.projection([d.long, d.lat])[0];
+          }).attr('cy', function(d) {
+            return _this.projection([d.long, d.lat])[1];
+          }).attr("r", function(d) {
+            return "" + (_this.explosion_scale(d.mass)) + "px";
+          });
+        });
+      },
+      change_range_slider: function(e) {
+        var data,
+          _this = this;
+        if (this.data_grouped_yearly.length > 0) {
+          data = this.data_grouped_yearly[$(e.target).val()];
+          $('#js-current-year').html(data.key);
+          this.meteorites = this.svg.selectAll('circle').data(data.values, function(d) {
+            return d.lat + d.long;
+          });
+          this.meteorites.exit().remove();
+          return this.meteorites.enter().append("circle").attr("cx", function(d) {
+            return _this.projection([d.long, d.lat])[0];
+          }).attr('cy', function(d) {
+            return _this.projection([d.long, d.lat])[1];
+          }).attr("r", function(d) {
+            return "" + (_this.explosion_scale(d.mass)) + "px";
+          });
+        }
+      }
+    });
+    return MeteorView;
+  });
+
+}).call(this);
+
+define('text!views/../../templates/erosion.html',[],function () { return '';});
+
+(function() {
+
+  define('views/visualisations/erosion',['backbone', 'text!../../../templates/erosion.html'], function(Backbone, ErosionTemplate) {
+    var ErosionView;
+    ErosionView = Backbone.View.extend({
+      el: '#js-visualisation-container',
+      template: _.template(ErosionTemplate),
+      initialize: function(options) {
+        return this.parentView = options.parentView;
+      },
+      render: function() {
+        return this.$el.html(this.template);
+      }
+    });
+    return ErosionView;
+  });
+
+}).call(this);
+
+define('text!views/../../templates/fruit_bats.html',[],function () { return '<h1>Bats of New Zealand</h1><p class="intro">New Zealand has three different native species of bats: <ul><li>The greater short tailed bat (<i>Mystacina robusta</i>); which is thought to be extinct.</li><li>The lesser short-tailed bat (<i>Mystacina tuberculata</i>); currently endangered and a species of highest conservation priority</li><li>The long-tailed bat (<i>Chalinolobus tuberculatus</i>); a more \'common\' bat which is widely distributed throughout the mainland, Stewart Island, Little Barrier and Great Barrier islands alongside Kapiti Island.</li></ul></p><h2>The lesser short-tailed bat</h2><p class="main-content">The endangered lesser short-tailed bat is an ancient species unique to New Zealand and is found only at a few sites. It is also is the sole survivor of an ancient Australian lineage and is now the only member of its family, Mystacinidae.</p><div class="graphics"><div class="infographic"><div class="number">300</div><div class="icon"></div><div class="what">est. population</div></div><div class="infographic has-pie"><div class="number">5%</div><div data-count="5" class="pie-graph"></div><div class="what">occupied habitat</div><div class="extra">remains since human settlement</div></div></div><img src="images/lesser-short-tailed-1.jpg" width="300" /><img src="images/lesser-short-tailed-2.jpg" width="300" /><p>Funnily enough Mystacinids are also the most "un-batlike" family of bats. They spend much of the time on the ground, instead of flying, and have the unique ability to fold their wings into a leathery membrane when not in use.</p><h3>Fun Facts:</h3><ul><li>Short-tailed bats are small, robust and stocky with prominent pointed ears. They weigh between 11 and 15 grams.</li><li>The short tailed bat is thought to be a lek breeder, whereby. males compete for traditional \'singing\' posts and `sing\' for a female.</li><li>The short-tailed bat has also adapted to ground hunting and is one of the few bats in the world which spends large amounts of time on the forest floor, using its folded wings as `front limbs\' for scrambling around.</li><li>They eat insects, fruit, nectar and pollen. Insects caught in the air or on the ground. Few other bat species eat plant matter.</li></ul><div class="sources"><h4><span class="text">Sources</span></h4><p><a href="http://www.doc.govt.nz/conservation/native-animals/bats/short-tailed-bat/facts/">doc.govt.nz/conservation/native-animals/bats/short-tailed-bat/facts/</a><br /><a href="http://www.doc.govt.nz/conservation/native-animals/bats/short-tailed-bat/docs-work/waiohine-bats-in-tararua-forest-park/">doc.govt.nz/conservation/native-animals/bats/short-tailed-bat/docs-work/waiohine-bats-in-tararua-forest-park/</a><br /><a href="http://www.doc.govt.nz/getting-involved/volunteer-join-or-start-a-project/volunteer/volunteer-programme-by-region/wairarapa/waiohine-bats/">doc.govt.nz/getting-involved/volunteer-join-or-start-a-project/volunteer/volunteer-programme-by-region/wairarapa/waiohine-bats/</a><br /><a href="http://www.doc.govt.nz/conservation/native-animals/bats/long-tailed-bat/">doc.govt.nz/conservation/native-animals/bats/long-tailed-bat/</a><br /><a href="http://www.mfe.govt.nz/environmental-reporting/biodiversity/indicator-species/bat/">mfe.govt.nz/environmental-reporting/biodiversity/indicator-species/bat/</a><br /><a href="http://collections.tepapa.govt.nz/theme.aspx?irn=2863">collections.tepapa.govt.nz/theme.aspx?irn=2863</a></p></div>';});
+
+(function() {
+
+  define('views/visualisations/fruit_bats',['backbone', 'text!../../../templates/fruit_bats.html'], function(Backbone, FruitBatTemplate) {
+    var FruitBatView;
+    FruitBatView = Backbone.View.extend({
+      el: '#js-visualisation-container',
+      template: _.template(FruitBatTemplate),
+      initialize: function(options) {
+        return this.parentView = options.parentView;
+      },
+      render: function() {
+        return this.$el.html(this.template);
+      }
+    });
+    return FruitBatView;
+  });
+
+}).call(this);
+
+define('text!views/../../templates/bugs.html',[],function () { return '';});
+
+(function() {
+
+  define('views/visualisations/bugs',['backbone', 'text!../../../templates/bugs.html'], function(Backbone, BugTemplate) {
+    var BugView;
+    BugView = Backbone.View.extend({
+      el: '#js-visualisation-container',
+      template: _.template(BugTemplate),
+      initialize: function(options) {
+        return this.parentView = options.parentView;
+      },
+      render: function() {
+        return this.$el.html(this.template);
+      }
+    });
+    return BugView;
+  });
+
+}).call(this);
+
+(function() {
+
+  define('views/visualisations/base',['backbone', 'views/visualisations/clouds', 'views/visualisations/ufo_sightings', 'views/visualisations/wet_days', 'views/visualisations/rain_fall', 'views/visualisations/meteor_shower', 'views/visualisations/erosion', 'views/visualisations/fruit_bats', 'views/visualisations/bugs'], function(Backbone, CloudView, UfoView, WetDaysView, RainFallView, MeteorShowerView, ErosionView, FruitBatView, BugView) {
+    var BaseView;
+    return BaseView = Backbone.View.extend({
+      render_infographics: function() {
+        var height, radius, width;
+        width = 40;
+        height = 40;
+        radius = 20;
+        return $('.pie-graph').each(function() {
+          var arc, arcs, data, pie, vis;
+          data = [100 - $(this).data('count'), $(this).data('count')];
+          vis = d3.selectAll($(this)).append('svg').data([data]).attr('width', 40).attr('height', 40).append("g").attr("transform", "translate(" + radius + ", " + radius + ")");
+          arc = d3.svg.arc().outerRadius(radius);
+          pie = d3.layout.pie().sort(d3.ascending);
+          arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
+          return arcs.append("svg:path").attr("class", function(d, i) {
+            if (i === 0) {
+              return 'non-chance';
+            } else {
+              return 'chance';
+            }
+          }).attr("d", arc);
+        });
+      },
+      render_sunshine_hours: function() {
+        this.cloud_view = new CloudView({
+          parentView: this
+        });
+        this.cloud_view.render();
+        this.render_infographics();
+        return this.cloud_view;
+      },
+      render_ufo_sightings: function() {
+        this.ufo_view = new UfoView({
+          parentView: this
+        });
+        this.ufo_view.render();
+        this.render_infographics();
+        return this.ufo_view;
+      },
+      render_wet_days: function() {
+        this.wet_days_view = new WetDaysView({
+          parentView: this
+        });
+        this.wet_days_view.render();
+        this.render_infographics();
+        return this.wet_days_view;
+      },
+      render_rain_fall: function() {
+        this.rain_fall_view = new RainFallView({
+          parentView: this
+        });
+        this.rain_fall_view.render();
+        this.render_infographics();
+        return this.rain_fall_view;
+      },
+      render_meteor_shower: function() {
+        this.meteor_shower_view = new MeteorShowerView({
+          parentView: this
+        });
+        this.meteor_shower_view.render();
+        this.render_infographics();
+        return this.meteor_shower_view;
+      },
+      render_bugs: function() {
+        this.bug_view = new BugView({
+          parentView: this
+        });
+        this.bug_view.render();
+        this.render_infographics();
+        return this.bug_view;
+      },
+      render_fruit_bats: function() {
+        this.fruit_bat_view = new FruitBatView({
+          parentView: this
+        });
+        this.fruit_bat_view.render();
+        this.render_infographics();
+        return this.fruit_bat_view;
+      },
+      render_erosion: function() {
+        this.render_erosion = new ErosionView({
+          parentView: this
+        });
+        this.render_erosion.render();
+        return this.render_erosion;
+      },
+      close: function() {
+        return $('#js-visualisation-container').html("");
+      }
+    });
+  });
+
+}).call(this);
+
+(function() {
+
+  define('views/infographic',['backbone'], function(Backbone) {
+    var InfographicView;
+    InfographicView = Backbone.View.extend({
+      initialize: function() {
+        _.bindAll(this);
+        return _.each(this.$('.number'), this.setupNumber);
+      },
+      setupNumber: function(el) {
+        var $el, digits, number,
+          _this = this;
+        console.log(el);
+        $el = $(el);
+        number = $el.text();
+        digits = number.split("");
+        $el.html("");
+        _.each(digits, function(digit) {
+          return $el.append("<span class=\"digit\">" + digit + "<div class=\"glare\"></div></span>");
+        });
+      }
+    });
+    return InfographicView;
+  });
+
+}).call(this);
+
+(function() {
+
+  define('views/info',['backbone', 'views/visualisations/base', 'views/infographic'], function(Backbone, VisualisationView, InfographicView) {
     var InfoView;
     InfoView = Backbone.View.extend({
-      events: {
-        'click .close': 'close',
-        'click .bg': 'close'
+      vizualisation_view: null,
+      current_visualisation: null,
+      initialize: function() {
+        return this.vizualisation_view = new VisualisationView({
+          parentView: this
+        });
       },
-      id: "info",
-      initialize: function(options) {
-        this.options = options;
-        _.bindAll(this);
-        this.$el = $(this.el);
-        this.render();
-        console.log(this);
-      },
-      template: _.template("<div class=\"bg\"></div>\n<div class=\"document\">\n    <a href=\"#\" class=\"close\"><div class=\"circular-glare\"></div></a>\n    <div class=\"corner\"></div>\n    <div class=\"content\"></div>\n</div>"),
-      render: function() {
-        var v, view;
-        this.$el.html(this.template(this));
-        switch (this.options.viz_id) {
+      render: function(viz_id) {
+        $('#info').removeClass('hidden');
+        console.log(viz_id);
+        switch (viz_id) {
           case "clouds":
-            view = CloudsView;
+            this.renderSunshineHours();
             break;
           case "spaceship":
-            view = UfoView;
+            this.renderUfoSightings();
             break;
           case "rain_fall":
-            view = RainView;
+            this.renderRainFall();
+            break;
+          case "meteor_shower":
+            this.renderMeteorShower();
+            break;
+          case "wet_days":
+            this.renderWetDays();
+            break;
+          case "fruit_bat":
+            this.renderFruitBats();
         }
-        if (view != null) {
-          v = new view({
-            el: this.$('.content')
+        return _.each($('#info .infographic'), function(el) {
+          var v;
+          return v = new InfographicView({
+            el: el
           });
-          return v.render();
-        }
+        });
+      },
+      renderUfoSightings: function() {
+        return this.current_visualisation = this.vizualisation_view.render_ufo_sightings();
+      },
+      renderSunshineHours: function() {
+        return this.current_visualisation = this.vizualisation_view.render_sunshine_hours();
+      },
+      renderWetDays: function() {
+        return this.current_visualisation = this.vizualisation_view.render_wet_days();
+      },
+      renderRainFall: function() {
+        return this.current_visualisation = this.vizualisation_view.render_rain_fall();
+      },
+      renderMeteorShower: function() {
+        return this.current_visualisation = this.vizualisation_view.render_meteor_shower();
+      },
+      renderFruitBats: function() {
+        return this.current_visualisation = this.vizualisation_view.render_fruit_bats();
       },
       close: function(e) {
-        e.preventDefault();
-        this.remove();
+        this.vizualisation_view.remove();
+        $('#info').addClass('hidden');
       }
     });
     return InfoView;
@@ -21859,14 +22273,16 @@ define('text!views/../../templates/rain_fall.html',[],function () { return '<div
       className: 'page',
       events: {
         'click .data-marker': 'openData',
-        'click .close': 'closeData'
+        'click .close': 'closeData',
+        'click .bg': 'closeData'
       },
-      className: 'page',
+      info_view: null,
+      debug: true,
       initialize: function() {
         _.bindAll(this);
         return this.$el = $(this.el);
       },
-      template: _.template("<div class=\"picture\">\n  <div class=\"frame\">\n    <div class=\"preloader\">\n      <div class=\"spinner\">\n        <i class=\"icon-cw-circled animate-spin\"></i>\n        <span class=\"circular-glare\"></span>\n      </div>\n    </div>\n  </div>\n</div>\n<div class=\"words\">\n  <%= content %>\n</div>\n<div id=\"left\">\n  <div id=\"js-visualisation-container\" class=\"hidden\">\n    <a href=\"#\" class=\"close\">&times;</a>\n    <div class=\"content\"><p>vis content...</p></div>\n  </div>\n</div>\n<a href=\"<%= previous_page_url %>\" class=\"pagination arrow left\"><span class=\"icon-left-open\"></span></a>\n<a href=\"<%= next_page_url %>\" class=\"pagination arrow right\"><span class=\"icon-right-open\"></span></a>"),
+      template: _.template("<div class=\"picture\">\n  <div class=\"frame\">\n    <div class=\"preloader\">\n      <div class=\"spinner\">\n        <i class=\"icon-cw-circled animate-spin\"></i>\n        <span class=\"circular-glare\"></span>\n      </div>\n    </div>\n  </div>\n</div>\n<div class=\"words\">\n  <%= content %>\n</div>\n<a href=\"<%= previous_page_url %>\" class=\"pagination arrow left\"><span class=\"icon-left-open\"></span></a>\n<a href=\"<%= next_page_url %>\" class=\"pagination arrow right\"><span class=\"icon-right-open\"></span></a>\n<div id=\"info\" class=\"hidden\">\n  <div class=\"bg\"></div>\n  <div class=\"document\">\n      <a href=\"#\" class=\"close\"><div class=\"circular-glare\"></div></a>\n      <div class=\"corner\"></div>\n      <div class=\"content\" id=\"js-visualisation-container\"></div>\n  </div>\n</div>\n<div class=\"tool-tip\">\n</div>"),
       render: function() {
         var _this = this;
         this.$el.html(this.template(this.model.toJSON()));
@@ -21880,6 +22296,9 @@ define('text!views/../../templates/rain_fall.html',[],function () { return '<div
         this.$img = $(this.img);
         this.$img.addClass('loading');
         this.$('.frame').append(this.img);
+        this.info_view = new InfoView({
+          parentView: this
+        });
         return _.each(this.model.get('data_points'), function(point) {
           var el;
           el = "<div class=\"data-marker\" data-id=\"" + point.id + "\" style=\"left: " + point.left + "; top: " + point.top + ";\">+<div class=\"glare\"></div></div>";
@@ -21888,34 +22307,19 @@ define('text!views/../../templates/rain_fall.html',[],function () { return '<div
         });
       },
       openData: function(e) {
-        var $marker, id, iv,
-          _this = this;
+        var $marker, id;
         $marker = $(e.target);
+        if (!$marker.hasClass('data-marker')) {
+          $marker = $marker.parents('.data-marker');
+        }
         id = $marker.attr('data-id');
-        console.log(id);
-        e.preventDefault();
-        iv = new InfoView({
-          story: this.story,
-          viz_id: id
-        });
-        $('body').append(iv.el);
-        return;
-        this.$('#story').addClass('hidden');
-        this.$('#js-visualisation-container').removeClass('hidden');
-        $marker.addClass('open');
-        _.each(this.$('.data-marker'), function(el, index) {
-          var $el;
-          $el = $(el);
-          if (!$el.hasClass("open")) {
-            $el.addClass('not-me-open');
-          }
-        });
+        this.info_view.render(id);
       },
       closeData: function(e) {
         var _this = this;
         e.preventDefault();
+        this.info_view.close();
         this.$('#story').removeClass('hidden');
-        this.$('#js-visualisation-container').addClass('hidden');
         _.each(this.$('.data-marker'), function(el) {
           var $el;
           $el = $(el);
@@ -21998,7 +22402,7 @@ define('text!views/../../templates/rain_fall.html',[],function () { return '<div
             }
           ]
         }, {
-          content: "<p><span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Mamma, what happened to the ground?<span class=\"quote-mark right\">&#8221;</span></span><br />\nOlive’s Mother took a good look and said,<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Maybe a rock was <span class=\"data-marker\">washed away</span>, see that rock nearby?<span class=\"quote-mark right\">&#8221;</span></span><br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Or maybe a <span class=\"data-marker\">star fell</span> from the sky?<span class=\"quote-mark right\">&#8221;</span></span> said Olive<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>That could be<span class=\"quote-mark right\">&#8221;</span></span> said Olive’s Mother, <span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>there is always more than one answer<span class=\"quote-mark right\">&#8221;</span></span></p>",
+          content: "<p><span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Mamma, what happened to the ground?<span class=\"quote-mark right\">&#8221;</span></span><br />\nOlive’s Mother took a good look and said,<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Maybe a rock was <span class=\"data-marker\" data-id=\"erosion\">washed away</span>, see that rock nearby?<span class=\"quote-mark right\">&#8221;</span></span><br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Or maybe a <span class=\"data-marker\" data-id=\"meteor_shower\">star fell</span> from the sky?<span class=\"quote-mark right\">&#8221;</span></span> said Olive<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>That could be<span class=\"quote-mark right\">&#8221;</span></span> said Olive’s Mother, <span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>there is always more than one answer<span class=\"quote-mark right\">&#8221;</span></span></p>",
           images: [
             {
               "src": "/images/pages/spread-3.jpg"
@@ -22006,7 +22410,7 @@ define('text!views/../../templates/rain_fall.html',[],function () { return '<div
           ],
           data_points: [
             {
-              id: "rain_fall",
+              id: "erosion",
               left: "50%",
               top: "42%"
             }, {
@@ -22016,7 +22420,7 @@ define('text!views/../../templates/rain_fall.html',[],function () { return '<div
             }
           ]
         }, {
-          content: "<p><span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Mamma, what happened to the sunshine?<span class=\"quote-mark right\">&#8221;</span></span><br />\nOlive’s Mother took a good look and sad,<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Maybe a cloud <span class=\"data-marker\" data-id=\"clouds\">moved over the sun</span>, see all those clouds up there?<span class=\"quote-mark right\">&#8221;</span></span><br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Or maybe a <span class=\"data-marker\" data-id=\"spaceship\">spaceship flew past</span>?<span class=\"quote-mark right\">&#8221;</span></span> said Olive<br />\n<span class=\"spoken><span class=\"quote-mark left\">&#8220;</span>That could be<span class=\"quote-mark right\">&#8221;</span></span>, said Olive’s Mother, <span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>there is always more than one answer<span class=\"quote-mark right\">&#8221;</span></span></p>",
+          content: "<p><span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Mamma, what happened to the sunshine?<span class=\"quote-mark right\">&#8221;</span></span><br />\nOlive’s Mother took a good look and spaceshipd,<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Maybe a cloud <span class=\"data-marker\" data-id=\"clouds\">moved over the sun</span>, see all those clouds up there?<span class=\"quote-mark right\">&#8221;</span></span><br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Or maybe a <span class=\"data-marker\" data-id=\"spaceship\">spaceship flew past</span>?<span class=\"quote-mark right\">&#8221;</span></span> said Olive<br />\n<span class=\"spoken><span class=\"quote-mark left\">&#8220;</span>That could be<span class=\"quote-mark right\">&#8221;</span></span>, said Olive’s Mother, <span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>there is always more than one answer<span class=\"quote-mark right\">&#8221;</span></span></p>",
           images: [
             {
               "src": "/images/pages/spread-4.jpg"
@@ -22034,7 +22438,7 @@ define('text!views/../../templates/rain_fall.html',[],function () { return '<div
             }
           ]
         }, {
-          content: "<p><span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Mamma, what happened to my hand?<span class=\"quote-mark right\">&#8221;</span></span><br />\nOlive’s Mother took a good look and said,<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Maybe some <span class=\"data-marker\" data-id=\"rain_fall\">water dripped down</span> on it, see how the leaves are all wet?<span class=\"quote-mark right\">&#8221;</span></span><br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Or maybe it’s the juice from a <span class=\"data-marker\" data-id=\"fruit_bat\">fruit bat</span>’s breakfast?<span class=\"quote-mark right\">&#8221;</span></span> said Olive<br />\n<span class=\"spoken><span class=\"quote-mark left\">&#8220;</span>That could be<span class=\"quote-mark right\">&#8221;</span></span>, said Olive’s Mother, <span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>there is always more than one answer<span class=\"quote-mark right\">&#8221;</span></span></p>",
+          content: "<p><span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Mamma, what happened to my hand?<span class=\"quote-mark right\">&#8221;</span></span><br />\nOlive’s Mother took a good look and said,<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Maybe some <span class=\"data-marker\" data-id=\"wet_days\">water dripped down</span> on it, see how the leaves are all wet?<span class=\"quote-mark right\">&#8221;</span></span><br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Or maybe it’s the juice from a <span class=\"data-marker\" data-id=\"fruit_bat\">fruit bat</span>’s breakfast?<span class=\"quote-mark right\">&#8221;</span></span> said Olive<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>That could be<span class=\"quote-mark right\">&#8221;</span></span>, said Olive’s Mother, <span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>there is always more than one answer<span class=\"quote-mark right\">&#8221;</span></span></p>",
           images: [
             {
               "src": "/images/pages/spread-5.jpg"
@@ -22042,11 +22446,11 @@ define('text!views/../../templates/rain_fall.html',[],function () { return '<div
           ],
           data_points: [
             {
-              id: "rain_fall",
+              id: "fruit_bat",
               top: "10%",
               left: "10%"
             }, {
-              id: "fruit_bat",
+              id: "wet_days",
               top: "79%",
               left: "41%"
             }
@@ -22080,161 +22484,6 @@ define('text!views/../../templates/rain_fall.html',[],function () { return '<div
 
 }).call(this);
 
-define('text!views/../../templates/wet_days.html',[],function () { return '<div class="inner-container"><h1>It can\'t rain all the time</h1><p>Something about rain and whatnot</p><svg id="js-new-zealand-svg"></svg><div id="js-city-line-chart"></div></div>';});
-
-(function() {
-
-  define('views/visualisations/wet_days',['backbone', 'text!../../../templates/wet_days.html', "views/visualisations/new_zealand", "views/visualisations/city_line_chart"], function(Backbone, WetDaysTemplate, NewZealandView, CityLineChartView) {
-    var WetDaysView;
-    WetDaysView = Backbone.View.extend({
-      el: $('#js-visualisation-container'),
-      render: function() {
-        var region, _fn,
-          _this = this;
-        this.$el.show('slow');
-        this.$el.html(_.template(WetDaysTemplate));
-        this.new_zealand = new NewZealandView();
-        this.new_zealand.render();
-        this.city_line_chart_view = new CityLineChartView();
-        d3.json('data/wet_days.json', function(data) {
-          return _this.city_line_chart_view.render(data, "Wet Days per Month", [3, 18]);
-        });
-        _fn = function(path, region, view) {
-          return path.on("click", function() {
-            return view.city_line_chart_view.re_render_data(region);
-          });
-        };
-        for (region in this.new_zealand.nz) {
-          _fn(this.new_zealand.nz[region], region, this);
-        }
-        return this;
-      }
-    });
-    return WetDaysView;
-  });
-
-}).call(this);
-
-define('text!views/../../templates/meteor_shower.html',[],function () { return '<div class="inner-container"><h1>Shootings Stars</h1><p>Stuff to go here.</p><script \'src\'="http://d3js.org/topojson.v0.min.js"></script><input name="html5shim-2" id="js-range-slider" type="range" step="1" title="Range: 0 to 100 in steps of 1" value="0" style="width: 100%" min="0" max="246" /><h2 id="js-current-year">1332</h2><div id="js-globe-container"></div></div>';});
-
-(function() {
-
-  define('views/visualisations/meteor_shower',['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojson'], function(Backbone, MeteorShowerTemplate, d3, topojson) {
-    var MeteorView;
-    MeteorView = Backbone.View.extend({
-      events: {
-        'change #js-range-slider': 'change_range_slider'
-      },
-      el: $('#js-visualisation-container'),
-      data_grouped_yearly: null,
-      meteorites: null,
-      svg: null,
-      path: null,
-      render: function() {
-        this.$el.show('slow');
-        this.$el.html(_.template(MeteorShowerTemplate));
-        this.render_geo_chart();
-        return this;
-      },
-      render_geo_chart: function() {
-        var boundry_feature, graticule, height, land_feature, origin, projection, width,
-          _this = this;
-        width = 728;
-        height = 350;
-        land_feature = null;
-        boundry_feature = null;
-        origin = {
-          x: 0,
-          y: 0
-        };
-        projection = d3.geo.equirectangular().scale(115).translate([width / 2, height / 2]).precision(.1);
-        this.svg = d3.select("#js-globe-container").append("svg").attr("width", width).attr("height", height);
-        this.path = d3.geo.path().projection(projection);
-        this.svg.append("defs").append("path").datum({
-          type: "Sphere"
-        }).attr("id", "sphere").attr("d", this.path);
-        this.svg.append("use").attr("class", "fill").attr("xlink:href", "#sphere");
-        graticule = d3.geo.graticule();
-        this.svg.append("path").datum(graticule).attr("class", "graticule").attr("d", this.path);
-        d3.json('data/worldcountries.geo.json', function(world) {
-          land_feature = _this.svg.append("path").datum(topojson.feature(world, world.objects.land)).attr("class", function(d) {
-            return "land";
-          }).attr("d", _this.path);
-          return boundry_feature = _this.svg.append("path").datum(topojson.mesh(world, world.objects.countries, function(a, b) {
-            return a !== b;
-          })).attr("class", "boundary").attr("d", _this.path);
-        });
-        return d3.json('data/meteorites.json', function(data) {
-          _this.data_grouped_yearly = d3.nest().key(function(d) {
-            return d.year;
-          }).entries(data);
-          _this.meteorites = _this.svg.selectAll('path.point').data(_this.data_grouped_yearly[0].values);
-          return _this.meteorites.enter().append("path").datum(function(d) {
-            return {
-              type: "Point",
-              coordinates: [d.long, d.lat],
-              radius: .1
-            };
-          }).attr("class", "point").attr('fill', 'red').attr("d", _this.path);
-        });
-      },
-      change_range_slider: function(e) {
-        var data;
-        if (this.data_grouped_yearly.length > 0) {
-          data = this.data_grouped_yearly[$(e.target).val()];
-          $('#js-current-year').html(data.key);
-          this.meteorites = this.svg.selectAll('path.point').data(data.values);
-          this.meteorites.exit().transition().remove();
-          return this.meteorites.enter().append("path").datum(function(d) {
-            return {
-              type: "Point",
-              coordinates: [d.long, d.lat],
-              radius: 100
-            };
-          }).attr("class", "point").attr('fill', 'red').attr("d", this.path);
-        }
-      }
-    });
-    return MeteorView;
-  });
-
-}).call(this);
-
-(function() {
-
-  define('views/visualisations/base',['backbone', 'views/visualisations/clouds', 'views/visualisations/ufo_sightings', 'views/visualisations/wet_days', 'views/visualisations/rain_fall', 'views/visualisations/meteor_shower'], function(Backbone, CloudView, UfoView, WetDaysView, RainFallView, MeteorShowerView) {
-    var BaseView;
-    return BaseView = Backbone.View.extend({
-      render_sunshine_hours: function() {
-        var cloud_view;
-        cloud_view = new CloudView();
-        return cloud_view.render();
-      },
-      render_ufo_sightings: function() {
-        var ufo_view;
-        ufo_view = new UfoView();
-        return ufo_view.render();
-      },
-      render_wet_days: function() {
-        var wet_days_view;
-        wet_days_view = new WetDaysView();
-        return wet_days_view.render();
-      },
-      render_rain_fall: function() {
-        var rain_fall_view;
-        rain_fall_view = new RainFallView();
-        return rain_fall_view.render();
-      },
-      render_meteor_shower: function() {
-        var meteor_shower_view;
-        meteor_shower_view = new MeteorShowerView();
-        return meteor_shower_view.render();
-      }
-    });
-  });
-
-}).call(this);
-
 (function() {
 
   define('router',["backbone", "views/base", "views/home", "views/page", "views/credits", "data/story", "views/visualisations/base"], function(Backbone, BaseView, HomeView, PageView, CreditsView, Story, VisualisationView) {
@@ -22244,12 +22493,7 @@ define('text!views/../../templates/meteor_shower.html',[],function () { return '
         "": "renderHome",
         "home": "renderHome",
         "page/:page": "renderPage",
-        "credits": "renderCredits",
-        "ufo_sightings": "renderUfoSightings",
-        "sunshine_hours": "renderSunshineHours",
-        "wet_days": "renderWetDays",
-        "rain_fall": "renderRainFall",
-        "meteor_shower": "renderMeteorShower"
+        "credits": "renderCredits"
       },
       initialize: function() {
         this.initializeBaseView();
@@ -22269,21 +22513,6 @@ define('text!views/../../templates/meteor_shower.html',[],function () { return '
         home_view.render();
         $('body').append(home_view.el);
         return this.previousPage = home_view;
-      },
-      renderUfoSightings: function() {
-        return this.visualisations.render_ufo_sightings();
-      },
-      renderSunshineHours: function() {
-        return this.visualisations.render_sunshine_hours();
-      },
-      renderWetDays: function() {
-        return this.visualisations.render_wet_days();
-      },
-      renderRainFall: function() {
-        return this.visualisations.render_rain_fall();
-      },
-      renderMeteorShower: function() {
-        return this.visualisations.render_meteor_shower();
       },
       renderPage: function(page) {
         var page_model, page_view;

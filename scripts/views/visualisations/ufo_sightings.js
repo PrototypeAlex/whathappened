@@ -4,11 +4,15 @@
     var UfoSightingsView;
     UfoSightingsView = Backbone.View.extend({
       ufo_data: null,
+      el: '#js-visualisation-container',
+      template: _.template(ufoTemplate),
+      initialize: function(options) {
+        return this.parentView = options.parentView;
+      },
       render: function() {
         var region, _results,
           _this = this;
-        this.$el.show('slow');
-        this.$el.html(_.template(ufoTemplate));
+        this.$el.html(this.template);
         this.new_zealand = new newZealandView();
         this.new_zealand.render();
         d3.json('data/ufo_sightings.json', function(data) {
@@ -18,7 +22,9 @@
         for (region in this.new_zealand.nz) {
           _results.push((function(path, region, view) {
             return path.on("click", function() {
-              return view.render_ufo_template(region);
+              view.render_ufo_template(region);
+              d3.selectAll('path.js-region').classed("selected", false);
+              return d3.select(this).classed("selected", true);
             });
           })(this.new_zealand.nz[region], region, this));
         }
@@ -37,7 +43,7 @@
         if (region === 'Eastcape') {
           readable_region = 'East Cape';
         }
-        $('#js-ufo-sightings h2.heading').html("Region: " + readable_region);
+        $('#js-ufo-sightings h2.heading').html("<span class=\"text\">Region: " + readable_region + "</span>");
         if (ufo_sightings.length === 0) {
           $('#js-ufo-sightings table').hide();
           $('#js-ufo-sightings p.description').html('There have been no sightings in this region.');
