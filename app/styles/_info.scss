@@ -1,14 +1,15 @@
 #info{
-	position: absolute;
+	position: fixed;
 	left: 0px;
 	top: 0px;
 	right: 0px;
 	bottom: 0px;
 	z-index: 300;
+	overflow: scroll;
 	.bg{
-		position: absolute;
-		background-color: $green;
-		opacity: .91;
+		position: fixed;
+		background-color: $black;
+		opacity: .94;
 		left: 0px;
 		right: 0px;
 		bottom: 0px;
@@ -18,7 +19,7 @@
 		position: absolute;
 		top: 0px;
 		right: 0px;
-		border: 10px solid $green;
+		border: 10px solid $black;
 		border-bottom-color: rgba(0, 0, 0, .2);
 		border-left-color: rgba(0, 0, 0, .2);
 	}
@@ -30,6 +31,7 @@
 		left: 50%;
 		margin-left: -384px;
 		margin-top: 5%;
+		margin-bottom: 5%;
 		.close{
 			display: inline-block;
 			width: 20px;
