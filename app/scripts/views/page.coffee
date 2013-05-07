@@ -34,7 +34,7 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
       <div id="info" class="hidden">
         <div class="bg"></div>
         <div class="document">
-            <a href="#" class="close"><div class="circular-glare"></div></a>
+            <a href="#" class="close">&times;<div class="circular-glare"></div></a>
             <div class="corner"></div>
             <div class="content" id="js-visualisation-container"></div>
         </div>

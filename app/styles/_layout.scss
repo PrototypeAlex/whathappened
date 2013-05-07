@@ -16,7 +16,6 @@
 		left: 30px;
 		right: 30px;
 		text-align: center;
-
 	}
 	.picture{
 		position: absolute;
@@ -64,6 +63,9 @@
 					position: absolute;
 					top: 3px;
 					right: 3px;
+				}
+				&:hover{
+					background-color: #ff662a;
 				}
 			}
 		}
