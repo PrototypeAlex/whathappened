@@ -3,6 +3,10 @@
     margin: 20px;
     color: $black;
   }
+  .map-container{
+    background-color: #d7e8ee;
+    border-radius: 10px;
+  }
   .nz-map{
     background-color: #d7e8ee;
     width: 320px;
@@ -73,27 +77,22 @@
     }
   }
   #js-globe-container{
+    margin-left: 30px;
     .stroke{
       fill: none;
       stroke: #000;
-      stroke-width: 3px;
     }
     .fill{
-      fill: #fff;
+      fill: #d7e8ee;
     }
     .graticule{
       fill: none;
-      stroke: #777;
-      stroke-width: .5px;
-      stroke-opacity: .5;
     }
     .land{
-      fill: #222;
+      fill : #72c366;
     }
     .boundary{
       fill: none;
-      stroke: #fff;
-      stroke-width: .5px;
     }
   }
   #js-city-line-chart{

@@ -1,15 +1,38 @@
-.inner-container
-  %h1
-    Shootings Stars
+%h1
+  Shooting Stars
 
-  %p
-    Stuff to go here.
+%p
+  Stuff to go here.
 
-  %script{'src': "http://d3js.org/topojson.v0.min.js"}
+.graphics
+  .infographic
+    .number
+      466
+    .what
+      Meteorites
+    .extra#js-current-year
+      In 2012
 
-  %input{name:"html5shim-2", id:"js-range-slider", type:"range", step:"1", title:"Range: 0 to 100 in steps of 1", value:"0", style:"width: 100%", min:"0", max:"246"}
+  .infographic.place
+    .gold-star
+      \#1
+      .glare
+    .sign
+      Auckland
+      .glare
+    .pole
+      .shadow
+    .what
+      For UFO sightings
+    .extra
+      In 2012, per capita
 
-  %h2#js-current-year
-    1332
+.clearfix
 
+
+%script{'src': "http://d3js.org/topojson.v0.min.js"}
+
+%input{name:"html5shim-2", id:"js-range-slider", type:"range", step:"1", title:"Range: 0 to 100 in steps of 1", value:"0", style:"width: 100%", min:"0", max:"246"}
+
+.map-container
   #js-globe-container
