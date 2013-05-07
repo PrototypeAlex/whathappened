@@ -43,6 +43,17 @@
     height: 350px;
     margin-top: 20px;
     float: right;
+    .map-region-prompt{
+      font: 400 30px/30px $sans;
+      color: #DDD;
+      margin-top: 90px;
+      .icon-left{
+        font-size: 14px;
+        position: relative;
+        top: -5px;
+
+      }
+    }
     .city-legend{
       margin-bottom: 10px;
     }

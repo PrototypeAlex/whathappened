@@ -23,6 +23,7 @@ define ['backbone', 'text!../../../templates/clouds.html', "views/visualisations
         ((path, region, view) =>
           path
             .on("click", -> 
+              $('.map-region-prompt').remove()
               view.city_line_chart_view.re_render_data(region)
               d3.selectAll('path.js-region').classed("selected", false)
               d3.select(this).classed("selected", true)
