@@ -28,6 +28,15 @@ define ['backbone', 'text!../../../templates/ufo.html', 'd3', "views/visualisati
             )
         ) @new_zealand.nz[region], region, @
 
+    render_x_file: (data) ->
+      x_file = "
+        <h3>#{data.location}</h3>
+        <h4>Time: #{data.time}</h4>
+        <h4>Event: #{data.event.capitalize()}</h4>
+        <p>#{data.description}</p>"
+      $('#x-file').html(x_file)
+      $('#x-file').show()
+
     render_ufo_template: (region) ->
       ufo_sightings = _.filter(@ufo_data, (d) => d.region == region)
 
@@ -68,12 +77,13 @@ define ['backbone', 'text!../../../templates/ufo.html', 'd3', "views/visualisati
 
       tr.append('td')
         .attr('style', 'text-align: center')
-        .text((d) -> d.event)
+        .text((d) -> d.event.capitalize())
 
       tr.append('td')
         .html("<a>More Information</a>")
-        .on("click", (d) -> 
-          console.log d
+        .on("click", (d) =>
+          $('.map-region-prompt').remove()
+          @render_x_file d
         )
       
 

@@ -161,6 +161,45 @@ table{
   }
 }
 
+#x-file{
+  display: none;
+  background-color: #FFF4C6;
+  padding: 15px;
+  border-radius: 10px;
+  height: 345px;
+  margin-top: -20px;
+  overflow-y: scroll;
+
+  h3{
+    margin-top: 0;
+  }
+  h4{
+    margin: 0;
+  }
+  p{
+    margin: 10px 0 0 0;
+    font-size: .8em;
+    text-align: justify;
+  }
+}
+
+.range-slider-prompt{
+  font: 400 20px/30px $sans;
+  margin-bottom: 10px;
+  text-align: center;
+  span{
+    background: #ccc;
+    color: #888;
+    padding: 1px 4px;
+    margin: 0 4px;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    -webkit-box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
+  }
+}
+
 div.tool-tip {   
   position: absolute; 
   z-index: 9999; 

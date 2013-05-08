@@ -15,13 +15,14 @@
         _.bindAll(this);
         return this.$el = $(this.el);
       },
-      template: _.template("<div class=\"picture\">\n  <div class=\"frame\">\n    <div class=\"preloader\">\n      <div class=\"spinner\">\n        <i class=\"icon-cw-circled animate-spin\"></i>\n        <span class=\"circular-glare\"></span>\n      </div>\n    </div>\n  </div>\n</div>\n<div class=\"words\">\n  <%= content %>\n</div>\n<a href=\"<%= previous_page_url %>\" class=\"pagination arrow left\"><span class=\"icon-left-open\"></span></a>\n<a href=\"<%= next_page_url %>\" class=\"pagination arrow right\"><span class=\"icon-right-open\"></span></a>\n<div id=\"info\" class=\"hidden\">\n  <div class=\"bg\"></div>\n  <div class=\"document\">\n      <a href=\"#\" class=\"close\"><div class=\"circular-glare\"></div></a>\n      <div class=\"corner\"></div>\n      <div class=\"content\" id=\"js-visualisation-container\"></div>\n  </div>\n</div>\n<div class=\"tool-tip\">\n</div>"),
+      template: _.template("<div class=\"picture\">\n  <div class=\"frame\">\n    <div class=\"preloader\">\n      <div class=\"spinner\">\n        <i class=\"icon-cw-circled animate-spin\"></i>\n        <span class=\"circular-glare\"></span>\n      </div>\n    </div>\n  </div>\n</div>\n<div class=\"words\">\n  <%= content %>\n</div>\n<a href=\"<%= previous_page_url %>\" class=\"pagination arrow left\"><span class=\"icon-left-open\"></span></a>\n<a href=\"<%= next_page_url %>\" class=\"pagination arrow right\"><span class=\"icon-right-open\"></span></a>\n<div id=\"info\" class=\"hidden\">\n  <div class=\"bg\"></div>\n  <div class=\"document\">\n      <a href=\"#\" class=\"close\">&times;<div class=\"circular-glare\"></div></a>\n      <div class=\"corner\"></div>\n      <div class=\"content\" id=\"js-visualisation-container\"></div>\n  </div>\n</div>\n<div class=\"tool-tip\">\n</div>"),
       render: function() {
         var _this = this;
         this.$el.html(this.template(this.model.toJSON()));
         this.$picture = this.$('.picture');
         this.$frame = this.$('.picture .frame');
         $(window).bind('resize', this.onResize);
+        $('.pagination').on('click', this.animateOut);
         this.onResize();
         this.img = new Image();
         this.img.onload = this.imageLoaded;
@@ -32,11 +33,34 @@
         this.info_view = new InfoView({
           parentView: this
         });
-        return _.each(this.model.get('data_points'), function(point) {
+        _.each(this.model.get('data_points'), function(point) {
           var el;
           el = "<div class=\"data-marker\" data-id=\"" + point.id + "\" style=\"left: " + point.left + "; top: " + point.top + ";\">+<div class=\"glare\"></div></div>";
-          _this.$frame.append(el);
-          return console.log(el);
+          return _this.$frame.append(el);
+        });
+        return this.animateIn();
+      },
+      animateIn: function() {
+        var elements,
+          _this = this;
+        elements = [this.$('.pagination.left'), this.$('.picture'), this.$('.words'), this.$('.pagination.right')];
+        _.each(elements, function($el, index) {
+          $el.css({
+            opacity: 0
+          });
+          TweenMax.to($el, .2, {
+            opacity: 1,
+            delay: index * .1,
+            ease: Quint.easeOut
+          });
+        });
+        _.each(this.$('.picture .data-marker'), function(marker, index) {
+          var $marker;
+          $marker = $(marker);
+          TweenMax.to($marker, .2, {
+            opacity: 1,
+            delay: .4 + (index * .2)
+          });
         });
       },
       openData: function(e) {
@@ -77,6 +101,40 @@
       imageLoaded: function() {
         this.$('.picture .preloader').addClass('hidden');
         this.$img.removeClass('loading');
+        this.$img.css({
+          opacity: 0
+        });
+        TweenMax.to(this.$img, .3, {
+          opacity: 1,
+          ease: Quint.easeOut
+        });
+      },
+      animateOut: function(e) {
+        var $el, elements, href,
+          _this = this;
+        e.preventDefault();
+        $el = $(e.target);
+        if (!$el.hasClass('pagination')) {
+          $el = $el.parents('.pagination');
+        }
+        href = $el.attr('href');
+        elements = [this.$('.pagination.left'), this.$('.picture'), this.$('.words'), this.$('.pagination.right')];
+        _.each(elements, function($el, index) {
+          var params;
+          params = {
+            opacity: 0,
+            delay: index * .2,
+            ease: Quint.easeIn
+          };
+          if (index >= elements.length - 1) {
+            params.onComplete = function() {
+              window.location = href;
+              _this.remove();
+            };
+            params.onCompleteParams = [href];
+          }
+          TweenMax.to($el, .4, params);
+        });
       }
     });
     return PageView;

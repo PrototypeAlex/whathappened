@@ -2,37 +2,61 @@
   Shooting Stars
 
 %p
-  Stuff to go here.
+  A falling star or shooting star is the common name for the visible path of a meteoroid as it enters the atmosphere to become a meteor. If a falling star survives impact with the Earth's surface, then it is called a meteorite.
 
 .graphics
   .infographic
-    .number
-      466
+    .number#js-total-hits
+      1
     .what
-      Meteorites
+      Recorded Meteorites
     .extra#js-current-year
-      In 2012
+      In 1332
 
   .infographic.place
     .gold-star
       \#1
       .glare
-    .sign
-      Auckland
+    .sign#js-place
+      Birgi
       .glare
     .pole
       .shadow
     .what
-      For UFO sightings
-    .extra
-      In 2012, per capita
+      Biggest Meteorite
+    .extra#js-weight
+      %span#js-weight
+        50,800
+      &nbsp;grams
 
 .clearfix
 
 
 %script{'src': "http://d3js.org/topojson.v0.min.js"}
-
+.range-slider-prompt
+  use the&nbsp;
+  %span.left-arrow ←
+  &nbsp;and&nbsp;
+  %span.right-arrow →
+  &nbsp;keys to travel through time
 %input{name:"html5shim-2", id:"js-range-slider", type:"range", step:"1", title:"Range: 0 to 100 in steps of 1", value:"0", style:"width: 100%", min:"0", max:"246"}
 
 .map-container
   #js-globe-container
+
+%p.outro
+  The data used above only shows meteorites larger than 1000 grams, it's sourced from the Meteocritical Society and doesn't show those places where meteorites may have fallen but not been discovered.
+
+.sources
+  %h4
+    %span.text
+      Sources
+  %p
+    %a{href: "http://www.teara.govt.nz/en/meteorites"}teara.govt.nz/en/meteorites
+    %br
+    %a{href: "http://en.wikipedia.org/wiki/Meteorite"}en.wikipedia.org/wiki/Meteorite
+    %br
+    %a{href: "http://en.wikipedia.org/wiki/Falling_star_(disambiguation)"}en.wikipedia.org/wiki/Falling_star_(disambiguation)
+    %br
+    %a{href: "https://www.google.com/fusiontables/DataSource?docid=1vHSvjNgCIl6kRhFXPHhvESnnYx_ShToJWtWdjm8#rows:id=1"}google.com/fusiontables/DataSource?docid=1vHSvjNgCIl6kRhFXPHhvESnnYx_ShToJWtWdjm8
+

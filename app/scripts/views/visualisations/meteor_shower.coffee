@@ -13,6 +13,7 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
     render: ->
       @$el.html( @template )
       @render_geo_chart()
+      $('#js-range-slider').focus()
       @
 
     render_geo_chart: ->
@@ -41,13 +42,28 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
         .attr("class", "fill")
         .attr("xlink:href", "#sphere")
 
-      graticule = d3.geo.graticule()
+      gradient = @svg.append("svg:defs")
+        .append("svg:radialGradient")
+          .attr("id", "gradient")
+          .attr("cx", "50%")
+          .attr("cy", "50%")
+          .attr("r", "50%")
+          .attr("spreadMethod", "pad")
 
-      # Graticule lines
-      #@svg.append("path")
-      #  .datum(graticule)
-      #  .attr("class", "graticule")
-      #  .attr("d", @path) 
+      gradient.append("svg:stop")
+        .attr("offset", "0%")
+        .attr("stop-color", "#7e0501")
+        .attr("stop-opacity", 1) 
+
+      gradient.append("svg:stop")
+        .attr("offset", "50%")
+        .attr("stop-color", "#f77000")
+        .attr("stop-opacity", .6) 
+
+      gradient.append("svg:stop")
+        .attr("offset", "100%")
+        .attr("stop-color", "#ebbe0b")
+        .attr("stop-opacity", .4)
 
       d3.json('data/worldcountries.geo.json', (world) => 
         land_feature = @svg.append("path")
@@ -63,7 +79,7 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
 
       d3.json('data/meteorites.json', (data) => 
         masses = _.map(data, (d) -> d.mass)
-        @explosion_scale = d3.scale.linear().domain([d3.min(masses), d3.max(masses)]).range([5, 20])
+        @explosion_scale = d3.scale.log().domain([d3.min(masses), d3.max(masses)]).range([10, 40])
 
         @data_grouped_yearly = d3.nest()
           .key((d) -> d.year )
@@ -76,6 +92,7 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
           .attr("cx", (d) => @projection([d.long, d.lat])[0])
           .attr('cy', (d) => @projection([d.long, d.lat])[1])
           .attr("r", (d) => "#{@explosion_scale(d.mass)}px")
+          .attr('fill', 'url(#gradient)')
 
 
       )
@@ -95,7 +112,25 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
           .attr("cx", (d) => @projection([d.long, d.lat])[0])
           .attr('cy', (d) => @projection([d.long, d.lat])[1])
           .attr("r", (d) => "#{@explosion_scale(d.mass)}px")
+          .attr('fill', 'url(#gradient)')
+
+        sorted_data = _.sortBy(data.values, (d) -> d.mass)
+        biggest = sorted_data[sorted_data.length - 1]
+        
+        $('#js-place').html(biggest.place)
+        $('#js-weight').html("#{biggest.mass.formatMoney(2, '.', ',')} grams of #{biggest.type}")
+        $('#js-total-hits').html(sorted_data.length)
+        
 
 
+    Number::formatMoney = (c, d, t) ->
+      n = this
+      c = (if isNaN(c = Math.abs(c)) then 2 else c)
+      d = (if d is `undefined` then "." else d)
+      t = (if t is `undefined` then "," else t)
+      s = (if n < 0 then "-" else "")
+      i = parseInt(n = Math.abs(+n or 0).toFixed(c)) + ""
+      j = (if (j = i.length) > 3 then j % 3 else 0)
+      s + (if j then i.substr(0, j) + t else "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t)
 
   MeteorView
