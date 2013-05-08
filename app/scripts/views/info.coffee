@@ -21,7 +21,7 @@ define ['backbone', 'views/visualisations/base', 'views/infographic'], (Backbone
                 when "wet_days"         then @renderWetDays()
                 when "fruit_bat"        then @renderFruitBats()
                 when "bugs"             then @renderBugs()
-                when "erosion"         then @renderErosion()
+                when "erosion"          then @renderErosion()
 
             _.each $('#info .infographic'), (el) ->
                 v = new InfographicView

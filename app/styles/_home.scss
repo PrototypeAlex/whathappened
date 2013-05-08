@@ -54,5 +54,11 @@
 	.btn{
 		color: #FFF;
 		border-bottom: 0px;
+
+		&.help{
+			background-color: #2a84ff;
+			margin-right: 10px;
+			cursor: pointer;
+		}
 	}
 }
