@@ -20,6 +20,7 @@
         });
         _fn = function(path, region, view) {
           return path.on("click", function() {
+            $('.map-region-prompt').remove();
             view.city_line_chart_view.re_render_data(region);
             d3.selectAll('path.js-region').classed("selected", false);
             return d3.select(this).classed("selected", true);

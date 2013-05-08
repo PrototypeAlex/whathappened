@@ -12,7 +12,10 @@
       },
       render: function(viz_id) {
         $('#info').removeClass('hidden');
-        console.log(viz_id);
+        this.renderViz(viz_id);
+        return this.animateIn();
+      },
+      renderViz: function(viz_id) {
         switch (viz_id) {
           case "clouds":
             this.renderSunshineHours();
@@ -31,12 +34,36 @@
             break;
           case "fruit_bat":
             this.renderFruitBats();
+            break;
+          case "bugs":
+            this.renderBugs();
+            break;
+          case "erosion":
+            this.renderErosion();
         }
         return _.each($('#info .infographic'), function(el) {
           var v;
           return v = new InfographicView({
             el: el
           });
+        });
+      },
+      animateIn: function() {
+        $('#info .bg').css({
+          opacity: 0
+        });
+        TweenMax.to($('#info .bg'), .2, {
+          opacity: 0.94
+        });
+        $('#info .document').css({
+          top: "140px",
+          opacity: 0
+        });
+        TweenMax.to($('#info .document'), .2, {
+          top: 100,
+          opacity: 1,
+          ease: Quint.easeOut,
+          delay: .3
         });
       },
       renderUfoSightings: function() {
@@ -57,7 +84,28 @@
       renderFruitBats: function() {
         return this.current_visualisation = this.vizualisation_view.render_fruit_bats();
       },
+      renderBugs: function() {
+        return this.current_visualisation = this.vizualisation_view.render_bugs();
+      },
+      renderErosion: function() {
+        return this.current_visualisation = this.vizualisation_view.render_erosion();
+      },
       close: function(e) {
+        var _this = this;
+        TweenMax.to($('#info .document'), .2, {
+          top: 140,
+          opacity: 0,
+          ease: Quint.easeIn
+        });
+        TweenMax.to($('#info .bg'), .2, {
+          opacity: 0,
+          delay: .3,
+          onComplete: function() {
+            _this.animationOutComplete();
+          }
+        });
+      },
+      animationOutComplete: function() {
         this.vizualisation_view.remove();
         $('#info').addClass('hidden');
       }

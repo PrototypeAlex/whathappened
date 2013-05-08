@@ -21526,7 +21526,23 @@ define('text!views/../../templates/home.html',[],function () { return '<div id="
     var HomeView;
     HomeView = Backbone.View.extend({
       render: function() {
-        return this.$el.html(_.template(homeTemplate));
+        this.$el.html(_.template(homeTemplate));
+        return this.animateIn();
+      },
+      animateIn: function() {
+        var elements,
+          _this = this;
+        elements = [this.$('h1'), this.$('.olive'), this.$('p'), this.$('.btn')];
+        _.each(elements, function($el, index) {
+          $el.css({
+            opacity: 0
+          });
+          TweenMax.to($el, .2, {
+            opacity: 1,
+            delay: index * .1,
+            ease: Quint.easeOut
+          });
+        });
       }
     });
     return HomeView;
@@ -21534,7 +21550,7 @@ define('text!views/../../templates/home.html',[],function () { return '<div id="
 
 }).call(this);
 
-define('text!views/../../templates/clouds.html',[],function () { return '<h1>The Long White Cloud</h1><p class="intro">Sunshine hours are relatively high in areas that are sheltered from the west. The most amount of sun in one year goes to Nelson, having 2,711 hours in 1931, and the lowest goes to Invercargil, having only 1,333 hours of sun in 1983.</p><div class="graphics"><div class="infographic"><div class="number">2010</div><div class="icon icon-sun"></div><div class="what">hours of sun</div><div class="extra">Per year on average</div></div><div class="infographic"><div class="number">2711</div><div class="icon icon-sun"></div><div class="what">hours of sun</div><div class="extra">was the most in one year (Nelson, 1931)</div></div></div><div class="clearfix"></div><h2><span class="text">Sunshine by region</span></h2><div class="nz-map"><svg id="js-new-zealand-svg"></svg></div><div id="js-new-zealand-legend"></div><div class="clearfix"></div><div id="js-city-line-chart"></div><p class="outro">The above information has been based off mean monthly values of sunshine hours for the 1981-2010 period for locations having at least 5 complete years of data.</p><div class="sources"><h4><span class="text">Sources</span></h4><p><a href="http://www.niwa.co.nz/education-and-training/schools/resources/climate/sunshine">niwa.co.nz/education-and-training/schools/resources/climate/sunshine</a><br /><a href="http://www.niwa.co.nz/education-and-training/schools/resources/climate/extreme">niwa.co.nz/education-and-training/schools/resources/climate/extreme</a><a href="http://www.niwa.co.nz/education-and-training/schools/resources/climate/overview">niwa.co.nz/education-and-training/schools/resources/climate/overview</a></p></div>';});
+define('text!views/../../templates/clouds.html',[],function () { return '<h1>The Long White Cloud</h1><p class="intro">Sunshine hours are relatively high in areas that are sheltered from the west. The most amount of sun in one year goes to Nelson, having 2,711 hours in 1931, and the lowest goes to Invercargil, having only 1,333 hours of sun in 1983.</p><div class="graphics"><div class="infographic"><div class="number">2010</div><div class="icon icon-sun"></div><div class="what">hours of sun</div><div class="extra">Per year on average</div></div><div class="infographic place"><div class="gold-star">#1<div class="glare"></div></div><div class="sign">Nelson<div class="glare"></div></div><div class="pole"><div class="shadow"></div></div><div class="what">2711 hours of sun</div><div class="extra">In 1931, almost 1300 hours more than the Chatham Islands</div></div></div><div class="clearfix"></div><h2><span class="text">Sunshine by region</span></h2><div class="nz-map"><svg id="js-new-zealand-svg"></svg></div><div id="js-new-zealand-legend"><div class="map-region-prompt"><i class="icon-left"></i> Select a region </div></div><div class="clearfix"></div><div id="js-city-line-chart"></div><p class="outro">The above information has been based off mean monthly values of sunshine hours for the 1981-2010 period for locations having at least 5 complete years of data.</p><div class="sources"><h4><span class="text">Sources</span></h4><p><a href="http://www.niwa.co.nz/education-and-training/schools/resources/climate/sunshine">niwa.co.nz/education-and-training/schools/resources/climate/sunshine</a><br /><a href="http://www.niwa.co.nz/education-and-training/schools/resources/climate/extreme">niwa.co.nz/education-and-training/schools/resources/climate/extreme</a><a href="http://www.niwa.co.nz/education-and-training/schools/resources/climate/overview">niwa.co.nz/education-and-training/schools/resources/climate/overview</a></p></div>';});
 
 (function() {
 
@@ -21742,6 +21758,7 @@ define('text!views/../../templates/clouds.html',[],function () { return '<h1>The
         });
         _fn = function(path, region, view) {
           return path.on("click", function() {
+            $('.map-region-prompt').remove();
             view.city_line_chart_view.re_render_data(region);
             d3.selectAll('path.js-region').classed("selected", false);
             return d3.select(this).classed("selected", true);
@@ -21758,7 +21775,7 @@ define('text!views/../../templates/clouds.html',[],function () { return '<h1>The
 
 }).call(this);
 
-define('text!views/../../templates/ufo.html',[],function () { return '<h1>Unidentified Flying Objects</h1><p class="introduction">Although the New Zealand Defence Force does not take an official interest in UFO reports, in December 2010 it released previously secret files on hundreds of purported UFO reports. The most widely reported incident, and the only one investigated, involved the Kaikoura lights seen by a pilot in 1978. </p><div class="graphics"><div class="infographic"><div class="number">87</div><div class="what">Sightings</div><div class="extra">In 2012</div></div><div class="infographic place"><div class="gold-star">#1<div class="glare"></div></div><div class="sign">Tauranga<div class="glare"></div></div><div class="pole"><div class="shadow"></div></div><div class="what">For UFO sightings</div><div class="extra">In 2012, per capita</div></div></div><div class="clearfix"></div><h2><span class="text">UFO Sightings by region</span></h2><div class="nz-map"><svg id="js-new-zealand-svg"></svg></div><div class="clearfix"></div><div id="js-ufo-sightings"><h2 class="heading"></h2><p class="description"></p><table class="table hidden"><thead><tr><th>Time</th><th>Location</th><th>Event</th><th>&nbsp;</th></tr></thead><tbody></tbody></table></div><p class="outro">The above data was sourced from ufocusnz.org and are personal sightings from individual reports. All reports are copyrighted to UFOCUS NZ.</p><div class="sources"><h4><span class="text">Sources</span></h4><p><a href="http://www.ufocusnz.org.nz/content/New-Zealand-UFO-Sightings-2012/133.aspx">ufocusnz.org.nz/content/New-Zealand-UFO-Sightings-2012/133.aspx</a><br /></p></div>';});
+define('text!views/../../templates/ufo.html',[],function () { return '<h1>Unidentified Flying Objects</h1><p class="introduction">Although the New Zealand Defence Force does not take an official interest in UFO reports, in December 2010 it released previously secret files on hundreds of purported UFO reports. The most widely reported incident, and the only one investigated, involved the Kaikoura lights seen by a pilot in 1978. </p><div class="graphics"><div class="infographic"><div class="number">87</div><div class="what">Reported Sightings</div><div class="extra">In 2012 (via UFOCUS NZ)</div></div><div class="infographic place"><div class="gold-star">#1<div class="glare"></div></div><div class="sign">Tauranga<div class="glare"></div></div><div class="pole"><div class="shadow"></div></div><div class="what">For UFO sightings</div><div class="extra">In 2012, per capita</div></div></div><div class="clearfix"></div><h2><span class="text">UFO Sightings by region</span></h2><div class="nz-map"><svg id="js-new-zealand-svg"></svg></div><div id="js-new-zealand-legend"><div class="map-region-prompt"><i class="icon-left"></i> Select a region </div><div id="x-file"></div></div><div class="clearfix"></div><div id="js-ufo-sightings"><h2 class="heading"></h2><p class="description"></p><table class="table hidden"><thead><tr><th>Time</th><th>Location</th><th>Event</th><th>&nbsp;</th></tr></thead><tbody></tbody></table></div><p class="outro">The above data was sourced from ufocusnz.org and are personal sightings from individual reports. All reports are copyrighted to UFOCUS NZ.</p><div class="sources"><h4><span class="text">Sources</span></h4><p><a href="http://www.ufocusnz.org.nz/content/New-Zealand-UFO-Sightings-2012/133.aspx">ufocusnz.org.nz/content/New-Zealand-UFO-Sightings-2012/133.aspx</a><br /></p></div>';});
 
 (function() {
 
@@ -21791,6 +21808,12 @@ define('text!views/../../templates/ufo.html',[],function () { return '<h1>Uniden
           })(this.new_zealand.nz[region], region, this));
         }
         return _results;
+      },
+      render_x_file: function(data) {
+        var x_file;
+        x_file = "        <h3>" + data.location + "</h3>        <h4>Time: " + data.time + "</h4>        <h4>Event: " + (data.event.capitalize()) + "</h4>        <p>" + data.description + "</p>";
+        $('#x-file').html(x_file);
+        return $('#x-file').show();
       },
       render_ufo_template: function(region) {
         var data, readable_region, tbody, tr, ufo_sightings,
@@ -21826,10 +21849,11 @@ define('text!views/../../templates/ufo.html',[],function () { return '<h1>Uniden
           return d.location;
         });
         tr.append('td').attr('style', 'text-align: center').text(function(d) {
-          return d.event;
+          return d.event.capitalize();
         });
         return tr.append('td').html("<a>More Information</a>").on("click", function(d) {
-          return console.log(d);
+          $('.map-region-prompt').remove();
+          return _this.render_x_file(d);
         });
       }
     }, String.prototype.capitalize = function() {
@@ -21842,7 +21866,7 @@ define('text!views/../../templates/ufo.html',[],function () { return '<h1>Uniden
 
 }).call(this);
 
-define('text!views/../../templates/wet_days.html',[],function () { return '<h1>Yet another rainy day</h1><p>Over the northern and central areas of New Zealand more rainfall falls in winter than in summer, dramatically increasing the amount of wet days per month, whereas for much of the southern part of New Zealand, winter is the season of least rainfall and the amount of wet days per month remain relatively constant throughout the year.</p><div class="graphics"><div class="infographic"><div class="number">119</div><div class="icon icon-rain"></div><div class="what">rainy days</div><div class="extra">Per year on average across NZ</div></div><div class="infographic"><div class="number">2½</div><div class="icon icon-rain"></div><div class="what">days of rain</div><div class="extra">on average during October in Alexandra</div></div><svg id="js-new-zealand-svg"></svg><div id="js-new-zealand-legend"></div><div id="js-city-line-chart"></div><p class="outro"></p>The above information has been based off mean monthly values of rainy days for the 1981-2010 period for locations having at least 5 complete years of data.</div><div class="sources"><h4><span class="text">Sources</span></h4><p><a href="http://www.niwa.co.nz/education-and-training/schools/resources/climate/wetdays">niwa.co.nz/education-and-training/schools/resources/climate/wetdays</a><a href="http://www.niwa.co.nz/education-and-training/schools/resources/climate/overview">niwa.co.nz/education-and-training/schools/resources/climate/overview</a></p></div>';});
+define('text!views/../../templates/wet_days.html',[],function () { return '<h1>Yet another rainy day</h1><p>Over the northern and central areas of New Zealand more rainfall falls in winter than in summer, dramatically increasing the amount of wet days per month, whereas for much of the southern part of New Zealand, winter is the season of least rainfall and the amount of wet days per month remain relatively constant throughout the year.</p><div class="graphics"><div class="infographic"><div class="number">119</div><div class="icon icon-rain"></div><div class="what">rainy days</div><div class="extra">Per year on average across NZ</div></div><div class="infographic"><div class="number">2½</div><div class="icon icon-rain"></div><div class="what">days of rain</div><div class="extra">on average during October in Alexandra</div></div></div><h2><span class="text">Wet days by Region</span></h2><div class="nz-map"><svg id="js-new-zealand-svg"></svg></div><div id="js-new-zealand-legend"><div class="map-region-prompt"><i class="icon-left"></i> Select a region </div></div><div id="js-city-line-chart"></div><p class="outro"></p>The above information has been based off mean monthly values of rainy days for the 1981-2010 period for locations having at least 5 complete years of data.<div class="sources"><h4><span class="text">Sources</span></h4><p><a href="http://www.niwa.co.nz/education-and-training/schools/resources/climate/wetdays">niwa.co.nz/education-and-training/schools/resources/climate/wetdays</a><br /><a href="http://www.niwa.co.nz/education-and-training/schools/resources/climate/overview">niwa.co.nz/education-and-training/schools/resources/climate/overview</a></p></div>';});
 
 (function() {
 
@@ -21866,6 +21890,7 @@ define('text!views/../../templates/wet_days.html',[],function () { return '<h1>Y
         });
         _fn = function(path, region, view) {
           return path.on("click", function() {
+            $('.map-region-prompt').remove();
             view.city_line_chart_view.re_render_data(region);
             d3.selectAll('path.js-region').classed("selected", false);
             return d3.select(this).classed("selected", true);
@@ -21882,7 +21907,7 @@ define('text!views/../../templates/wet_days.html',[],function () { return '<h1>Y
 
 }).call(this);
 
-define('text!views/../../templates/rain_fall.html',[],function () { return '<h1>Rain by the bucketful</h1><p class="introduction">Most areas of New Zealand have between 600 and 1600 mm of rainfall, spread throughout the year with a dry period during the summer. Over the northern and central areas of New Zealand more rainfall falls in winter than in summer, whereas for much of the southern part of New Zealand, winter is the season of least rainfall.</p><div class="graphics"><div class="infographic"><div class="number">1300mm</div><div class="icon icon-rain"></div><div class="what">Of Rainfall</div><div class="extra">Per year on average</div></div></div><svg id="js-new-zealand-svg"></svg><div id="js-new-zealand-legend"></div><div id="js-city-line-chart"></div>';});
+define('text!views/../../templates/rain_fall.html',[],function () { return '<h1>Rain by the bucketful</h1><p class="introduction">Most areas of New Zealand have between 600 and 1600 mm of rainfall, spread throughout the year with a dry period during the summer. Over the northern and central areas of New Zealand more rain falls in winter than in summer, whereas for much of the southern part of New Zealand, winter is the season of least rainfall.</p><div class="graphics"><div class="infographic"><div class="number">1300mm</div><div class="icon icon-rain"></div><div class="what">Mean Rainfall</div><div class="extra">per year across New Zealand</div></div><div class="infographic place"><div class="gold-star">#1<div class="glare"></div></div><div class="sign">Milford Sound<div class="glare"></div></div><div class="pole"><div class="shadow"></div></div><div class="what">6715 mm of rain</div><div class="extra">That\'s 5x the nation\'s yearly mean <br /><i>(their records are off the chart!)</i></div></div></div><div class="clearfix"></div><h2><span class="text">Rainfall by Region</span></h2><div class="nz-map"><svg id="js-new-zealand-svg"></svg></div><div id="js-new-zealand-legend"><div class="map-region-prompt"><i class="icon-left"></i> Select a region </div></div><div id="js-city-line-chart"></div><p class="outro">The above information has been based off mean monthly values of rainfall for the 1981-2010 period for locations having at least 5 complete years of data.</p><div class="sources"><h4><span class="text">Sources</span></h4><p><a href="http://www.niwa.co.nz/education-and-training/schools/resources/climate/meanrain">niwa.co.nz/education-and-training/schools/resources/climate/meanrain</a><br /><a href="http://www.niwa.co.nz/education-and-training/schools/resources/climate/overview">niwa.co.nz/education-and-training/schools/resources/climate/overview</a><br /></p></div>';});
 
 (function() {
 
@@ -21906,6 +21931,7 @@ define('text!views/../../templates/rain_fall.html',[],function () { return '<h1>
         });
         _fn = function(path, region, view) {
           return path.on("click", function() {
+            $('.map-region-prompt').remove();
             view.city_line_chart_view.re_render_data(region);
             d3.selectAll('path.js-region').classed("selected", false);
             return d3.select(this).classed("selected", true);
@@ -21922,7 +21948,7 @@ define('text!views/../../templates/rain_fall.html',[],function () { return '<h1>
 
 }).call(this);
 
-define('text!views/../../templates/meteor_shower.html',[],function () { return '<div class="inner-container"><h1>Shootings Stars</h1><p>Stuff to go here.</p><script \'src\'="http://d3js.org/topojson.v0.min.js"></script><input name="html5shim-2" id="js-range-slider" type="range" step="1" title="Range: 0 to 100 in steps of 1" value="0" style="width: 100%" min="0" max="246" /><h2 id="js-current-year">1332</h2><div id="js-globe-container"></div></div>';});
+define('text!views/../../templates/meteor_shower.html',[],function () { return '<h1>Shooting Stars</h1><p>A falling star or shooting star is the common name for the visible path of a meteoroid as it enters the atmosphere to become a meteor. If a falling star survives impact with the Earth\'s surface, then it is called a meteorite.</p><div class="graphics"><div class="infographic"><div class="number" id="js-total-hits">1</div><div class="what">Recorded Meteorites</div><div class="extra" id="js-current-year">In 1332</div></div><div class="infographic place"><div class="gold-star">#1<div class="glare"></div></div><div class="sign" id="js-place">Birgi<div class="glare"></div></div><div class="pole"><div class="shadow"></div></div><div class="what">Biggest Meteorite</div><div class="extra" id="js-weight"><span id="js-weight">50,800</span>&nbsp;grams</div></div></div><div class="clearfix"></div><script \'src\'="http://d3js.org/topojson.v0.min.js"></script><div class="range-slider-prompt">use the&nbsp;<span class="left-arrow">←</span>&nbsp;and&nbsp;<span class="right-arrow">→</span>&nbsp;keys to travel through time</div><input name="html5shim-2" id="js-range-slider" type="range" step="1" title="Range: 0 to 100 in steps of 1" value="0" style="width: 100%" min="0" max="246" /><div class="map-container"><div id="js-globe-container"></div></div><p class="outro">The data used above only shows meteorites larger than 1000 grams, it\'s sourced from the Meteocritical Society and doesn\'t show those places where meteorites may have fallen but not been discovered.</p><div class="sources"><h4><span class="text">Sources</span></h4><p><a href="http://www.teara.govt.nz/en/meteorites">teara.govt.nz/en/meteorites</a><br /><a href="http://en.wikipedia.org/wiki/Meteorite">en.wikipedia.org/wiki/Meteorite</a><br /><a href="http://en.wikipedia.org/wiki/Falling_star_(disambiguation)">en.wikipedia.org/wiki/Falling_star_(disambiguation)</a><br /><a href="https://www.google.com/fusiontables/DataSource?docid=1vHSvjNgCIl6kRhFXPHhvESnnYx_ShToJWtWdjm8#rows:id=1">google.com/fusiontables/DataSource?docid=1vHSvjNgCIl6kRhFXPHhvESnnYx_ShToJWtWdjm8</a></p></div>';});
 
 (function() {
 
@@ -21940,10 +21966,11 @@ define('text!views/../../templates/meteor_shower.html',[],function () { return '
       render: function() {
         this.$el.html(this.template);
         this.render_geo_chart();
+        $('#js-range-slider').focus();
         return this;
       },
       render_geo_chart: function() {
-        var boundry_feature, graticule, height, land_feature, width,
+        var boundry_feature, gradient, height, land_feature, width,
           _this = this;
         width = 688;
         height = 370;
@@ -21956,7 +21983,10 @@ define('text!views/../../templates/meteor_shower.html',[],function () { return '
           type: "Sphere"
         }).attr("id", "sphere").attr("d", this.path);
         this.svg.append("use").attr("class", "fill").attr("xlink:href", "#sphere");
-        graticule = d3.geo.graticule();
+        gradient = this.svg.append("svg:defs").append("svg:radialGradient").attr("id", "gradient").attr("cx", "50%").attr("cy", "50%").attr("r", "50%").attr("spreadMethod", "pad");
+        gradient.append("svg:stop").attr("offset", "0%").attr("stop-color", "#7e0501").attr("stop-opacity", 1);
+        gradient.append("svg:stop").attr("offset", "50%").attr("stop-color", "#f77000").attr("stop-opacity", .6);
+        gradient.append("svg:stop").attr("offset", "100%").attr("stop-color", "#ebbe0b").attr("stop-opacity", .4);
         d3.json('data/worldcountries.geo.json', function(world) {
           land_feature = _this.svg.append("path").datum(topojson.feature(world, world.objects.land)).attr("class", function(d) {
             return "land";
@@ -21970,7 +22000,7 @@ define('text!views/../../templates/meteor_shower.html',[],function () { return '
           masses = _.map(data, function(d) {
             return d.mass;
           });
-          _this.explosion_scale = d3.scale.linear().domain([d3.min(masses), d3.max(masses)]).range([5, 20]);
+          _this.explosion_scale = d3.scale.log().domain([d3.min(masses), d3.max(masses)]).range([10, 40]);
           _this.data_grouped_yearly = d3.nest().key(function(d) {
             return d.year;
           }).entries(data);
@@ -21981,11 +22011,11 @@ define('text!views/../../templates/meteor_shower.html',[],function () { return '
             return _this.projection([d.long, d.lat])[1];
           }).attr("r", function(d) {
             return "" + (_this.explosion_scale(d.mass)) + "px";
-          });
+          }).attr('fill', 'url(#gradient)');
         });
       },
       change_range_slider: function(e) {
-        var data,
+        var biggest, data, sorted_data,
           _this = this;
         if (this.data_grouped_yearly.length > 0) {
           data = this.data_grouped_yearly[$(e.target).val()];
@@ -21994,22 +22024,39 @@ define('text!views/../../templates/meteor_shower.html',[],function () { return '
             return d.lat + d.long;
           });
           this.meteorites.exit().remove();
-          return this.meteorites.enter().append("circle").attr("cx", function(d) {
+          this.meteorites.enter().append("circle").attr("cx", function(d) {
             return _this.projection([d.long, d.lat])[0];
           }).attr('cy', function(d) {
             return _this.projection([d.long, d.lat])[1];
           }).attr("r", function(d) {
             return "" + (_this.explosion_scale(d.mass)) + "px";
+          }).attr('fill', 'url(#gradient)');
+          sorted_data = _.sortBy(data.values, function(d) {
+            return d.mass;
           });
+          biggest = sorted_data[sorted_data.length - 1];
+          $('#js-place').html(biggest.place);
+          $('#js-weight').html("" + (biggest.mass.formatMoney(2, '.', ',')) + " grams of " + biggest.type);
+          return $('#js-total-hits').html(sorted_data.length);
         }
       }
+    }, Number.prototype.formatMoney = function(c, d, t) {
+      var i, j, n, s;
+      n = this;
+      c = (isNaN(c = Math.abs(c)) ? 2 : c);
+      d = (d === undefined ? "." : d);
+      t = (t === undefined ? "," : t);
+      s = (n < 0 ? "-" : "");
+      i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "";
+      j = ((j = i.length) > 3 ? j % 3 : 0);
+      return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t);
     });
     return MeteorView;
   });
 
 }).call(this);
 
-define('text!views/../../templates/erosion.html',[],function () { return '';});
+define('text!views/../../templates/erosion.html',[],function () { return '<h1>Coastal Erosion</h1><p class="intro">The coastline is always changing. Cliffs, constantly lashed by wind and rain, may be hollowed into caves, arches and pillars, then topple into the sea. Sandy shores may lose their sand to the waves, or the waves may bring even more sand to them.<br /><br />Coastal erosion becomes a hazard where human activity or settlement is threatened by a temporary or permanent cutback of the shoreline. Coastal accretion is the opposite, where the shoreline builds out over time.</p><h2><span class="text">Sand vs. Rock</span></h2><p>About 70% of New Zealanders live in coastal towns and cities, most of which lie along the quarter of the country’s coast that is eroding.</p><p>The flow of water and wind on sandy beaches constantly shifts the sand from one place to another. This means that sand can be lost from a beach, or it can be washed or blown there. Waves are the main cause of erosion, and may be storm waves, boat wakes, tsunamis or tides. High waves take sand away, while flatter waves can deposit it.</p><p>Shorelines made of rock take thousands of years to wear away. When rocky beaches erode, they form cliffs. How quickly cliffs erode depends on their strength. Cliffs full of closely spaced cracks wear away quickly, and form sea caves, arches, and eventually rock pillars. Rock can be weakened by earthquakes, heavy rain, or the constant crashing of waves. Waves hitting the base of a cliff can undermine it and cause it to collapse.</p><img src="images/cathedral_cove.jpg" width="650" style="margin-left: 49px; margin-bottom: 20px;" /><div class="sources"><h4><span class="text">Sources</span></h4><p>Images thanks to Daniel Peckham:&nbsp;<a href="http://www.flickr.com/photos/davaodude/6871579655/">flickr.com/photos/davaodude</a><a href="http://www.teara.govt.nz/en/coastal-erosion">teara.govt.nz/en/coastal-erosion</a><br /><a href="http://www.mfe.govt.nz/publications/climate/coastal-hazards-climate-change-guidance-manual/page13.html">mfe.govt.nz/publications/climate/coastal-hazards-climate-change-guidance-manual/page13.html</a><br /><a href="http://wrenz.niwa.co.nz/webmodel/coastal">wrenz.niwa.co.nz/webmodel/coastal</a></p></div>';});
 
 (function() {
 
@@ -22030,7 +22077,7 @@ define('text!views/../../templates/erosion.html',[],function () { return '';});
 
 }).call(this);
 
-define('text!views/../../templates/fruit_bats.html',[],function () { return '<h1>Bats of New Zealand</h1><p class="intro">New Zealand has three different native species of bats: <ul><li>The greater short tailed bat (<i>Mystacina robusta</i>); which is thought to be extinct.</li><li>The lesser short-tailed bat (<i>Mystacina tuberculata</i>); currently endangered and a species of highest conservation priority</li><li>The long-tailed bat (<i>Chalinolobus tuberculatus</i>); a more \'common\' bat which is widely distributed throughout the mainland, Stewart Island, Little Barrier and Great Barrier islands alongside Kapiti Island.</li></ul></p><h2>The lesser short-tailed bat</h2><p class="main-content">The endangered lesser short-tailed bat is an ancient species unique to New Zealand and is found only at a few sites. It is also is the sole survivor of an ancient Australian lineage and is now the only member of its family, Mystacinidae.</p><div class="graphics"><div class="infographic"><div class="number">300</div><div class="icon"></div><div class="what">est. population</div></div><div class="infographic has-pie"><div class="number">5%</div><div data-count="5" class="pie-graph"></div><div class="what">occupied habitat</div><div class="extra">remains since human settlement</div></div></div><img src="images/lesser-short-tailed-1.jpg" width="300" /><img src="images/lesser-short-tailed-2.jpg" width="300" /><p>Funnily enough Mystacinids are also the most "un-batlike" family of bats. They spend much of the time on the ground, instead of flying, and have the unique ability to fold their wings into a leathery membrane when not in use.</p><h3>Fun Facts:</h3><ul><li>Short-tailed bats are small, robust and stocky with prominent pointed ears. They weigh between 11 and 15 grams.</li><li>The short tailed bat is thought to be a lek breeder, whereby. males compete for traditional \'singing\' posts and `sing\' for a female.</li><li>The short-tailed bat has also adapted to ground hunting and is one of the few bats in the world which spends large amounts of time on the forest floor, using its folded wings as `front limbs\' for scrambling around.</li><li>They eat insects, fruit, nectar and pollen. Insects caught in the air or on the ground. Few other bat species eat plant matter.</li></ul><div class="sources"><h4><span class="text">Sources</span></h4><p><a href="http://www.doc.govt.nz/conservation/native-animals/bats/short-tailed-bat/facts/">doc.govt.nz/conservation/native-animals/bats/short-tailed-bat/facts/</a><br /><a href="http://www.doc.govt.nz/conservation/native-animals/bats/short-tailed-bat/docs-work/waiohine-bats-in-tararua-forest-park/">doc.govt.nz/conservation/native-animals/bats/short-tailed-bat/docs-work/waiohine-bats-in-tararua-forest-park/</a><br /><a href="http://www.doc.govt.nz/getting-involved/volunteer-join-or-start-a-project/volunteer/volunteer-programme-by-region/wairarapa/waiohine-bats/">doc.govt.nz/getting-involved/volunteer-join-or-start-a-project/volunteer/volunteer-programme-by-region/wairarapa/waiohine-bats/</a><br /><a href="http://www.doc.govt.nz/conservation/native-animals/bats/long-tailed-bat/">doc.govt.nz/conservation/native-animals/bats/long-tailed-bat/</a><br /><a href="http://www.mfe.govt.nz/environmental-reporting/biodiversity/indicator-species/bat/">mfe.govt.nz/environmental-reporting/biodiversity/indicator-species/bat/</a><br /><a href="http://collections.tepapa.govt.nz/theme.aspx?irn=2863">collections.tepapa.govt.nz/theme.aspx?irn=2863</a></p></div>';});
+define('text!views/../../templates/fruit_bats.html',[],function () { return '<h1>Bats of New Zealand</h1><p class="intro">New Zealand has three different native species of bats: <ul><li>The greater short tailed bat (<i>Mystacina robusta</i>); which is thought to be extinct.</li><li>The lesser short-tailed bat (<i>Mystacina tuberculata</i>); currently endangered and a species of highest conservation priority</li><li>The long-tailed bat (<i>Chalinolobus tuberculatus</i>); a more \'common\' bat which is widely distributed throughout the mainland, Stewart Island, Little Barrier and Great Barrier islands alongside Kapiti Island.</li></ul></p><h2><span class="text">The lesser short-tailed bat</span></h2><p class="main-content">The endangered lesser short-tailed bat is an ancient species unique to New Zealand and is found only at a few sites. It is also is the sole survivor of an ancient Australian lineage and is now the only member of its family, Mystacinidae.</p><div class="graphics"><div class="infographic"><div class="number">300</div><div class="icon"></div><div class="what">est. population</div></div><div class="infographic has-pie"><div class="number">5%</div><div data-count="5" class="pie-graph"></div><div class="what">occupied habitat</div><div class="extra">remains since human settlement</div></div></div><img src="images/lesser-short-tailed-1.jpg" width="300" /><img src="images/lesser-short-tailed-2.jpg" width="300" /><p>Funnily enough Mystacinids are also the most "un-batlike" family of bats. They spend much of the time on the ground, instead of flying, and have the unique ability to fold their wings into a leathery membrane when not in use.</p><h3>Fun Facts:</h3><ul><li>Short-tailed bats are small, robust and stocky with prominent pointed ears. They weigh between 11 and 15 grams.</li><li>The short tailed bat is thought to be a lek breeder, whereby. males compete for traditional \'singing\' posts and `sing\' for a female.</li><li>The short-tailed bat has also adapted to ground hunting and is one of the few bats in the world which spends large amounts of time on the forest floor, using its folded wings as `front limbs\' for scrambling around.</li><li>They eat insects, fruit, nectar and pollen. Insects caught in the air or on the ground. Few other bat species eat plant matter.</li></ul><div class="sources"><h4><span class="text">Sources</span></h4><p><a href="http://www.doc.govt.nz/conservation/native-animals/bats/short-tailed-bat/facts/">doc.govt.nz/conservation/native-animals/bats/short-tailed-bat/facts/</a><br /><a href="http://www.doc.govt.nz/conservation/native-animals/bats/short-tailed-bat/docs-work/waiohine-bats-in-tararua-forest-park/">doc.govt.nz/conservation/native-animals/bats/short-tailed-bat/docs-work/waiohine-bats-in-tararua-forest-park/</a><br /><a href="http://www.doc.govt.nz/getting-involved/volunteer-join-or-start-a-project/volunteer/volunteer-programme-by-region/wairarapa/waiohine-bats/">doc.govt.nz/getting-involved/volunteer-join-or-start-a-project/volunteer/volunteer-programme-by-region/wairarapa/waiohine-bats/</a><br /><a href="http://www.doc.govt.nz/conservation/native-animals/bats/long-tailed-bat/">doc.govt.nz/conservation/native-animals/bats/long-tailed-bat/</a><br /><a href="http://www.mfe.govt.nz/environmental-reporting/biodiversity/indicator-species/bat/">mfe.govt.nz/environmental-reporting/biodiversity/indicator-species/bat/</a><br /><a href="http://collections.tepapa.govt.nz/theme.aspx?irn=2863">collections.tepapa.govt.nz/theme.aspx?irn=2863</a></p></div>';});
 
 (function() {
 
@@ -22051,7 +22098,7 @@ define('text!views/../../templates/fruit_bats.html',[],function () { return '<h1
 
 }).call(this);
 
-define('text!views/../../templates/bugs.html',[],function () { return '';});
+define('text!views/../../templates/bugs.html',[],function () { return '<h1>A Bugs Life</h1><p class="intro">New Zealand teems with an estimated 20,000 different insect species. The country’s isolation and temperate climate have given rise to a distinctive insect fauna. In fact, more than 90% of New Zealand\'s species can be found nowhere else, and many have evolved remarkably differently from their relatives overseas</p><h2><span class="text">The Giant Weta</span></h2><p>Thanks to Weta Workshop; Anostostomatid crickets (wētā) are our most famous native insects, they are both ecologically diverse and occupy a wide range of habitat types. The oddest of which would have to be the giant wētā, which has been recorded to weigh up to 70 grams (heavier than a common sparrow), making it the heaviest insect in the world. <br /><br />Weta are species unique to New Zealand and are one of our most ancient types of land animals. They are virtually unchanged in design (though not size) from fossil wētā found in Queensland, that date back 190 million years – long before Australia and New Zealand parted company during the split-up of Gondwanaland. </p><img src="images/female_tree_weta_on_tree_fern.jpg" width="650" style="margin-left: 49px; margin-bottom: 20px;" /><h2>Fun facts about wetas</h2><ul><li>New Zealand\'s giant wētā have remained almost unchanged from their ancestors of 190 million years ago, and are more primitive than the tuatara.</li><li>There are now about 100 species of wētā, divided into five main groups - giant, tree, cave, tusked, and ground. 16 of these species are at risk.</li><li>Wētā have their ears on their front knees and can feel the vibrations of noises around them.</li><li>The Māori name for wētā is \'Wetapunga\' and they are known as "the god of the ugly things" by the Māori.</li></ul><div class="sources"><h4><span class="text">Sources</span></h4><p><a href="http://www.nhc.net.nz/index/insects-new-zealand/insects-spiders.htm">nhc.net.nz/index/insects-new-zealand/insects-spiders.htm</a><br /><a href="http://www.teara.govt.nz/en/insects-overview">teara.govt.nz/en/insects-overview</a><br /><a href="http://www.teara.govt.nz/en/weta">teara.govt.nz/en/weta</a><br /><a href="http://en.wikipedia.org/wiki/Weta">en.wikipedia.org/wiki/Weta</a><br /><a href="http://www.doc.govt.nz/conservation/native-animals/invertebrates/weta/facts/">doc.govt.nz/conservation/native-animals/invertebrates/weta/facts/</a><br /><a href="http://www.terranature.org/weta.htm">terranature.org/weta.htm</a><br /><a href="http://commons.wikimedia.org/wiki/File:Female_tree_weta_on_tree_fern.jpg">commons.wikimedia.org/wiki/File:Female_tree_weta_on_tree_fern.jpg</a></p></div>';});
 
 (function() {
 
@@ -22175,19 +22222,44 @@ define('text!views/../../templates/bugs.html',[],function () { return '';});
     var InfographicView;
     InfographicView = Backbone.View.extend({
       initialize: function() {
+        var _this = this;
         _.bindAll(this);
-        return _.each(this.$('.number'), this.setupNumber);
+        _.each(this.$('.number'), this.setupNumber);
+        return _.each(this.$('.gold-star'), function(el) {
+          var $el;
+          $el = $(el);
+          $el.css({
+            opacity: 0
+          });
+          return TweenMax.to($el, .5, {
+            opacity: 1,
+            delay: .8,
+            scale: 1.1,
+            ease: Elastic.easeOut
+          });
+        });
       },
       setupNumber: function(el) {
         var $el, digits, number,
           _this = this;
-        console.log(el);
         $el = $(el);
         number = $el.text();
         digits = number.split("");
         $el.html("");
-        _.each(digits, function(digit) {
-          return $el.append("<span class=\"digit\">" + digit + "<div class=\"glare\"></div></span>");
+        return _.each(digits, function(digit, index) {
+          var $digit;
+          $digit = $("<span class=\"digit\"><span class=\"value\">" + digit + "</span><div class=\"glare\"></div></span>");
+          $el.append($digit);
+          $digit.find('.value').css({
+            opacity: 0,
+            top: 20
+          });
+          TweenMax.to($digit.find('.value'), .7, {
+            top: 0,
+            opacity: 1,
+            ease: Elastic.easeOut,
+            delay: .5 + index * .2
+          });
         });
       }
     });
@@ -22210,7 +22282,10 @@ define('text!views/../../templates/bugs.html',[],function () { return '';});
       },
       render: function(viz_id) {
         $('#info').removeClass('hidden');
-        console.log(viz_id);
+        this.renderViz(viz_id);
+        return this.animateIn();
+      },
+      renderViz: function(viz_id) {
         switch (viz_id) {
           case "clouds":
             this.renderSunshineHours();
@@ -22229,12 +22304,36 @@ define('text!views/../../templates/bugs.html',[],function () { return '';});
             break;
           case "fruit_bat":
             this.renderFruitBats();
+            break;
+          case "bugs":
+            this.renderBugs();
+            break;
+          case "erosion":
+            this.renderErosion();
         }
         return _.each($('#info .infographic'), function(el) {
           var v;
           return v = new InfographicView({
             el: el
           });
+        });
+      },
+      animateIn: function() {
+        $('#info .bg').css({
+          opacity: 0
+        });
+        TweenMax.to($('#info .bg'), .2, {
+          opacity: 0.94
+        });
+        $('#info .document').css({
+          top: "140px",
+          opacity: 0
+        });
+        TweenMax.to($('#info .document'), .2, {
+          top: 100,
+          opacity: 1,
+          ease: Quint.easeOut,
+          delay: .3
         });
       },
       renderUfoSightings: function() {
@@ -22255,7 +22354,28 @@ define('text!views/../../templates/bugs.html',[],function () { return '';});
       renderFruitBats: function() {
         return this.current_visualisation = this.vizualisation_view.render_fruit_bats();
       },
+      renderBugs: function() {
+        return this.current_visualisation = this.vizualisation_view.render_bugs();
+      },
+      renderErosion: function() {
+        return this.current_visualisation = this.vizualisation_view.render_erosion();
+      },
       close: function(e) {
+        var _this = this;
+        TweenMax.to($('#info .document'), .2, {
+          top: 140,
+          opacity: 0,
+          ease: Quint.easeIn
+        });
+        TweenMax.to($('#info .bg'), .2, {
+          opacity: 0,
+          delay: .3,
+          onComplete: function() {
+            _this.animationOutComplete();
+          }
+        });
+      },
+      animationOutComplete: function() {
         this.vizualisation_view.remove();
         $('#info').addClass('hidden');
       }
@@ -22282,13 +22402,14 @@ define('text!views/../../templates/bugs.html',[],function () { return '';});
         _.bindAll(this);
         return this.$el = $(this.el);
       },
-      template: _.template("<div class=\"picture\">\n  <div class=\"frame\">\n    <div class=\"preloader\">\n      <div class=\"spinner\">\n        <i class=\"icon-cw-circled animate-spin\"></i>\n        <span class=\"circular-glare\"></span>\n      </div>\n    </div>\n  </div>\n</div>\n<div class=\"words\">\n  <%= content %>\n</div>\n<a href=\"<%= previous_page_url %>\" class=\"pagination arrow left\"><span class=\"icon-left-open\"></span></a>\n<a href=\"<%= next_page_url %>\" class=\"pagination arrow right\"><span class=\"icon-right-open\"></span></a>\n<div id=\"info\" class=\"hidden\">\n  <div class=\"bg\"></div>\n  <div class=\"document\">\n      <a href=\"#\" class=\"close\"><div class=\"circular-glare\"></div></a>\n      <div class=\"corner\"></div>\n      <div class=\"content\" id=\"js-visualisation-container\"></div>\n  </div>\n</div>\n<div class=\"tool-tip\">\n</div>"),
+      template: _.template("<div class=\"picture\">\n  <div class=\"frame\">\n    <div class=\"preloader\">\n      <div class=\"spinner\">\n        <i class=\"icon-cw-circled animate-spin\"></i>\n        <span class=\"circular-glare\"></span>\n      </div>\n    </div>\n  </div>\n</div>\n<div class=\"words\">\n  <%= content %>\n</div>\n<a href=\"<%= previous_page_url %>\" class=\"pagination arrow left\"><span class=\"icon-left-open\"></span></a>\n<a href=\"<%= next_page_url %>\" class=\"pagination arrow right\"><span class=\"icon-right-open\"></span></a>\n<div id=\"info\" class=\"hidden\">\n  <div class=\"bg\"></div>\n  <div class=\"document\">\n      <a href=\"#\" class=\"close\">&times;<div class=\"circular-glare\"></div></a>\n      <div class=\"corner\"></div>\n      <div class=\"content\" id=\"js-visualisation-container\"></div>\n  </div>\n</div>\n<div class=\"tool-tip\">\n</div>"),
       render: function() {
         var _this = this;
         this.$el.html(this.template(this.model.toJSON()));
         this.$picture = this.$('.picture');
         this.$frame = this.$('.picture .frame');
         $(window).bind('resize', this.onResize);
+        $('.pagination').on('click', this.animateOut);
         this.onResize();
         this.img = new Image();
         this.img.onload = this.imageLoaded;
@@ -22299,11 +22420,34 @@ define('text!views/../../templates/bugs.html',[],function () { return '';});
         this.info_view = new InfoView({
           parentView: this
         });
-        return _.each(this.model.get('data_points'), function(point) {
+        _.each(this.model.get('data_points'), function(point) {
           var el;
           el = "<div class=\"data-marker\" data-id=\"" + point.id + "\" style=\"left: " + point.left + "; top: " + point.top + ";\">+<div class=\"glare\"></div></div>";
-          _this.$frame.append(el);
-          return console.log(el);
+          return _this.$frame.append(el);
+        });
+        return this.animateIn();
+      },
+      animateIn: function() {
+        var elements,
+          _this = this;
+        elements = [this.$('.pagination.left'), this.$('.picture'), this.$('.words'), this.$('.pagination.right')];
+        _.each(elements, function($el, index) {
+          $el.css({
+            opacity: 0
+          });
+          TweenMax.to($el, .2, {
+            opacity: 1,
+            delay: index * .1,
+            ease: Quint.easeOut
+          });
+        });
+        _.each(this.$('.picture .data-marker'), function(marker, index) {
+          var $marker;
+          $marker = $(marker);
+          TweenMax.to($marker, .2, {
+            opacity: 1,
+            delay: .4 + (index * .2)
+          });
         });
       },
       openData: function(e) {
@@ -22344,6 +22488,40 @@ define('text!views/../../templates/bugs.html',[],function () { return '';});
       imageLoaded: function() {
         this.$('.picture .preloader').addClass('hidden');
         this.$img.removeClass('loading');
+        this.$img.css({
+          opacity: 0
+        });
+        TweenMax.to(this.$img, .3, {
+          opacity: 1,
+          ease: Quint.easeOut
+        });
+      },
+      animateOut: function(e) {
+        var $el, elements, href,
+          _this = this;
+        e.preventDefault();
+        $el = $(e.target);
+        if (!$el.hasClass('pagination')) {
+          $el = $el.parents('.pagination');
+        }
+        href = $el.attr('href');
+        elements = [this.$('.pagination.left'), this.$('.picture'), this.$('.words'), this.$('.pagination.right')];
+        _.each(elements, function($el, index) {
+          var params;
+          params = {
+            opacity: 0,
+            delay: index * .2,
+            ease: Quint.easeIn
+          };
+          if (index >= elements.length - 1) {
+            params.onComplete = function() {
+              window.location = href;
+              _this.remove();
+            };
+            params.onCompleteParams = [href];
+          }
+          TweenMax.to($el, .4, params);
+        });
       }
     });
     return PageView;
@@ -22360,9 +22538,33 @@ define('text!views/../../templates/bugs.html',[],function () { return '';});
         _.bindAll(this);
         this.$el = $(this.el);
       },
-      template: _.template("    <div id=\"credits\">\n    <h1>the end.</h1>\n    <br />\n    <p>\n    <span class=\"thing\">Story:</span> Sadaf Lourie<br />\n    <span class=\"thing\">Illustration:</span> <a href=\"http://cargocollective.com/riccardodesign\" target=\"_blank\">Riccardo Scott</a><br />\n    <span class=\"thing\">Design/Dev:</span> <a href=\"http://jarredbishop.info\" target=\"_blank\">Jarred Bishop</a><br />\n    <span class=\"thing\">Data/Dev:</span> <a href=\"http://prototypealex.com\" target=\"_blank\">Alex Gibson</a>\n    </p>\n    <a href=\"/\" class=\"btn\">start again?<span class=\"glare\"></span></a>\n<p>A Mix&Mash entry.</p>\n    </div>\n    <a href=\"/#/page/6\" class=\"pagination arrow left\"><span class=\"icon-left-open\"></span></a>"),
+      template: _.template("	<div id=\"credits\">\n	<h1>the end.</h1>\n	<br />\n	<p>\n	<span class=\"line\"><span class=\"thing\">Story:</span> Sadaf Lourie</span>\n	<span class=\"line\"><span class=\"thing\">Illustration:</span> <a href=\"http://cargocollective.com/riccardodesign\" target=\"_blank\">Riccardo Scott</a></span>\n	<span class=\"line\"><span class=\"thing\">Design/Dev:</span> <a href=\"http://jarredbishop.info\" target=\"_blank\">Jarred Bishop</a></span>\n	<span class=\"line\"><span class=\"thing\">Data/Dev:</span> <a href=\"http://prototypealex.com\" target=\"_blank\">Alex Gibson</a></span>\n	</p>\n	<a href=\"/\" class=\"btn\">start again?<span class=\"glare\"></span></a>\n<p class=\"mix-mash\">A Mix&Mash entry.</p>\n	</div>\n	<a href=\"/#/page/6\" class=\"pagination arrow left\"><span class=\"icon-left-open\"></span></a>"),
       render: function() {
-        return this.$el.html(this.template({}));
+        this.$el.html(this.template({}));
+        return this.animateIn();
+      },
+      animateIn: function() {
+        var elements,
+          _this = this;
+        elements = [this.$('h1')];
+        _.each(this.$('.line'), function(el) {
+          return elements.push(el);
+        });
+        elements.push(this.$('.btn'));
+        elements.push(this.$('.mix-mash'));
+        elements.push(this.$('.arrow'));
+        _.each(elements, function(el, index) {
+          var $el;
+          $el = $(el);
+          $el.css({
+            opacity: 0
+          });
+          TweenMax.to($el, .4, {
+            opacity: 1,
+            delay: index * .2,
+            ease: Quint.easeOut
+          });
+        });
       }
     });
     return CreditsView;
@@ -22384,7 +22586,7 @@ define('text!views/../../templates/bugs.html',[],function () { return '';});
             }
           ]
         }, {
-          content: "<p><span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Mamma, what happened to that flower?<span class=\"quote-mark right\">&#8221;</span></span><br />\nOlive’s Mother took a good look and said,<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Maybe it’s thirsty, see how the <span class=\"data-marker\" data-id=\"rain_fall\">ground is dry</span>?<span class=\"quote-mark right\">&#8221;</span></span><br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Or maybe four bugs sat on it at once?<span class=\"quote-mark right\">&#8221;</span></span> said Olive<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>That could be<span class=\"quote-mark right\">&#8221;</span></span> said Olive’s Mother, <span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>there is always more than one answer<span class=\"quote-mark right\">&#8221;</span></span></p>",
+          content: "<p><span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Mamma, what happened to that flower?<span class=\"quote-mark right\">&#8221;</span></span><br />\nOlive’s Mother took a good look and said,<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Maybe it’s thirsty, see how the <span class=\"data-marker\" data-id=\"rain_fall\">ground is dry</span>?<span class=\"quote-mark right\">&#8221;</span></span><br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Or maybe <span class=\"data-marker\" data-id=\"bugs\">four bugs</span> sat on it at once?<span class=\"quote-mark right\">&#8221;</span></span> said Olive<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>That could be<span class=\"quote-mark right\">&#8221;</span></span> said Olive’s Mother, <span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>there is always more than one answer<span class=\"quote-mark right\">&#8221;</span></span></p>",
           images: [
             {
               "src": "/images/pages/spread-2.jpg"
@@ -22420,7 +22622,7 @@ define('text!views/../../templates/bugs.html',[],function () { return '';});
             }
           ]
         }, {
-          content: "<p><span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Mamma, what happened to the sunshine?<span class=\"quote-mark right\">&#8221;</span></span><br />\nOlive’s Mother took a good look and spaceshipd,<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Maybe a cloud <span class=\"data-marker\" data-id=\"clouds\">moved over the sun</span>, see all those clouds up there?<span class=\"quote-mark right\">&#8221;</span></span><br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Or maybe a <span class=\"data-marker\" data-id=\"spaceship\">spaceship flew past</span>?<span class=\"quote-mark right\">&#8221;</span></span> said Olive<br />\n<span class=\"spoken><span class=\"quote-mark left\">&#8220;</span>That could be<span class=\"quote-mark right\">&#8221;</span></span>, said Olive’s Mother, <span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>there is always more than one answer<span class=\"quote-mark right\">&#8221;</span></span></p>",
+          content: "<p><span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Mamma, what happened to the sunshine?<span class=\"quote-mark right\">&#8221;</span></span><br />\nOlive’s Mother took a good look and said,<br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Maybe a cloud <span class=\"data-marker\" data-id=\"clouds\">moved over the sun</span>, see all those clouds up there?<span class=\"quote-mark right\">&#8221;</span></span><br />\n<span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>Or maybe a <span class=\"data-marker\" data-id=\"spaceship\">spaceship flew past</span>?<span class=\"quote-mark right\">&#8221;</span></span> said Olive<br />\n<span class=\"spoken><span class=\"quote-mark left\">&#8220;</span>That could be<span class=\"quote-mark right\">&#8221;</span></span>, said Olive’s Mother, <span class=\"spoken\"><span class=\"quote-mark left\">&#8220;</span>there is always more than one answer<span class=\"quote-mark right\">&#8221;</span></span></p>",
           images: [
             {
               "src": "/images/pages/spread-4.jpg"

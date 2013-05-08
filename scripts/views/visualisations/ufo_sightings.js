@@ -30,6 +30,12 @@
         }
         return _results;
       },
+      render_x_file: function(data) {
+        var x_file;
+        x_file = "        <h3>" + data.location + "</h3>        <h4>Time: " + data.time + "</h4>        <h4>Event: " + (data.event.capitalize()) + "</h4>        <p>" + data.description + "</p>";
+        $('#x-file').html(x_file);
+        return $('#x-file').show();
+      },
       render_ufo_template: function(region) {
         var data, readable_region, tbody, tr, ufo_sightings,
           _this = this;
@@ -64,10 +70,11 @@
           return d.location;
         });
         tr.append('td').attr('style', 'text-align: center').text(function(d) {
-          return d.event;
+          return d.event.capitalize();
         });
         return tr.append('td').html("<a>More Information</a>").on("click", function(d) {
-          return console.log(d);
+          $('.map-region-prompt').remove();
+          return _this.render_x_file(d);
         });
       }
     }, String.prototype.capitalize = function() {
