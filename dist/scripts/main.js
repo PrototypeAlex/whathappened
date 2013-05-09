@@ -21518,16 +21518,61 @@ define("topojson", (function (global) {
 
 }).call(this);
 
-define('text!views/../../templates/home.html',[],function () { return '<div id="home"><h1>What <br />Happened?</h1><div class="olive"></div><p>Writen by Sadaf Lourie <br />& illustrated by Riccardo Scott.</p><p><a href="#/page/1" class="btn">Lets Go!<span class="glare"></span></a></p></div><a href="#/page/1" class="pagination arrow right"><div class="icon-right-open"></div></a>';});
+define('text!views/../../templates/home.html',[],function () { return '<div id="home"><h1>What <br />Happened?</h1><div class="olive"></div><p>Writen by Sadaf Lourie <br />& illustrated by Riccardo Scott.</p><p><a class="btn help data-marker" data-id="help">What is this?<span class="glare"></span></a></a><a href="#/page/1" class="btn">Lets Go!<span class="glare"></span></a></p></div><a href="#/page/1" class="pagination arrow right"><div class="icon-right-open"></div></a><div class="hidden" id="info"><div class="bg"></div><div class="document"><a href="#" class="close">×</a><div class="circular-glare"></div><div class="corner"></div><div class="content" id="js-visualisation-container"><h1>What Happened?</h1><p class="intro">Welcome to our interactive journey called "What Happened?"   <br /><br />"What Happened?" is a book we created to help children understand that sometimes there is more than one answer, to enable them to open their mind up to the imaginative process of thinking outside the box.</p><h2><span class="text">A creative approach to teaching complex knowledge</span></h2><p>This book is very experimental, it\'s recommended that you read the book with your child, and try to explain the concepts the data visualisations are showing, for example, on page 3, inside the rainfall visualisation you could say; "We live in Wellington, which you can see on the map of New Zealand, and we get lots of rain in Winter, but did you know that in Queenstown they have less rain in Winter and more in Summer?"<br /><br />This learning process is very open ended, and the explanation will have to be tailored to your child\'s existing knowledge. In the previous example, just explaining that there are regions of New Zealand, and that regions contain cities may be a new piece of information for your child, and for others, finding out that it rains more in other parts of New Zealand may be just as enlightening, so long as everyone learns something then we\'ve achieved what we set out to do. </p><p><b>Enjoy and have fun!</b></p><div class="sources"><h4><span class="text">Credits</span></h4><p>Story: Sadaf Lourie<br />Illustration: <a href="http://cargocollective.com/riccardodesign" target="_blank">Riccardo Scott</a><br />Design/Dev: <a href="http://jarredbishop.info" target="_blank">Jarred Bishop</a><br />Data/Dev: <a href="http://prototypealex.com" target="_blank">Alex Gibson</a></p></div></div></div></div>';});
 
 (function() {
 
   define('views/home',['backbone', 'text!../../templates/home.html'], function(Backbone, homeTemplate) {
     var HomeView;
     HomeView = Backbone.View.extend({
+      events: {
+        'click .data-marker': 'openHelp',
+        'click .close': 'close',
+        'click .bg': 'close'
+      },
       render: function() {
         this.$el.html(_.template(homeTemplate));
         return this.animateIn();
+      },
+      openHelp: function(e) {
+        $('#info').removeClass('hidden');
+        this.animateInHelp();
+      },
+      animateInHelp: function() {
+        $('#info .bg').css({
+          opacity: 0
+        });
+        TweenMax.to($('#info .bg'), .2, {
+          opacity: 0.94
+        });
+        $('#info .document').css({
+          top: "140px",
+          opacity: 0
+        });
+        TweenMax.to($('#info .document'), .2, {
+          top: 100,
+          opacity: 1,
+          ease: Quint.easeOut,
+          delay: .3
+        });
+      },
+      close: function(e) {
+        var _this = this;
+        TweenMax.to($('#info .document'), .2, {
+          top: 140,
+          opacity: 0,
+          ease: Quint.easeIn
+        });
+        TweenMax.to($('#info .bg'), .2, {
+          opacity: 0,
+          delay: .3,
+          onComplete: function() {
+            _this.animationOutComplete();
+          }
+        });
+      },
+      animationOutComplete: function() {
+        $('#info').addClass('hidden');
       },
       animateIn: function() {
         var elements,
