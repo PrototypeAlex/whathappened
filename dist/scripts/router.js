@@ -1,6 +1,6 @@
 (function() {
 
-  define(["backbone", "views/base", "views/home", "views/page", "views/credits", "data/story", "views/visualisations/base"], function(Backbone, BaseView, HomeView, PageView, CreditsView, Story, VisualisationView) {
+  define(["backbone", "views/home", "views/page", "views/credits", "data/story"], function(Backbone, HomeView, PageView, CreditsView, Story) {
     var AppRouter;
     AppRouter = Backbone.Router.extend({
       routes: {
@@ -10,13 +10,15 @@
         "credits": "renderCredits"
       },
       initialize: function() {
-        this.initializeBaseView();
-        return this.visualisations = new VisualisationView();
+        this.current_page = 0;
+        $('body').on('swipeleft', this.swipeLeft);
+        return $('body').on('swipeleft', this.swipeRight);
       },
-      initializeBaseView: function() {
-        var base_view;
-        base_view = new BaseView();
-        return base_view.initialize();
+      swipeLeft: function() {
+        return console.log('swipe left');
+      },
+      swipeRight: function() {
+        return console.log('swipe right');
       },
       renderHome: function(actions) {
         var home_view;
@@ -33,6 +35,7 @@
         if (this.previousPage != null) {
           this.previousPage.remove();
         }
+        this.current_page = page;
         page = Number(page);
         page_model = new Backbone.Model(Story.get('pages')[page - 1]);
         page_view = new PageView({

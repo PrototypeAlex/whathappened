@@ -183,6 +183,14 @@ table{
   }
 }
 
+#js-range-slider{
+  display: none;
+}
+
+.ui-slider-track, .ui-slider-switch {
+  margin: 0 15px 0 15px !important;
+}
+
 .range-slider-prompt{
   font: 400 20px/30px $sans;
   margin-bottom: 10px;

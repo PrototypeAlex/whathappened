@@ -14,8 +14,10 @@
       render: function() {
         this.$el.html(this.template);
         this.render_geo_chart();
-        $('#js-range-slider').focus();
-        return this;
+        if (Modernizr.touch) {
+          $('.range-slider-prompt').hide();
+        }
+        return $('#js-range-slider').slider();
       },
       render_geo_chart: function() {
         var boundry_feature, gradient, height, land_feature, width,
@@ -85,7 +87,14 @@
           biggest = sorted_data[sorted_data.length - 1];
           $('#js-place').html(biggest.place);
           $('#js-weight').html("" + (biggest.mass.formatMoney(2, '.', ',')) + " grams of " + biggest.type);
-          return $('#js-total-hits').html(sorted_data.length);
+          $('#js-total-hits').html(sorted_data.length);
+          if (sorted_data.length === 1) {
+            $('#js-meteorites-plural').html("Meteorite");
+          } else {
+            $('#js-meteorites-plural').html("Meteorites");
+          }
+          $('#js-meteors-graphic').trigger('re-init');
+          return $('#js-place-graphic').trigger('re-init');
         }
       }
     }, Number.prototype.formatMoney = function(c, d, t) {

@@ -1,7 +1,7 @@
-define ["backbone", "router"], (Backbone, Router) ->
+define ["backbone", "router", "jquery_mobile_config", "jquery_mobile"], (Backbone, Router) ->
   initialize = ->
     router = new Router()
-    router.initialize()
+
     Backbone.history.start()
 
   initialize: initialize

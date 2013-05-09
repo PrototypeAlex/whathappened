@@ -59,8 +59,8 @@
           top: "140px",
           opacity: 0
         });
-        TweenMax.to($('#info .document'), .2, {
-          top: 100,
+        TweenMax.to($('#info .document'), .5, {
+          top: 25,
           opacity: 1,
           ease: Quint.easeOut,
           delay: .3

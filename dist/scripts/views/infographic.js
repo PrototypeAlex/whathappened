@@ -3,6 +3,10 @@
   define(['backbone'], function(Backbone) {
     var InfographicView;
     InfographicView = Backbone.View.extend({
+      events: {
+        're-init': 'reInitialize'
+      },
+      wait: .5,
       initialize: function() {
         var _this = this;
         _.bindAll(this);
@@ -40,7 +44,25 @@
             top: 0,
             opacity: 1,
             ease: Elastic.easeOut,
-            delay: .5 + index * .2
+            delay: _this.wait + index * .2
+          });
+        });
+      },
+      reInitialize: function() {
+        var _this = this;
+        this.wait = 0;
+        _.each(this.$('.number'), this.setupNumber);
+        _.each(this.$('.gold-star'), function(el) {
+          var $el;
+          $el = $(el);
+          $el.css({
+            opacity: 0
+          });
+          return TweenMax.to($el, .5, {
+            opacity: 1,
+            delay: 0,
+            scale: 1.1,
+            ease: Elastic.easeOut
           });
         });
       }

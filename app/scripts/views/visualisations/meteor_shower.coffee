@@ -15,7 +15,9 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
       @render_geo_chart()
       if Modernizr.touch
         $('.range-slider-prompt').hide()
-      $('#js-range-slider').focus()
+
+      $('#js-range-slider').slider()
+
 
     render_geo_chart: ->
       width = 688

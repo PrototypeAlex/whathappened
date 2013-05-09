@@ -6,6 +6,8 @@ require.config
     text: "../components/requirejs-text/text"
     d3: "../components/d3/d3"
     topojson: "../components/topojson/topojson"
+    jquery_mobile: "../components/jquery-mobile/jquery.mobile.custom.min"
+    jquery_mobile_config: "./jquery_mobile_config"
 
   shim:
     bootstrap:
@@ -19,8 +21,8 @@ require.config
     underscore:
       exports: "_"
 
-    jquery:
-      exports: "$"
+    jquery_mobile_config: ["jquery"]
+    jquery_mobile: ["jquery", "jquery_mobile_config"]
 
     d3:
       exports: "d3"
