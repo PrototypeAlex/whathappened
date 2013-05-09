@@ -32,9 +32,12 @@
       },
       render_x_file: function(data) {
         var x_file;
-        x_file = "        <h3>" + data.location + "</h3>        <h4>Time: " + data.time + "</h4>        <h4>Event: " + (data.event.capitalize()) + "</h4>        <p>" + data.description + "</p>";
+        x_file = "        <h3>\"" + (data.event.capitalize()) + "\"</h3>        <h4><i class=\"icon icon-calendar\"></i>" + data.time + "</h4>        <h4><i class=\"icon icon-pin\"></i>" + data.location + "</h4>        <p>" + data.description + "</p>";
         $('#x-file').html(x_file);
-        return $('#x-file').show();
+        $('#x-file').show();
+        return TweenMax.to($('#info'), .3, {
+          scrollTop: $('#x-file').position().top
+        });
       },
       render_ufo_template: function(region) {
         var data, readable_region, tbody, tr, ufo_sightings,
@@ -63,16 +66,16 @@
         });
         data.exit().transition().remove();
         tr = data.enter().append('tr');
-        tr.append('td').text(function(d) {
+        tr.append('td').attr('class', 'time').text(function(d) {
           return d.time;
         });
-        tr.append('td').attr('style', 'text-align: center').text(function(d) {
+        tr.append('td').attr('class', 'location').text(function(d) {
           return d.location;
         });
-        tr.append('td').attr('style', 'text-align: center').text(function(d) {
+        tr.append('td').attr('class', 'event').text(function(d) {
           return d.event.capitalize();
         });
-        return tr.append('td').html("<a>More Information</a>").on("click", function(d) {
+        return tr.append('td').html("<a class=\"more\">More</a>").on("click", function(d) {
           $('.map-region-prompt').remove();
           return _this.render_x_file(d);
         });

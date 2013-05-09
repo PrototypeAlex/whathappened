@@ -40,7 +40,6 @@
   }
   #js-new-zealand-legend{
     width: 370px;
-    height: 350px;
     margin-top: 20px;
     float: right;
     .map-region-prompt{
@@ -77,14 +76,6 @@
     }
     .legend-title{
       float: right;
-    }
-  }
-  #js-ufo-sightings{
-    table tbody td a{
-      text-decoration: underline;
-      &:hover{
-        cursor: pointer;
-      }
     }
   }
   #js-globe-container{
@@ -158,28 +149,57 @@ table{
   th{
     text-transform: uppercase;
     letter-spacing: 1px;
+    opacity: .3;
+  }
+  td.time{
+    font: 400 11px/22px $sans;
+    letter-spacing: 2px;
+  }
+  tr:nth-child(2n-1) td{
+    background-color: rgba(0, 0, 0, .03);
+  }
+  a.more{
+    text-transform: uppercase;
+    font: 600 12px/12px $sans;
+    text-decoration: none;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 4px;
+    background-color: $blue;
+    color: #FFF;
+    border-radius: 4px;
+    cursor: pointer;
+    &:hover{
+      background-color: $red;
+    }
   }
 }
 
 #x-file{
   display: none;
-  background-color: #FFF4C6;
-  padding: 15px;
-  border-radius: 10px;
-  height: 345px;
-  margin-top: -20px;
-  overflow-y: scroll;
-
+  margin-right: 20px;
+  margin-top: 0px;
   h3{
     margin-top: 0;
+    font: 400 40px/37px $script;
+    margin-bottom: 20px;
+    color: $blue;
   }
   h4{
     margin: 0;
+    font: 400 15px/20px $slab;
+    border-bottom: 1px solid #EEE;
+    padding: 4px 0px;
+    .icon{
+      display: inline-block;
+      width: 40px;
+      color: $green;
+      opacity: .2;
+    }
   }
   p{
-    margin: 10px 0 0 0;
-    font-size: .8em;
-    text-align: justify;
+    margin-right: 0px;
+    font: 400 15px/22px $slab;
   }
 }
 

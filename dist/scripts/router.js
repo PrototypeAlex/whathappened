@@ -10,20 +10,60 @@
         "credits": "renderCredits"
       },
       initialize: function() {
-        this.current_page = 0;
-        $('body').on('swipeleft', this.swipeLeft);
-        return $('body').on('swipeleft', this.swipeRight);
+        var _this = this;
+        $('body').on('swipeleft', function() {
+          return _this.navigate_left;
+        });
+        $('body').on('swiperight', function() {
+          return _this.navigate_right;
+        });
+        return $('body').on('keydown', function(d) {
+          return _this.arrowNavigation(d);
+        });
       },
-      swipeLeft: function() {
-        return console.log('swipe left');
+      arrowNavigation: function(e) {
+        if (e.keyCode === 37) {
+          return this.navigate_left();
+        } else if (e.keyCode === 39) {
+          return this.navigate_right();
+        }
+      },
+      navigate_left: function() {
+        if (this.current_page > 0) {
+          this.current_page = this.current_page - 1;
+          if (this.current_page === 0) {
+            return this.navigate("/", {
+              trigger: true
+            });
+          } else {
+            return this.navigate("/page/" + this.current_page, {
+              trigger: true
+            });
+          }
+        }
+      },
+      navigate_right: function() {
+        if (this.current_page < 7) {
+          this.current_page = this.current_page + 1;
+          if (this.current_page === 7) {
+            return this.navigate("/credits", {
+              trigger: true
+            });
+          } else {
+            return this.navigate("/page/" + this.current_page, {
+              trigger: true
+            });
+          }
+        }
       },
       swipeRight: function() {
         return console.log('swipe right');
       },
       renderHome: function(actions) {
-        var home_view;
-        if (this.previousPage != null) {
-          this.previousPage.remove();
+        var home_view, _ref;
+        this.current_page = 0;
+        if ((_ref = this.previousPage) != null) {
+          _ref.remove();
         }
         home_view = new HomeView();
         home_view.render();
@@ -31,11 +71,11 @@
         return this.previousPage = home_view;
       },
       renderPage: function(page) {
-        var page_model, page_view;
-        if (this.previousPage != null) {
-          this.previousPage.remove();
+        var page_model, page_view, _ref;
+        this.current_page = parseInt(page);
+        if ((_ref = this.previousPage) != null) {
+          _ref.remove();
         }
-        this.current_page = page;
         page = Number(page);
         page_model = new Backbone.Model(Story.get('pages')[page - 1]);
         page_view = new PageView({
@@ -46,9 +86,10 @@
         return this.previousPage = page_view;
       },
       renderCredits: function() {
-        var credits_view;
-        if (this.previousPage != null) {
-          this.previousPage.remove();
+        var credits_view, _ref;
+        this.current_page = 7;
+        if ((_ref = this.previousPage) != null) {
+          _ref.remove();
         }
         credits_view = new CreditsView();
         $('body').append(credits_view.el);

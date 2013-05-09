@@ -7,7 +7,8 @@
       events: {
         'click .data-marker': 'openData',
         'click .close': 'closeData',
-        'click .bg': 'closeData'
+        'click .bg': 'closeData',
+        'click .document-edge': 'closeDataFromEdge'
       },
       info_view: null,
       debug: true,
@@ -15,7 +16,7 @@
         _.bindAll(this);
         return this.$el = $(this.el);
       },
-      template: _.template("<div class=\"picture\">\n  <div class=\"frame\">\n    <div class=\"preloader\">\n      <div class=\"spinner\">\n        <i class=\"icon-cw-circled animate-spin\"></i>\n        <span class=\"circular-glare\"></span>\n      </div>\n    </div>\n  </div>\n</div>\n<div class=\"words\">\n  <%= content %>\n</div>\n<a href=\"<%= previous_page_url %>\" class=\"pagination arrow left\"><span class=\"icon-left-open\"></span></a>\n<a href=\"<%= next_page_url %>\" class=\"pagination arrow right\"><span class=\"icon-right-open\"></span></a>\n<div id=\"info\" class=\"hidden\">\n  <div class=\"bg\"></div>\n  <div class=\"document\">\n      <a href=\"#\" class=\"close\">&times;<div class=\"circular-glare\"></div></a>\n      <div class=\"corner\"></div>\n      <div class=\"content\" id=\"js-visualisation-container\"></div>\n  </div>\n</div>\n<div class=\"tool-tip\">\n</div>"),
+      template: _.template("<div class=\"picture\">\n  <div class=\"frame\">\n    <div class=\"preloader\">\n      <div class=\"spinner\">\n        <i class=\"icon-cw-circled animate-spin\"></i>\n        <span class=\"circular-glare\"></span>\n      </div>\n    </div>\n  </div>\n</div>\n<div class=\"words\">\n  <%= content %>\n</div>\n<a href=\"<%= previous_page_url %>\" class=\"pagination arrow left\"><span class=\"icon-left-open\"></span></a>\n<a href=\"<%= next_page_url %>\" class=\"pagination arrow right\"><span class=\"icon-right-open\"></span></a>\n<div id=\"info\" class=\"hidden\">\n  <div class=\"bg\"></div>\n  <div class=\"document-edge\">\n    <div class=\"document\">\n        <a href=\"#\" class=\"close\">&times;<div class=\"circular-glare\"></div></a>\n        <div class=\"corner\"></div>\n        <div class=\"content\" id=\"js-visualisation-container\"></div>\n    </div>\n  </div>\n</div>\n<div class=\"tool-tip\">\n</div>"),
       render: function() {
         var _this = this;
         this.$el.html(this.template(this.model.toJSON()));
@@ -135,6 +136,14 @@
           }
           TweenMax.to($el, .4, params);
         });
+      },
+      closeDataFromEdge: function(e) {
+        var $el;
+        $el = $(e.target);
+        if (!$el.hasClass('document-edge')) {
+          return;
+        }
+        this.closeData(e);
       }
     });
     return PageView;

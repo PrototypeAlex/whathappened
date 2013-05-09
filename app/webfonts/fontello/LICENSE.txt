@@ -10,15 +10,6 @@ Font license info
    Homepage:  http://www.alessioatzeni.com
 
 
-## mfglabs
-
-   Copyright (C) 2012 by Daniel Bruce
-
-   Author:    MFG Labs
-   License:   SIL (http://scripts.sil.org/OFL)
-   Homepage:  http://www.mfglabs.com/
-
-
 ## fontawesome
 
    Copyright (C) 2012 by Dave Gandy
@@ -26,6 +17,15 @@ Font license info
    Author:    Dave Gandy
    License:   CC BY 3.0 (http://creativecommons.org/licenses/by/3.0/)
    Homepage:  http://fortawesome.github.com/Font-Awesome/
+
+
+## mfglabs
+
+   Copyright (C) 2012 by Daniel Bruce
+
+   Author:    MFG Labs
+   License:   SIL (http://scripts.sil.org/OFL)
+   Homepage:  http://www.mfglabs.com/
 
 
 ## elusive

@@ -28,15 +28,24 @@
 	}
 	p{
 		font: 400 20px/30px $slab;
+		color: #FFF;
 		a{
 			text-decoration: none;
 			color: inherit;
 			border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+			cursor: pointer;
 			&:hover{
 				border-bottom-color: $white;
 				color: $white;
 			}
-
+			&.help{
+				color: $black;
+				border-bottom-color: rgba(0, 0, 0, 0.3);
+				&:hover{
+					color: $white;
+					border-bottom-color: $white;
+				}
+			}
 		}
 		.thing{
 			font-family: $sans;

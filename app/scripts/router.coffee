@@ -38,8 +38,10 @@ define ["backbone", "views/home", "views/page", "views/credits", "data/story"], 
       console.log 'swipe right'
 
     renderHome: (actions) ->
-      @previousPage.remove() if @previousPage?
       @current_page = 0
+
+      @previousPage?.remove()
+      
       home_view = new HomeView()
       home_view.render()
       $('body').append home_view.el
@@ -47,8 +49,10 @@ define ["backbone", "views/home", "views/page", "views/credits", "data/story"], 
       @previousPage = home_view
 
     renderPage: (page) ->
-      @previousPage.remove() if @previousPage?
+
       @current_page = parseInt(page)
+      @previousPage?.remove()
+
       page = Number(page)
       page_model = new Backbone.Model(Story.get('pages')[page - 1])
       page_view = new PageView
@@ -59,8 +63,10 @@ define ["backbone", "views/home", "views/page", "views/credits", "data/story"], 
       @previousPage = page_view
 
     renderCredits: ->
-      @previousPage.remove() if @previousPage?
+
       @current_page = 7
+      @previousPage?.remove()
+
       credits_view = new CreditsView()
       $('body').append credits_view.el
       credits_view.render()

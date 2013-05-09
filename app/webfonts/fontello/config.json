@@ -46,6 +46,12 @@
       "src": "entypo"
     },
     {
+      "uid": "5b0772e9484a1a11646793a82edd622a",
+      "css": "pin",
+      "code": 128204,
+      "src": "fontawesome"
+    },
+    {
       "uid": "d870630ff8f81e6de3958ecaeac532f2",
       "css": "left-open",
       "code": 59229,

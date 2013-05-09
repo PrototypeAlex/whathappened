@@ -5,7 +5,6 @@
     initialize = function() {
       var router;
       router = new Router();
-      router.initialize();
       return Backbone.history.start();
     };
     return {

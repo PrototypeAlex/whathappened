@@ -49,6 +49,7 @@
         });
       },
       animateIn: function() {
+        $('body').addClass('info-open');
         $('#info .bg').css({
           opacity: 0
         });
@@ -92,6 +93,7 @@
       },
       close: function(e) {
         var _this = this;
+        $('body').removeClass('info-open');
         TweenMax.to($('#info .document'), .2, {
           top: 140,
           opacity: 0,
