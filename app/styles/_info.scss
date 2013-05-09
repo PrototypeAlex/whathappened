@@ -1,5 +1,5 @@
 #info{
-	position: fixed;
+	position: absolute;
 	left: 0px;
 	top: 0px;
 	right: 0px;
@@ -94,6 +94,29 @@
 	}
 	p{
 		margin-right: 40px;
+	}
+	p.intro{
+		font: 600 18px/22px $sans;
+		color: $green;
+	}
+	img{
+		width: 100%;
+		margin-bottom: 20px;
+		padding: 20px;
+		margin: 0px -20px 20px -20px;
+		background-color: rgba(0, 0, 0, .1);
+		border-top: 1px solid rgba(0, 0, 0, .17);
+		border-bottom: 1px solid rgba(0, 0, 0, .17);
+	}
+	ul{
+		padding: 0px 20px;
+		font: 400 15px/20px $slab;
+		li{
+			list-style-type: circle;
+			margin: 10px 0px;
+			border-bottom: 1px solid #eee;
+			padding-bottom: 10px;
+		}
 	}
 }
 
