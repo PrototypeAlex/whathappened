@@ -1,6 +1,11 @@
 define ['backbone'], (Backbone) ->
 	InfographicView = Backbone.View.extend
 
+		events:
+			're-init': 'reInitialize'
+
+		wait: .5
+
 		initialize: ->
 			_.bindAll @
 			_.each @$('.number'), @setupNumber
@@ -23,7 +28,18 @@ define ['backbone'], (Backbone) ->
 				$digit.find('.value').css
 					opacity: 0
 					top: 20
-				TweenMax.to($digit.find('.value'), .7, {top: 0, opacity:1, ease: Elastic.easeOut, delay: .5 + index * .2})
+				TweenMax.to($digit.find('.value'), .7, {top: 0, opacity:1, ease: Elastic.easeOut, delay: @wait + index * .2})
 				return
+
+		reInitialize: ->
+			@wait = 0
+			_.each @$('.number'), @setupNumber
+
+			_.each @$('.gold-star'), (el) =>
+				$el = $(el)
+				$el.css
+					opacity: 0
+				TweenMax.to $el, .5, {opacity: 1, delay: 0, scale: 1.1, ease: Elastic.easeOut}
+			return
 
 	InfographicView

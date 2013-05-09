@@ -14,7 +14,6 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
       @$el.html( @template )
       @render_geo_chart()
       $('#js-range-slider').focus()
-      @
 
     render_geo_chart: ->
       width = 688
@@ -120,6 +119,14 @@ define ['backbone', 'text!../../../templates/meteor_shower.html', 'd3', 'topojso
         $('#js-place').html(biggest.place)
         $('#js-weight').html("#{biggest.mass.formatMoney(2, '.', ',')} grams of #{biggest.type}")
         $('#js-total-hits').html(sorted_data.length)
+
+        if sorted_data.length == 1
+          $('#js-meteorites-plural').html "Meteorite"
+        else
+          $('#js-meteorites-plural').html "Meteorites"
+
+        $('#js-meteors-graphic').trigger 're-init'
+        $('#js-place-graphic').trigger 're-init'
         
 
 
