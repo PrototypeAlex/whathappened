@@ -1853,6 +1853,225 @@ $.mobile.document.bind( "pagecreate create", function( e ) {
 
 })( jQuery );
 
+(function( $ ) {
+	var	meta = $( "meta[name=viewport]" ),
+		initialContent = meta.attr( "content" ),
+		disabledZoom = initialContent + ",maximum-scale=1, user-scalable=no",
+		enabledZoom = initialContent + ",maximum-scale=10, user-scalable=yes",
+		disabledInitially = /(user-scalable[\s]*=[\s]*no)|(maximum-scale[\s]*=[\s]*1)[$,\s]/.test( initialContent );
+
+	$.mobile.zoom = $.extend( {}, {
+		enabled: !disabledInitially,
+		locked: false,
+		disable: function( lock ) {
+			if ( !disabledInitially && !$.mobile.zoom.locked ) {
+				meta.attr( "content", disabledZoom );
+				$.mobile.zoom.enabled = false;
+				$.mobile.zoom.locked = lock || false;
+			}
+		},
+		enable: function( unlock ) {
+			if ( !disabledInitially && ( !$.mobile.zoom.locked || unlock === true ) ) {
+				meta.attr( "content", enabledZoom );
+				$.mobile.zoom.enabled = true;
+				$.mobile.zoom.locked = false;
+			}
+		},
+		restore: function() {
+			if ( !disabledInitially ) {
+				meta.attr( "content", initialContent );
+				$.mobile.zoom.enabled = true;
+			}
+		}
+	});
+
+}( jQuery ));
+
+(function( $, undefined ) {
+
+$.widget( "mobile.textinput", $.mobile.widget, {
+	options: {
+		theme: null,
+		mini: false,
+		// This option defaults to true on iOS devices.
+		preventFocusZoom: /iPhone|iPad|iPod/.test( navigator.platform ) && navigator.userAgent.indexOf( "AppleWebKit" ) > -1,
+		initSelector: "input[type='text'], input[type='search'], :jqmData(type='search'), input[type='number'], :jqmData(type='number'), input[type='password'], input[type='email'], input[type='url'], input[type='tel'], textarea, input[type='time'], input[type='date'], input[type='month'], input[type='week'], input[type='datetime'], input[type='datetime-local'], input[type='color'], input:not([type]), input[type='file']",
+		clearBtn: false,
+		clearSearchButtonText: null, //deprecating for 1.3...
+		clearBtnText: "clear text",
+		disabled: false
+	},
+
+	_create: function() {
+
+		var self = this,
+			input = this.element,
+			o = this.options,
+			theme = o.theme || $.mobile.getInheritedTheme( this.element, "c" ),
+			themeclass  = " ui-body-" + theme,
+			miniclass = o.mini ? " ui-mini" : "",
+			isSearch = input.is( "[type='search'], :jqmData(type='search')" ),
+			focusedEl,
+			clearbtn,
+			clearBtnText = o.clearSearchButtonText || o.clearBtnText,
+			clearBtnBlacklist = input.is( "textarea, :jqmData(type='range')" ),
+			inputNeedsClearBtn = !!o.clearBtn && !clearBtnBlacklist,
+			inputNeedsWrap = input.is( "input" ) && !input.is( ":jqmData(type='range')" );
+
+		function toggleClear() {
+			setTimeout( function() {
+				clearbtn.toggleClass( "ui-input-clear-hidden", !input.val() );
+			}, 0 );
+		}
+
+		$( "label[for='" + input.attr( "id" ) + "']" ).addClass( "ui-input-text" );
+
+		focusedEl = input.addClass( "ui-input-text ui-body-"+ theme );
+
+		// XXX: Temporary workaround for issue 785 (Apple bug 8910589).
+		//      Turn off autocorrect and autocomplete on non-iOS 5 devices
+		//      since the popup they use can't be dismissed by the user. Note
+		//      that we test for the presence of the feature by looking for
+		//      the autocorrect property on the input element. We currently
+		//      have no test for iOS 5 or newer so we're temporarily using
+		//      the touchOverflow support flag for jQM 1.0. Yes, I feel dirty. - jblas
+		if ( typeof input[0].autocorrect !== "undefined" && !$.support.touchOverflow ) {
+			// Set the attribute instead of the property just in case there
+			// is code that attempts to make modifications via HTML.
+			input[0].setAttribute( "autocorrect", "off" );
+			input[0].setAttribute( "autocomplete", "off" );
+		}
+
+		//"search" and "text" input widgets
+		if ( isSearch ) {
+			focusedEl = input.wrap( "<div class='ui-input-search ui-shadow-inset ui-btn-corner-all ui-btn-shadow ui-icon-searchfield" + themeclass + miniclass + "'></div>" ).parent();
+		} else if ( inputNeedsWrap ) {
+			focusedEl = input.wrap( "<div class='ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow" + themeclass + miniclass + "'></div>" ).parent();
+		}
+
+		if( inputNeedsClearBtn || isSearch ) {
+			clearbtn = $( "<a href='#' class='ui-input-clear' title='" + clearBtnText + "'>" + clearBtnText + "</a>" )
+				.bind( "click", function( event ) {
+					input
+						.val( "" )
+						.focus()
+						.trigger( "change" );
+					clearbtn.addClass( "ui-input-clear-hidden" );
+					event.preventDefault();
+				})
+				.appendTo( focusedEl )
+				.buttonMarkup({
+					icon: "delete",
+					iconpos: "notext",
+					corners: true,
+					shadow: true,
+					mini: o.mini
+				});
+				
+			if ( !isSearch ) {
+				focusedEl.addClass( "ui-input-has-clear" );
+			}
+
+			toggleClear();
+
+			input.bind( "paste cut keyup input focus change blur", toggleClear );
+		}
+		else if ( !inputNeedsWrap && !isSearch ) {
+			input.addClass( "ui-corner-all ui-shadow-inset" + themeclass + miniclass );
+		}
+
+		input.focus(function() {
+				// In many situations, iOS will zoom into the input upon tap, this prevents that from happening
+				if ( o.preventFocusZoom ) {
+					$.mobile.zoom.disable( true );
+				}			
+				focusedEl.addClass( $.mobile.focusClass );
+			})
+			.blur(function() {
+				focusedEl.removeClass( $.mobile.focusClass );
+				if ( o.preventFocusZoom ) {
+					$.mobile.zoom.enable( true );
+				}				
+			});
+
+		// Autogrow
+		if ( input.is( "textarea" ) ) {
+			var extraLineHeight = 15,
+				keyupTimeoutBuffer = 100,
+				keyupTimeout;
+
+			this._keyup = function() {
+				var scrollHeight = input[ 0 ].scrollHeight,
+					clientHeight = input[ 0 ].clientHeight;
+
+				if ( clientHeight < scrollHeight ) {
+					var paddingTop = parseFloat( input.css( "padding-top" ) ),
+						paddingBottom = parseFloat( input.css( "padding-bottom" ) ),
+						paddingHeight = paddingTop + paddingBottom;
+					
+					input.height( scrollHeight - paddingHeight + extraLineHeight );
+				}
+			};
+
+			input.on( "keyup change input paste", function() {
+				clearTimeout( keyupTimeout );
+				keyupTimeout = setTimeout( self._keyup, keyupTimeoutBuffer );
+			});
+
+			// binding to pagechange here ensures that for pages loaded via
+			// ajax the height is recalculated without user input
+			this._on( true, $.mobile.document, { "pagechange": "_keyup" });
+
+			// Issue 509: the browser is not providing scrollHeight properly until the styles load
+			if ( $.trim( input.val() ) ) {
+				// bind to the window load to make sure the height is calculated based on BOTH
+				// the DOM and CSS
+				this._on( true, $.mobile.window, {"load": "_keyup"});
+			}
+		}
+		if ( input.attr( "disabled" ) ) {
+			this.disable();
+		}
+	},
+
+	disable: function() {
+		var $el,
+			isSearch = this.element.is( "[type='search'], :jqmData(type='search')" ),
+			inputNeedsWrap = this.element.is( "input" ) && !this.element.is( ":jqmData(type='range')" ),
+			parentNeedsDisabled = this.element.attr( "disabled", true )	&& ( inputNeedsWrap || isSearch );
+			
+		if ( parentNeedsDisabled ) {
+			$el = this.element.parent();
+		} else {
+			$el = this.element;
+		}
+		$el.addClass( "ui-disabled" );
+		return this._setOption( "disabled", true );
+	},
+
+	enable: function() {
+		var $el,
+			isSearch = this.element.is( "[type='search'], :jqmData(type='search')" ),
+			inputNeedsWrap = this.element.is( "input" ) && !this.element.is( ":jqmData(type='range')" ),
+			parentNeedsEnabled = this.element.attr( "disabled", false )	&& ( inputNeedsWrap || isSearch );
+
+		if ( parentNeedsEnabled ) {
+			$el = this.element.parent();
+		} else {
+			$el = this.element;
+		}
+		$el.removeClass( "ui-disabled" );
+		return this._setOption( "disabled", false );
+	}
+});
+
+//auto self-init widgets
+$.mobile.document.bind( "pagecreate create", function( e ) {
+	$.mobile.textinput.prototype.enhanceWithin( e.target, true );
+});
+
+})( jQuery );
+
 (function( $, undefined ) {
 
 $.mobile.behaviors.formReset = {
@@ -1864,6 +2083,727 @@ $.mobile.behaviors.formReset = {
 		});
 	}
 };
+
+})( jQuery );
+
+(function( $, undefined ) {
+
+$.widget( "mobile.slider", $.mobile.widget, $.extend( {
+	widgetEventPrefix: "slide",
+
+	options: {
+		theme: null,
+		trackTheme: null,
+		disabled: false,
+		initSelector: "input[type='range'], :jqmData(type='range'), :jqmData(role='slider')",
+		mini: false,
+		highlight: false
+	},
+
+	_create: function() {
+
+		// TODO: Each of these should have comments explain what they're for
+		var self = this,
+			control = this.element,
+			parentTheme = $.mobile.getInheritedTheme( control, "c" ),
+			theme = this.options.theme || parentTheme,
+			trackTheme = this.options.trackTheme || parentTheme,
+			cType = control[ 0 ].nodeName.toLowerCase(),
+			isSelect = this.isToggleSwitch = cType === "select",
+			isRangeslider = control.parent().is( ":jqmData(role='rangeslider')" ),
+			selectClass = ( this.isToggleSwitch ) ? "ui-slider-switch" : "",
+			controlID = control.attr( "id" ),
+			$label = $( "[for='" + controlID + "']" ),
+			labelID = $label.attr( "id" ) || controlID + "-label",
+			label = $label.attr( "id", labelID ),
+			min = !this.isToggleSwitch ? parseFloat( control.attr( "min" ) ) : 0,
+			max =  !this.isToggleSwitch ? parseFloat( control.attr( "max" ) ) : control.find( "option" ).length-1,
+			step = window.parseFloat( control.attr( "step" ) || 1 ),
+			miniClass = ( this.options.mini || control.jqmData( "mini" ) ) ? " ui-mini" : "",
+			domHandle = document.createElement( "a" ),
+			handle = $( domHandle ),
+			domSlider = document.createElement( "div" ),
+			slider = $( domSlider ),
+			valuebg = this.options.highlight && !this.isToggleSwitch ? (function() {
+				var bg = document.createElement( "div" );
+				bg.className = "ui-slider-bg " + $.mobile.activeBtnClass + " ui-btn-corner-all";
+				return $( bg ).prependTo( slider );
+			})() : false,
+			options,
+			wrapper;
+			
+		domHandle.setAttribute( "href", "#" );
+		domSlider.setAttribute( "role", "application" );
+		domSlider.className = [this.isToggleSwitch ? "ui-slider " : "ui-slider-track ",selectClass," ui-btn-down-",trackTheme," ui-btn-corner-all", miniClass].join( "" );
+		domHandle.className = "ui-slider-handle";
+		domSlider.appendChild( domHandle );
+
+		handle.buttonMarkup({ corners: true, theme: theme, shadow: true })
+				.attr({
+					"role": "slider",
+					"aria-valuemin": min,
+					"aria-valuemax": max,
+					"aria-valuenow": this._value(),
+					"aria-valuetext": this._value(),
+					"title": this._value(),
+					"aria-labelledby": labelID
+				});
+
+		$.extend( this, {
+			slider: slider,
+			handle: handle,
+			type: cType,
+			step: step,
+			max: max,
+			min: min,
+			valuebg: valuebg,
+			isRangeslider: isRangeslider,
+			dragging: false,
+			beforeStart: null,
+			userModified: false,
+			mouseMoved: false
+		});
+
+		if ( this.isToggleSwitch ) {
+			wrapper = document.createElement( "div" );
+			wrapper.className = "ui-slider-inneroffset";
+
+			for ( var j = 0, length = domSlider.childNodes.length; j < length; j++ ) {
+				wrapper.appendChild( domSlider.childNodes[j] );
+			}
+
+			domSlider.appendChild( wrapper );
+
+			// slider.wrapInner( "<div class='ui-slider-inneroffset'></div>" );
+
+			// make the handle move with a smooth transition
+			handle.addClass( "ui-slider-handle-snapping" );
+
+			options = control.find( "option" );
+
+			for ( var i = 0, optionsCount = options.length; i < optionsCount; i++ ) {
+				var side = !i ? "b" : "a",
+					sliderTheme = !i ? " ui-btn-down-" + trackTheme : ( " " + $.mobile.activeBtnClass ),
+					sliderLabel = document.createElement( "div" ),
+					sliderImg = document.createElement( "span" );
+
+				sliderImg.className = ["ui-slider-label ui-slider-label-", side, sliderTheme, " ui-btn-corner-all"].join( "" );
+				sliderImg.setAttribute( "role", "img" );
+				sliderImg.appendChild( document.createTextNode( options[i].innerHTML ) );
+				$( sliderImg ).prependTo( slider );
+			}
+
+			self._labels = $( ".ui-slider-label", slider );
+
+		}
+
+		label.addClass( "ui-slider" );
+		
+		// monitor the input for updated values
+		control.addClass( this.isToggleSwitch ? "ui-slider-switch" : "ui-slider-input" );
+
+		this._on( control, {
+			"change": "_controlChange",
+			"keyup": "_controlKeyup",
+			"blur": "_controlBlur",
+			"vmouseup": "_controlVMouseUp"
+		});
+
+		slider.bind( "vmousedown", $.proxy( this._sliderVMouseDown, this ) )
+			.bind( "vclick", false );
+
+		// We have to instantiate a new function object for the unbind to work properly
+		// since the method itself is defined in the prototype (causing it to unbind everything)
+		this._on( document, { "vmousemove": "_preventDocumentDrag" });
+		this._on( slider.add( document ), { "vmouseup": "_sliderVMouseUp" });
+
+		slider.insertAfter( control );
+
+		// wrap in a div for styling purposes
+		if ( !this.isToggleSwitch && !isRangeslider ) {
+			wrapper = this.options.mini ? "<div class='ui-slider ui-mini'>" : "<div class='ui-slider'>";
+			
+			control.add( slider ).wrapAll( wrapper );
+		}
+
+		// Only add focus class to toggle switch, sliders get it automatically from ui-btn
+		if ( this.isToggleSwitch ) {
+			this.handle.bind({
+				focus: function() {
+					slider.addClass( $.mobile.focusClass );
+				},
+
+				blur: function() {
+					slider.removeClass( $.mobile.focusClass );
+				}
+			});
+		}
+
+		// bind the handle event callbacks and set the context to the widget instance
+		this._on( this.handle, {
+			"vmousedown": "_handleVMouseDown",
+			"keydown": "_handleKeydown",
+			"keyup": "_handleKeyup"
+		});
+
+		this.handle.bind( "vclick", false );
+
+		this._handleFormReset();
+
+		this.refresh( undefined, undefined, true );
+	},
+
+	_controlChange: function( event ) {
+		// if the user dragged the handle, the "change" event was triggered from inside refresh(); don't call refresh() again
+		if ( this._trigger( "controlchange", event ) === false ) {
+			return false;
+		}
+		if ( !this.mouseMoved ) {
+			this.refresh( this._value(), true );
+		}
+	},
+
+	_controlKeyup: function( event ) { // necessary?
+		this.refresh( this._value(), true, true );
+	},
+
+	_controlBlur: function( event ) {
+		this.refresh( this._value(), true );
+	},
+
+	// it appears the clicking the up and down buttons in chrome on
+	// range/number inputs doesn't trigger a change until the field is
+	// blurred. Here we check thif the value has changed and refresh
+	_controlVMouseUp: function( event ) {
+		this._checkedRefresh();
+	},
+
+	// NOTE force focus on handle
+	_handleVMouseDown: function( event ) {
+		this.handle.focus();
+	},
+
+	_handleKeydown: function( event ) {
+		var index = this._value();
+		if ( this.options.disabled ) {
+			return;
+		}
+
+		// In all cases prevent the default and mark the handle as active
+		switch ( event.keyCode ) {
+			case $.mobile.keyCode.HOME:
+			case $.mobile.keyCode.END:
+			case $.mobile.keyCode.PAGE_UP:
+			case $.mobile.keyCode.PAGE_DOWN:
+			case $.mobile.keyCode.UP:
+			case $.mobile.keyCode.RIGHT:
+			case $.mobile.keyCode.DOWN:
+			case $.mobile.keyCode.LEFT:
+				event.preventDefault();
+
+				if ( !this._keySliding ) {
+					this._keySliding = true;
+					this.handle.addClass( "ui-state-active" );
+				}
+
+				break;
+		}
+
+		// move the slider according to the keypress
+		switch ( event.keyCode ) {
+			case $.mobile.keyCode.HOME:
+				this.refresh( this.min );
+				break;
+			case $.mobile.keyCode.END:
+				this.refresh( this.max );
+				break;
+			case $.mobile.keyCode.PAGE_UP:
+			case $.mobile.keyCode.UP:
+			case $.mobile.keyCode.RIGHT:
+				this.refresh( index + this.step );
+				break;
+			case $.mobile.keyCode.PAGE_DOWN:
+			case $.mobile.keyCode.DOWN:
+			case $.mobile.keyCode.LEFT:
+				this.refresh( index - this.step );
+				break;
+		}
+	}, // remove active mark
+
+	_handleKeyup: function( event ) {
+		if ( this._keySliding ) {
+			this._keySliding = false;
+			this.handle.removeClass( "ui-state-active" );
+		}
+	},
+
+	_sliderVMouseDown: function( event ) {
+		// NOTE: we don't do this in refresh because we still want to
+		//       support programmatic alteration of disabled inputs
+		if ( this.options.disabled || !( event.which === 1 || event.which === 0 ) ) {
+			return false;
+		}
+		if ( this._trigger( "beforestart", event ) === false ) {
+			return false;
+		}
+		this.dragging = true;
+		this.userModified = false;
+		this.mouseMoved = false;
+
+		if ( this.isToggleSwitch ) {
+			this.beforeStart = this.element[0].selectedIndex;
+		}
+
+		
+		this.refresh( event );
+		this._trigger( "start" );
+		return false;
+	},
+
+	_sliderVMouseUp: function() {
+		if ( this.dragging ) {
+			this.dragging = false;
+
+			if ( this.isToggleSwitch ) {
+				// make the handle move with a smooth transition
+				this.handle.addClass( "ui-slider-handle-snapping" );
+
+				if ( this.mouseMoved ) {
+					// this is a drag, change the value only if user dragged enough
+					if ( this.userModified ) {
+						this.refresh( this.beforeStart === 0 ? 1 : 0 );
+					} else {
+						this.refresh( this.beforeStart );
+					}
+				} else {
+					// this is just a click, change the value
+					this.refresh( this.beforeStart === 0 ? 1 : 0 );
+				}
+			}
+
+			this.mouseMoved = false;
+			this._trigger( "stop" );
+			return false;
+		}
+	},
+
+	_preventDocumentDrag: function( event ) {
+			// NOTE: we don't do this in refresh because we still want to
+			//       support programmatic alteration of disabled inputs
+			if ( this._trigger( "drag", event ) === false) {
+				return false;
+			}
+			if ( this.dragging && !this.options.disabled ) {
+				
+				// this.mouseMoved must be updated before refresh() because it will be used in the control "change" event
+				this.mouseMoved = true;
+
+				if ( this.isToggleSwitch ) {
+					// make the handle move in sync with the mouse
+					this.handle.removeClass( "ui-slider-handle-snapping" );
+				}
+				
+				this.refresh( event );
+
+				// only after refresh() you can calculate this.userModified
+				this.userModified = this.beforeStart !== this.element[0].selectedIndex;
+				return false;
+			}
+		},
+
+	_checkedRefresh: function() {
+		if ( this.value !== this._value() ) {
+			this.refresh( this._value() );
+		}
+	},
+
+	_value: function() {
+		return  this.isToggleSwitch ? this.element[0].selectedIndex : parseFloat( this.element.val() ) ;
+	},
+
+
+	_reset: function() {
+		this.refresh( undefined, false, true );
+	},
+
+	refresh: function( val, isfromControl, preventInputUpdate ) {
+		// NOTE: we don't return here because we want to support programmatic
+		//       alteration of the input value, which should still update the slider
+		
+		var self = this,
+			parentTheme = $.mobile.getInheritedTheme( this.element, "c" ),
+			theme = this.options.theme || parentTheme,
+			trackTheme = this.options.trackTheme || parentTheme,
+			left, width, data, tol;
+
+		self.slider[0].className = [ this.isToggleSwitch ? "ui-slider ui-slider-switch" : "ui-slider-track"," ui-btn-down-" + trackTheme,' ui-btn-corner-all', ( this.options.mini ) ? " ui-mini":""].join( "" );
+		if ( this.options.disabled || this.element.attr( "disabled" ) ) {
+			this.disable();
+		}
+
+		// set the stored value for comparison later
+		this.value = this._value();
+		if ( this.options.highlight && !this.isToggleSwitch && this.slider.find( ".ui-slider-bg" ).length === 0 ) {
+			this.valuebg = (function() {
+				var bg = document.createElement( "div" );
+				bg.className = "ui-slider-bg " + $.mobile.activeBtnClass + " ui-btn-corner-all";
+				return $( bg ).prependTo( self.slider );
+			})();
+		}
+		this.handle.buttonMarkup({ corners: true, theme: theme, shadow: true });
+
+		var pxStep, percent,
+			control = this.element,
+			isInput = !this.isToggleSwitch,
+			optionElements = isInput ? [] : control.find( "option" ),
+			min =  isInput ? parseFloat( control.attr( "min" ) ) : 0,
+			max = isInput ? parseFloat( control.attr( "max" ) ) : optionElements.length - 1,
+			step = ( isInput && parseFloat( control.attr( "step" ) ) > 0 ) ? parseFloat( control.attr( "step" ) ) : 1;
+			
+		if ( typeof val === "object" ) {
+			data = val;
+			// a slight tolerance helped get to the ends of the slider
+			tol = 8;
+
+			left = this.slider.offset().left;
+			width = this.slider.width();
+			pxStep = width/((max-min)/step);
+			if ( !this.dragging ||
+					data.pageX < left - tol ||
+					data.pageX > left + width + tol ) {
+				return;
+			}
+			if ( pxStep > 1 ) {
+				percent = ( ( data.pageX - left ) / width ) * 100;
+			} else {
+				percent = Math.round( ( ( data.pageX - left ) / width ) * 100 );
+			}
+		} else {
+			if ( val == null ) {
+				val = isInput ? parseFloat( control.val() || 0 ) : control[0].selectedIndex;
+			}
+			percent = ( parseFloat( val ) - min ) / ( max - min ) * 100;
+		}
+
+		if ( isNaN( percent ) ) {
+			return;
+		}
+
+		var newval = ( percent / 100 ) * ( max - min ) + min;
+
+		//from jQuery UI slider, the following source will round to the nearest step
+		var valModStep = ( newval - min ) % step;
+		var alignValue = newval - valModStep;
+
+		if ( Math.abs( valModStep ) * 2 >= step ) {
+			alignValue += ( valModStep > 0 ) ? step : ( -step );
+		}
+
+		var percentPerStep = 100/((max-min)/step);
+		// Since JavaScript has problems with large floats, round
+		// the final value to 5 digits after the decimal point (see jQueryUI: #4124)
+		newval = parseFloat( alignValue.toFixed(5) );
+
+		if ( typeof pxStep === "undefined" ) {
+			pxStep = width / ( (max-min) / step );
+		}
+		if ( pxStep > 1 && isInput ) {
+			percent = ( newval - min ) * percentPerStep * ( 1 / step );
+		}
+		if ( percent < 0 ) {
+			percent = 0;
+		}
+
+		if ( percent > 100 ) {
+			percent = 100;
+		}
+
+		if ( newval < min ) {
+			newval = min;
+		}
+
+		if ( newval > max ) {
+			newval = max;
+		}
+
+		this.handle.css( "left", percent + "%" );
+
+		this.handle[0].setAttribute( "aria-valuenow", isInput ? newval : optionElements.eq( newval ).attr( "value" ) );
+
+		this.handle[0].setAttribute( "aria-valuetext", isInput ? newval : optionElements.eq( newval ).getEncodedText() );
+
+		this.handle[0].setAttribute( "title", isInput ? newval : optionElements.eq( newval ).getEncodedText() );
+
+		if ( this.valuebg ) {
+			this.valuebg.css( "width", percent + "%" );
+		}
+
+		// drag the label widths
+		if ( this._labels ) {
+			var handlePercent = this.handle.width() / this.slider.width() * 100,
+				aPercent = percent && handlePercent + ( 100 - handlePercent ) * percent / 100,
+				bPercent = percent === 100 ? 0 : Math.min( handlePercent + 100 - aPercent, 100 );
+
+			this._labels.each(function() {
+				var ab = $( this ).is( ".ui-slider-label-a" );
+				$( this ).width( ( ab ? aPercent : bPercent  ) + "%" );
+			});
+		}
+
+		if ( !preventInputUpdate ) {
+			var valueChanged = false;
+
+			// update control"s value
+			if ( isInput ) {
+				valueChanged = control.val() !== newval;
+				control.val( newval );
+			} else {
+				valueChanged = control[ 0 ].selectedIndex !== newval;
+				control[ 0 ].selectedIndex = newval;
+			}
+			if ( this._trigger( "beforechange", val ) === false) {
+					return false;
+			}
+			if ( !isfromControl && valueChanged ) {
+				control.trigger( "change" );
+			}
+		}
+	},
+
+	enable: function() {
+		this.element.attr( "disabled", false );
+		this.slider.removeClass( "ui-disabled" ).attr( "aria-disabled", false );
+		return this._setOption( "disabled", false );
+	},
+
+	disable: function() {
+		this.element.attr( "disabled", true );
+		this.slider.addClass( "ui-disabled" ).attr( "aria-disabled", true );
+		return this._setOption( "disabled", true );
+	}
+
+}, $.mobile.behaviors.formReset ) );
+
+//auto self-init widgets
+$.mobile.document.bind( "pagecreate create", function( e ) {
+	$.mobile.slider.prototype.enhanceWithin( e.target, true );
+});
+
+})( jQuery );
+
+(function( $, undefined ) {
+	$.widget( "mobile.rangeslider", $.mobile.widget, {
+
+		options: {
+			theme: null,
+			trackTheme: null,
+			disabled: false,
+			initSelector: ":jqmData(role='rangeslider')",
+			mini: false,
+			highlight: true
+		},
+
+		_create: function() {
+			var secondLabel,
+			$el = this.element,
+			elClass = this.options.mini ? "ui-rangeslider ui-mini" : "ui-rangeslider",
+			_inputFirst = $el.find( "input" ).first(),
+			_inputLast = $el.find( "input" ).last(),
+			label = $el.find( "label" ).first(),
+			_sliderFirst = $.data( _inputFirst.get(0), "mobileSlider" ).slider,
+			_sliderLast = $.data( _inputLast.get(0), "mobileSlider" ).slider,
+			firstHandle = $.data( _inputFirst.get(0), "mobileSlider" ).handle,
+			_sliders = $( "<div class=\"ui-rangeslider-sliders\" />" ).appendTo( $el );
+			
+			if ( $el.find( "label" ).length > 1 ) {
+				secondLabel = $el.find( "label" ).last().hide();
+			}
+
+			_inputFirst.addClass( "ui-rangeslider-first" );
+			_inputLast.addClass( "ui-rangeslider-last" );
+			$el.addClass( elClass );
+			
+			_sliderFirst.appendTo( _sliders );
+			_sliderLast.appendTo( _sliders );
+			label.prependTo( $el );
+			firstHandle.prependTo( _sliderLast );
+
+			$.extend( this, {
+				_inputFirst: _inputFirst,
+				_inputLast: _inputLast,
+				_sliderFirst: _sliderFirst,
+				_sliderLast: _sliderLast,
+				_targetVal: null,
+				_sliderTarget: false,
+				_sliders: _sliders,
+				_proxy: false
+			});
+			
+			this.refresh();
+			this._on( this.element.find( "input.ui-slider-input" ), {
+				"slidebeforestart": "_slidebeforestart",
+				"slidestop": "_slidestop",
+				"slidedrag": "_slidedrag",
+				"slidebeforechange": "_change",
+				"blur": "_change",
+				"keyup": "_change"
+			});
+			this._on({
+				"mousedown":"_change"
+			});
+			this._on( this.element.closest( "form" ), {
+				"reset":"_handleReset"
+			});
+			this._on( firstHandle, {
+				"vmousedown": "_dragFirstHandle"
+			});
+		},
+		_handleReset: function(){
+			var self = this;
+			//we must wait for the stack to unwind before updateing other wise sliders will not have updated yet
+			setTimeout( function(){
+				self._updateHighlight();
+			},0);
+		},
+
+		_dragFirstHandle: function( event ) {
+			//if the first handle is dragged send the event to the first slider
+			$.data( this._inputFirst.get(0), "mobileSlider" ).dragging = true;
+			$.data( this._inputFirst.get(0), "mobileSlider" ).refresh( event );
+			return false;
+		},
+
+		_slidedrag: function( event ) {
+			var first = $( event.target ).is( this._inputFirst ),
+				otherSlider = ( first ) ? this._inputLast : this._inputFirst;
+
+			this._sliderTarget = false;
+			//if the drag was initiated on an extreme and the other handle is focused send the events to
+			//the closest handle
+			if ( ( this._proxy === "first" && first ) || ( this._proxy === "last" && !first ) ) {
+				$.data( otherSlider.get(0), "mobileSlider" ).dragging = true;
+				$.data( otherSlider.get(0), "mobileSlider" ).refresh( event );
+				return false;
+			}
+		},
+
+		_slidestop: function( event ) {
+			var first = $( event.target ).is( this._inputFirst );
+			
+			this._proxy = false;
+			//this stops dragging of the handle and brings the active track to the front 
+			//this makes clicks on the track go the the last handle used
+			this.element.find( "input" ).trigger( "vmouseup" );
+			this._sliderFirst.css( "z-index", first ? 1 : "" );
+		},
+
+		_slidebeforestart: function( event ) {
+			this._sliderTarget = false;
+			//if the track is the target remember this and the original value
+			if ( $( event.originalEvent.target ).hasClass( "ui-slider-track" ) ) {
+				this._sliderTarget = true;
+				this._targetVal = $( event.target ).val();
+			}
+		},
+
+		_setOption: function( options ) {
+			this._superApply( options );
+			this.refresh();
+		},
+
+		refresh: function() {
+			var $el = this.element,
+				o = this.options;
+
+			$el.find( "input" ).slider({
+				theme: o.theme,
+				trackTheme: o.trackTheme,
+				disabled: o.disabled,
+				mini: o.mini,
+				highlight: o.highlight
+			}).slider( "refresh" );
+			this._updateHighlight();
+		},
+
+		_change: function( event ) {
+			if ( event.type === "keyup" ) {
+				this._updateHighlight();
+				return false;
+			}
+
+			var self = this,
+				min = parseFloat( this._inputFirst.val(), 10 ),
+				max = parseFloat( this._inputLast.val(), 10 ),
+				first = $( event.target ).hasClass( "ui-rangeslider-first" ),
+				thisSlider = first ? this._inputFirst : this._inputLast,
+				otherSlider = first ? this._inputLast : this._inputFirst;
+			
+			
+			if( ( this._inputFirst.val() > this._inputLast.val() && event.type === "mousedown" && !$(event.target).hasClass("ui-slider-handle")) ){
+				thisSlider.blur();
+			} else if( event.type === "mousedown" ){
+				return;
+			}
+			if ( min > max && !this._sliderTarget ) {
+				//this prevents min from being greater then max
+				thisSlider.val( first ? max: min ).slider( "refresh" );
+				this._trigger( "normalize" );
+			} else if ( min > max ) {
+				//this makes it so clicks on the target on either extreme go to the closest handle
+				thisSlider.val( this._targetVal ).slider( "refresh" );
+
+				//You must wait for the stack to unwind so first slider is updated before updating second
+				setTimeout( function() {
+					otherSlider.val( first ? min: max ).slider( "refresh" );
+					$.data( otherSlider.get(0), "mobileSlider" ).handle.focus();
+					self._sliderFirst.css( "z-index", first ? "" : 1 );
+					self._trigger( "normalize" );
+				}, 0 );
+				this._proxy = ( first ) ? "first" : "last";
+			}
+			//fixes issue where when both _sliders are at min they cannot be adjusted
+			if ( min === max ) {
+				$.data( thisSlider.get(0), "mobileSlider" ).handle.css( "z-index", 1 );
+				$.data( otherSlider.get(0), "mobileSlider" ).handle.css( "z-index", 0 );
+			} else {
+				$.data( otherSlider.get(0), "mobileSlider" ).handle.css( "z-index", "" );
+				$.data( thisSlider.get(0), "mobileSlider" ).handle.css( "z-index", "" );
+			}
+			
+			this._updateHighlight();
+			
+			if ( min >= max ) {
+				return false;
+			}
+		},
+
+		_updateHighlight: function() {
+			var min = parseInt( $.data( this._inputFirst.get(0), "mobileSlider" ).handle.get(0).style.left, 10 ),
+				max = parseInt( $.data( this._inputLast.get(0), "mobileSlider" ).handle.get(0).style.left, 10 ),
+				width = (max - min);
+
+			this.element.find( ".ui-slider-bg" ).css({
+				"margin-left": min + "%",
+				"width": width + "%"
+			});
+		},
+
+		_destroy: function() {
+			this.element.removeClass( "ui-rangeslider ui-mini" ).find( "label" ).show();
+			this._inputFirst.after( this._sliderFirst );
+			this._inputLast.after( this._sliderLast );
+			this._sliders.remove();
+			this.element.find( "input" ).removeClass( "ui-rangeslider-first ui-rangeslider-last" ).slider( "destroy" );
+		}
+
+	});
+
+$.widget( "mobile.rangeslider", $.mobile.rangeslider, $.mobile.behaviors.formReset );
+
+//auto self-init widgets
+$( document ).bind( "pagecreate create", function( e ) {
+	$.mobile.rangeslider.prototype.enhanceWithin( e.target, true );
+});
 
 })( jQuery );
 

@@ -1,6 +1,6 @@
 (function() {
 
-  define(["backbone", "router", "jquery_mobile_config", "jquery_mobile", "jquery_touch_swipe"], function(Backbone, Router) {
+  define(["backbone", "router", "jquery_touch_swipe", "jquery_mobile_config", "jquery_mobile", "tweenmax"], function(Backbone, Router) {
     var initialize;
     initialize = function() {
       var router;

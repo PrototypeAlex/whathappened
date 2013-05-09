@@ -14,9 +14,6 @@
       render: function() {
         this.$el.html(this.template);
         this.render_geo_chart();
-        if (Modernizr.touch) {
-          $('.range-slider-prompt').hide();
-        }
         return $('#js-range-slider').slider();
       },
       render_geo_chart: function() {

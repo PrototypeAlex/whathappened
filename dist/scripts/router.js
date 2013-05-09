@@ -13,7 +13,6 @@
         var _this = this;
         $('body').swipe({
           swipe: function(event, direction, distance, duration, fingerCount) {
-            console.log("You swiped " + direction + " with " + fingerCount + " fingers");
             if (direction === 'left') {
               return _this.navigate_right(event);
             } else if (direction === 'right') {

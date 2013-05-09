@@ -7,8 +7,7 @@
     %meta{content : "Title of What Happened to go here", name : "description"}/
     %meta{name : "viewport", content : "width=device-width", initial-scale : '1', maximum-scale : '1'}/
 
-    %link{href : "webfonts/fontello/css/fontello.css", rel : "stylesheet"}/
-    %link{href : "webfonts/fontello/css/animation.css", rel : "stylesheet"}/
+    %link{href : "webfonts/fontello/css/main.css", rel : "stylesheet"}/
     %link{href : "styles/main.css", rel : "stylesheet"}/
     %link{href : "components/jquery-mobile/jquery.mobile.custom.structure.min.css", rel : "stylesheet"}/
     %link{href : "components/jquery-mobile/jquery.mobile.custom.theme.min.css", rel : "stylesheet"}/
@@ -16,9 +15,6 @@
     %link{rel : "shortcut icon", href : "/favicon.png"}/
     %link{rel : "apple-itouch-icon", href : "/favicon.png"}/
 
-    %script{src : "components/modernizr/modernizr-2.6.2.min.js"}/
-    %script{src : "components/yepnope/yepnope.1.5.4-min.js"}/
-    %script{src : "http://cdnjs.cloudflare.com/ajax/libs/gsap/1.9.5/TweenMax.min.js"}/
   %body
     #site-preloader.preloader
       .spinner
@@ -47,10 +43,5 @@
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
-
-      yepnope({
-        test : Modernizr.inputtypes.range,
-        nope : ['/styles/fd-slider.min.css', 'scripts/fd-slider.min.js']
-      });
 
     </script>
