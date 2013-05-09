@@ -78,14 +78,6 @@
       float: right;
     }
   }
-  #js-ufo-sightings{
-    table tbody td a{
-      text-decoration: underline;
-      &:hover{
-        cursor: pointer;
-      }
-    }
-  }
   #js-globe-container{
     margin-left: 30px;
     .stroke{
@@ -157,13 +149,36 @@ table{
   th{
     text-transform: uppercase;
     letter-spacing: 1px;
+    opacity: .3;
+  }
+  td.time{
+    font: 400 11px/22px $sans;
+    letter-spacing: 2px;
+  }
+  tr:nth-child(2n-1) td{
+    background-color: rgba(0, 0, 0, .03);
+  }
+  a.more{
+    text-transform: uppercase;
+    font: 600 12px/12px $sans;
+    text-decoration: none;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 4px;
+    background-color: $blue;
+    color: #FFF;
+    border-radius: 4px;
+    cursor: pointer;
+    &:hover{
+      background-color: $red;
+    }
   }
 }
 
 #x-file{
   display: none;
   margin-right: 20px;
-  margin-top: -20px;
+  margin-top: 0px;
   h3{
     margin-top: 0;
     font: 400 40px/37px $script;

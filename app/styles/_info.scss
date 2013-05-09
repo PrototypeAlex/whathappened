@@ -98,6 +98,12 @@
 	}
 	p{
 		margin-right: 40px;
+		a{
+			text-decoration: none;
+			border-bottom: 1px dotted #AAA;
+			color: $black;
+			font-weight: bold;
+		}
 	}
 	p.intro{
 		font: 600 18px/22px $sans;
@@ -120,6 +126,16 @@
 			margin: 10px 0px;
 			border-bottom: 1px solid #eee;
 			padding-bottom: 10px;
+		}
+	}
+	p.outro{
+
+		.copyright{
+			display: inline-block;
+			float: left;
+			font: 600 46px/42px $sans;
+			margin-right: 10px;
+			opacity: .2;
 		}
 	}
 }
@@ -301,6 +317,7 @@
 	a{
 		color: $green;
 		text-decoration: none;
+		font-weight: 400 !important;
 		&:hover{
 			text-decoration: underline;
 		}

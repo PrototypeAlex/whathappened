@@ -71,18 +71,19 @@ define ['backbone', 'text!../../../templates/ufo.html', 'd3', "views/visualisati
         .append('tr')
 
       tr.append('td')
+        .attr('class', 'time')
         .text((d) => d.time)
      
       tr.append('td')
-        .attr('style', 'text-align: center')
+        .attr('class', 'location')
         .text((d) => d.location)
 
       tr.append('td')
-        .attr('style', 'text-align: center')
+        .attr('class', 'event')
         .text((d) -> d.event.capitalize())
 
       tr.append('td')
-        .html("<a>More Information</a>")
+        .html("<a class=\"more\">More</a>")
         .on("click", (d) =>
           $('.map-region-prompt').remove()
           @render_x_file d
