@@ -1,11 +1,11 @@
 #info{
-	position: absolute;
+	z-index: 300;
+	position: fixed;
 	left: 0px;
 	top: 0px;
-	right: 0px;
 	bottom: 0px;
-	z-index: 300;
-	overflow: scroll;
+	right: 0px;
+	overflow: auto;
 	.bg{
 		position: fixed;
 		background-color: $black;
@@ -23,6 +23,10 @@
 		border: 10px solid $black;
 		border-bottom-color: rgba(0, 0, 0, .2);
 		border-left-color: rgba(0, 0, 0, .2);
+	}
+	.document-edge{
+		position: relative;
+		clear: both;
 	}
 	.document{
 		position: relative;

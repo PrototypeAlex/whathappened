@@ -40,7 +40,6 @@
   }
   #js-new-zealand-legend{
     width: 370px;
-    height: 350px;
     margin-top: 20px;
     float: right;
     .map-region-prompt{
@@ -163,23 +162,29 @@ table{
 
 #x-file{
   display: none;
-  background-color: #FFF4C6;
-  padding: 15px;
-  border-radius: 10px;
-  height: 345px;
+  margin-right: 20px;
   margin-top: -20px;
-  overflow-y: scroll;
-
   h3{
     margin-top: 0;
+    font: 400 40px/37px $script;
+    margin-bottom: 20px;
+    color: $blue;
   }
   h4{
     margin: 0;
+    font: 400 15px/20px $slab;
+    border-bottom: 1px solid #EEE;
+    padding: 4px 0px;
+    .icon{
+      display: inline-block;
+      width: 40px;
+      color: $green;
+      opacity: .2;
+    }
   }
   p{
-    margin: 10px 0 0 0;
-    font-size: .8em;
-    text-align: justify;
+    margin-right: 0px;
+    font: 400 15px/22px $slab;
   }
 }
 

@@ -30,12 +30,14 @@ define ['backbone', 'text!../../../templates/ufo.html', 'd3', "views/visualisati
 
     render_x_file: (data) ->
       x_file = "
-        <h3>#{data.location}</h3>
-        <h4>Time: #{data.time}</h4>
-        <h4>Event: #{data.event.capitalize()}</h4>
+        <h3>\"#{data.event.capitalize()}\"</h3>
+        <h4><i class=\"icon icon-calendar\"></i>#{data.time}</h4>
+        <h4><i class=\"icon icon-pin\"></i>#{data.location}</h4>
         <p>#{data.description}</p>"
       $('#x-file').html(x_file)
       $('#x-file').show()
+
+      TweenMax.to $('#info'), .3, {scrollTop: $('#x-file').position().top}
 
     render_ufo_template: (region) ->
       ufo_sightings = _.filter(@ufo_data, (d) => d.region == region)

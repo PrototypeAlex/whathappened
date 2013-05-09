@@ -28,6 +28,7 @@ define ['backbone', 'views/visualisations/base', 'views/infographic'], (Backbone
                     el: el
 
         animateIn: ->
+            $('body').addClass 'info-open'
             $('#info .bg').css
                 opacity: 0
             TweenMax.to $('#info .bg'), .2, 
@@ -70,7 +71,7 @@ define ['backbone', 'views/visualisations/base', 'views/infographic'], (Backbone
 
 
         close: (e) ->
-            # @vizualisation_view.remove()
+            $('body').removeClass 'info-open'
             # 
             TweenMax.to $('#info .document'), .2,
                 top: 140

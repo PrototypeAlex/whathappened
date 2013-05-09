@@ -7,6 +7,7 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
       'click .data-marker': 'openData'
       'click .close': 'closeData'
       'click .bg': 'closeData'
+      'click .document-edge': 'closeDataFromEdge'
 
     info_view: null
     debug: true
@@ -33,10 +34,12 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
       <a href="<%= next_page_url %>" class="pagination arrow right"><span class="icon-right-open"></span></a>
       <div id="info" class="hidden">
         <div class="bg"></div>
-        <div class="document">
-            <a href="#" class="close">&times;<div class="circular-glare"></div></a>
-            <div class="corner"></div>
-            <div class="content" id="js-visualisation-container"></div>
+        <div class="document-edge">
+          <div class="document">
+              <a href="#" class="close">&times;<div class="circular-glare"></div></a>
+              <div class="corner"></div>
+              <div class="content" id="js-visualisation-container"></div>
+          </div>
         </div>
       </div>
       <div class="tool-tip">
@@ -165,7 +168,12 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
 
         TweenMax.to $el, .4, params
         return
+      return
 
+    closeDataFromEdge: (e) ->
+      $el = $(e.target)
+      return if !$el.hasClass 'document-edge'
+      @closeData e
       return
 
   PageView
