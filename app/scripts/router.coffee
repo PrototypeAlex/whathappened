@@ -15,7 +15,7 @@ define ["backbone", "views/base", "views/home", "views/page", "views/credits", "
       base_view.initialize()
 
     renderHome: (actions) ->
-      @previousPage.remove() if @previousPage?
+      @previousPage?.remove()
       
       home_view = new HomeView()
       home_view.render()
@@ -24,7 +24,7 @@ define ["backbone", "views/base", "views/home", "views/page", "views/credits", "
       @previousPage = home_view
 
     renderPage: (page) ->
-      @previousPage.remove() if @previousPage?
+      @previousPage?.remove()
 
       page = Number(page)
       page_model = new Backbone.Model(Story.get('pages')[page - 1])
@@ -36,7 +36,7 @@ define ["backbone", "views/base", "views/home", "views/page", "views/credits", "
       @previousPage = page_view
 
     renderCredits: ->
-      @previousPage.remove() if @previousPage?
+      @previousPage?.remove()
 
       credits_view = new CreditsView()
       $('body').append credits_view.el
