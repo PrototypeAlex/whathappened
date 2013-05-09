@@ -11,24 +11,24 @@
       },
       initialize: function() {
         var _this = this;
-        $('body').on('swipeleft', function() {
-          return _this.navigate_left;
+        $('body').on('swipeleft', function(e) {
+          return _this.navigate_right(e);
         });
-        $('body').on('swiperight', function() {
-          return _this.navigate_right;
+        $('body').on('swiperight', function(e) {
+          return _this.navigate_left(e);
         });
-        return $('body').on('keydown', function(d) {
-          return _this.arrowNavigation(d);
+        return $('body').on('keydown', function(e) {
+          return _this.arrowNavigation(e);
         });
       },
       arrowNavigation: function(e) {
         if (e.keyCode === 37) {
-          return this.navigate_left();
+          return this.navigate_left(e);
         } else if (e.keyCode === 39) {
-          return this.navigate_right();
+          return this.navigate_right(e);
         }
       },
-      navigate_left: function() {
+      navigate_left: function(e) {
         if (this.current_page > 0) {
           this.current_page = this.current_page - 1;
           if (this.current_page === 0) {
@@ -42,7 +42,7 @@
           }
         }
       },
-      navigate_right: function() {
+      navigate_right: function(e) {
         if (this.current_page < 7) {
           this.current_page = this.current_page + 1;
           if (this.current_page === 7) {
@@ -55,9 +55,6 @@
             });
           }
         }
-      },
-      swipeRight: function() {
-        return console.log('swipe right');
       },
       renderHome: function(actions) {
         var home_view, _ref;

@@ -7,17 +7,17 @@ define ["backbone", "views/home", "views/page", "views/credits", "data/story"], 
       "credits": "renderCredits"
 
     initialize: ->
-      $('body').on('swipeleft', => @navigate_left )
-      $('body').on('swiperight', => @navigate_right )
-      $('body').on('keydown', (d) => @arrowNavigation(d))
+      $('body').on('swipeleft',   (e) => @navigate_right(e) )
+      $('body').on('swiperight',  (e) => @navigate_left(e) )
+      $('body').on('keydown',     (e) => @arrowNavigation(e))
 
     arrowNavigation: (e) ->
       if e.keyCode == 37
-        @navigate_left()
+        @navigate_left(e)
       else if e.keyCode == 39
-        @navigate_right()
+        @navigate_right(e)
 
-    navigate_left: ->
+    navigate_left: (e) ->
       if @current_page > 0
         @current_page = (@current_page - 1)
         
@@ -26,7 +26,7 @@ define ["backbone", "views/home", "views/page", "views/credits", "data/story"], 
         else
           this.navigate(("/page/" + @current_page), {trigger: true})
 
-    navigate_right: ->
+    navigate_right: (e) ->
       if @current_page < 7
         @current_page = (@current_page + 1)
         if @current_page == 7
@@ -34,8 +34,6 @@ define ["backbone", "views/home", "views/page", "views/credits", "data/story"], 
         else
           this.navigate(("/page/" + @current_page), {trigger: true})
 
-    swipeRight: ->
-      console.log 'swipe right'
 
     renderHome: (actions) ->
       @current_page = 0
