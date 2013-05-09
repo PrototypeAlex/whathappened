@@ -4,382 +4,166 @@
   "css_use_suffix": false,
   "glyphs": [
     {
-      "search": [
-        "sun",
-        "weather"
-      ],
-      "code": 66,
-      "uid": "95fb2e5fdd1ea7e4a420b6ed330e6b08",
-      "css": "sun",
-      "orig_css": "sun",
-      "orig_code": 66,
-      "src": "meteocons",
-      "from": 66
-    },
-    {
-      "search": [
-        "cloud",
-        "sun",
-        "weather"
-      ],
-      "code": 72,
-      "uid": "9cd3e294ca3ad3dda66bc5a804021c46",
-      "css": "cloud-sun",
-      "orig_css": "cloud-sun",
-      "orig_code": 72,
-      "src": "meteocons",
-      "from": 72
-    },
-    {
-      "search": [
-        "fog",
-        "sun",
-        "weather"
-      ],
-      "code": 74,
-      "uid": "957fd72e52a0e9eb585a0361114c4c83",
-      "css": "fog-sun",
-      "orig_css": "fog-sun",
-      "orig_code": 74,
-      "src": "meteocons",
-      "from": 74
-    },
-    {
-      "search": [
-        "fog",
-        "moon",
-        "weather"
-      ],
-      "code": 75,
-      "uid": "dbf0f9c3d15e5e8046bb5f5fb5898b49",
-      "css": "fog-moon",
-      "orig_css": "fog-moon",
-      "orig_code": 75,
-      "src": "meteocons",
-      "from": 75
-    },
-    {
-      "search": [
-        "cloud",
-        "weather"
-      ],
-      "code": 78,
-      "uid": "17463471d0f132cee16835507ea51ecf",
-      "css": "cloud",
-      "orig_css": "cloud",
-      "orig_code": 78,
-      "src": "meteocons",
-      "from": 78
-    },
-    {
-      "search": [
-        "rain",
-        "drizzle",
-        "weather"
-      ],
-      "code": 82,
-      "uid": "d577552bb94bdeb53e6517873481aeea",
-      "css": "rain",
-      "orig_css": "rain",
-      "orig_code": 82,
-      "src": "meteocons",
-      "from": 82
-    },
-    {
-      "search": [
-        "windy",
-        "weather"
-      ],
-      "code": 83,
-      "uid": "5fad7d41511701337ddd5ad9896edc4b",
-      "css": "windy",
-      "orig_css": "windy",
-      "orig_code": 83,
-      "src": "meteocons",
-      "from": 83
-    },
-    {
-      "search": [
-        "windy",
-        "rain",
-        "weather"
-      ],
-      "code": 84,
-      "uid": "86351391d6cbc7a85730414294139661",
-      "css": "windy-rain",
-      "orig_css": "windy-rain",
-      "orig_code": 84,
-      "src": "meteocons",
-      "from": 84
-    },
-    {
-      "search": [
-        "hail",
-        "weather"
-      ],
-      "code": 88,
-      "uid": "b500010a53f4807828ac252725dc6fd1",
-      "css": "hail",
-      "orig_css": "hail",
-      "orig_code": 88,
-      "src": "meteocons",
-      "from": 88
-    },
-    {
-      "search": [
-        "arrow",
-        "left"
-      ],
-      "code": 8592,
-      "from": 8592,
-      "uid": "555ef8c86832e686fef85f7af2eb7cde",
-      "css": "left",
-      "orig_css": "left",
-      "orig_code": 8592,
-      "src": "fontawesome"
-    },
-    {
-      "search": [
-        "arrow",
-        "left"
-      ],
-      "code": 59392,
-      "uid": "c21d309f797d3644dc8d28c4617738ce",
-      "css": "left-1",
-      "orig_css": "left",
-      "orig_code": 59392,
-      "src": "mfglabs",
-      "from": 8592
-    },
-    {
-      "search": [
-        "arrow",
-        "right"
-      ],
-      "code": 8594,
-      "from": 8594,
-      "uid": "ad6b3fbb5324abe71a9c0b6609cbb9f1",
-      "css": "right",
-      "orig_css": "right",
-      "orig_code": 8594,
-      "src": "fontawesome"
-    },
-    {
-      "search": [
-        "arrow",
-        "right"
-      ],
-      "code": 59393,
-      "uid": "1d35198f5190ec004dd4ec742fbe19ca",
-      "css": "right-1",
-      "orig_css": "right",
-      "orig_code": 59393,
-      "src": "mfglabs",
-      "from": 8594
-    },
-    {
-      "search": [
-        "reload",
-        "undo",
-        "arrow"
-      ],
-      "code": 10226,
-      "from": 10226,
-      "uid": "f9c3205df26e7778abac86183aefdc99",
-      "css": "ccw",
-      "orig_css": "ccw",
-      "orig_code": 10226,
-      "src": "fontawesome"
-    },
-    {
-      "search": [
-        "reload",
-        "redo",
-        "repeat"
-      ],
-      "code": 57418,
-      "uid": "5cbd2b6707adf3ec68a36ec195efe9bd",
-      "css": "cw-circled",
-      "orig_css": "cw-circled",
-      "orig_code": 57418,
-      "src": "elusive",
-      "from": 57418
-    },
-    {
-      "search": [
-        "document",
-        "article"
-      ],
-      "code": 59189,
-      "from": 59189,
-      "uid": "pzy4lq1ak4datbxpdfj3ya74vjfhwxg1",
-      "css": "article-alt",
-      "orig_css": "article-alt",
-      "orig_code": 59189,
-      "src": "modernpics"
-    },
-    {
-      "search": [
-        "arrow",
-        "left"
-      ],
-      "code": 59229,
-      "from": 59229,
-      "uid": "d870630ff8f81e6de3958ecaeac532f2",
-      "css": "left-open",
-      "orig_css": "left-open",
-      "orig_code": 59229,
-      "src": "fontawesome"
-    },
-    {
-      "search": [
-        "arrow",
-        "right"
-      ],
-      "code": 59230,
-      "from": 59230,
-      "uid": "399ef63b1e23ab1b761dfbb5591fa4da",
-      "css": "right-open",
-      "orig_css": "right-open",
-      "orig_code": 59230,
-      "src": "fontawesome"
-    },
-    {
-      "search": [
-        "reload",
-        "refresh",
-        "update",
-        "sync"
-      ],
-      "code": 59232,
-      "from": 59232,
-      "uid": "a73c5deb486c8d66249811642e5d719a",
-      "css": "arrows-cw",
-      "orig_css": "arrows-cw",
-      "orig_code": 59232,
-      "src": "fontawesome"
-    },
-    {
-      "search": [
-        "emoticon",
-        "smiley",
-        "happy"
-      ],
-      "code": 59394,
-      "meta": {
-        "email": "berbentseva_angela@yahoo.com",
-        "author": "Angela Berbentseva, specially for fontello"
-      },
       "uid": "c64623255a4a7c72436b199b05296c4f",
       "css": "emo-happy",
-      "orig_css": "emo-happy",
-      "orig_code": 59394,
-      "src": "fontelico",
-      "from": 59392
+      "code": 59394,
+      "src": "fontelico"
     },
     {
-      "search": [
-        "emoticon",
-        "smiley",
-        "wink"
-      ],
-      "code": 59395,
-      "meta": {
-        "email": "berbentseva_angela@yahoo.com",
-        "author": "Angela Berbentseva, specially for fontello"
-      },
       "uid": "1ba44825e5f10920b4e3f1d0c73f79a2",
       "css": "emo-wink",
-      "orig_css": "emo-wink",
-      "orig_code": 59395,
-      "src": "fontelico",
-      "from": 59393
+      "code": 59395,
+      "src": "fontelico"
     },
     {
-      "search": [
-        "emoticon",
-        "smiley",
-        "unhappy"
-      ],
-      "code": 59396,
-      "meta": {
-        "email": "berbentseva_angela@yahoo.com",
-        "author": "Angela Berbentseva, specially for fontello"
-      },
       "uid": "53ed8570225581269cd7eff5795e8bea",
       "css": "emo-unhappy",
-      "orig_css": "emo-unhappy",
-      "orig_code": 59396,
-      "src": "fontelico",
-      "from": 59394
+      "code": 59396,
+      "src": "fontelico"
     },
     {
-      "search": [
-        "emoticon",
-        "smiley",
-        "sunglasses"
-      ],
-      "code": 59401,
-      "meta": {
-        "email": "berbentseva_angela@yahoo.com",
-        "author": "Angela Berbentseva, specially for fontello"
-      },
       "uid": "078fec38562c3f83a1201a908040c141",
       "css": "emo-sunglasses",
-      "orig_css": "emo-sunglasses",
-      "orig_code": 59401,
-      "src": "fontelico",
-      "from": 59401
+      "code": 59401,
+      "src": "fontelico"
     },
     {
-      "search": [
-        "emoticon",
-        "smiley",
-        "laugh"
-      ],
-      "code": 59410,
-      "meta": {
-        "email": "berbentseva_angela@yahoo.com",
-        "author": "Angela Berbentseva, specially for fontello"
-      },
       "uid": "2bd5f98482d86649958312ea2ab5bb40",
       "css": "emo-laugh",
-      "orig_css": "emo-laugh",
-      "orig_code": 59410,
-      "src": "fontelico",
-      "from": 59410
+      "code": 59410,
+      "src": "fontelico"
     },
     {
-      "search": [
-        "load",
-        "progress",
-        "wait"
-      ],
-      "code": 59442,
-      "meta": {
-        "email": "berbentseva_angela@yahoo.com",
-        "author": "Angela Berbentseva, specially for fontello"
-      },
       "uid": "2a6740fc2f9d0edea54205963f662594",
-      "css-ext": "animate-spin",
       "css": "spin3",
-      "orig_css": "spin3",
-      "orig_code": 59442,
-      "src": "fontelico",
-      "from": 59442
+      "code": 59442,
+      "src": "fontelico"
     },
     {
-      "search": [
-        "doc",
-        "article"
-      ],
-      "code": 128196,
-      "from": 128196,
+      "uid": "413717f5ea649e8d8b93938be277264a",
+      "css": "calendar",
+      "code": 128197,
+      "src": "entypo"
+    },
+    {
+      "uid": "d870630ff8f81e6de3958ecaeac532f2",
+      "css": "left-open",
+      "code": 59229,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "399ef63b1e23ab1b761dfbb5591fa4da",
+      "css": "right-open",
+      "code": 59230,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "555ef8c86832e686fef85f7af2eb7cde",
+      "css": "left",
+      "code": 8592,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "ad6b3fbb5324abe71a9c0b6609cbb9f1",
+      "css": "right",
+      "code": 8594,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "f9c3205df26e7778abac86183aefdc99",
+      "css": "ccw",
+      "code": 10226,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "a73c5deb486c8d66249811642e5d719a",
+      "css": "arrows-cw",
+      "code": 59232,
+      "src": "fontawesome"
+    },
+    {
       "uid": "t7uz7sms69yuckjmkp1zqggwr4jkw0o9",
       "css": "doc",
-      "orig_css": "doc",
-      "orig_code": 128196,
+      "code": 128196,
       "src": "modernpics"
+    },
+    {
+      "uid": "pzy4lq1ak4datbxpdfj3ya74vjfhwxg1",
+      "css": "article-alt",
+      "code": 59189,
+      "src": "modernpics"
+    },
+    {
+      "uid": "95fb2e5fdd1ea7e4a420b6ed330e6b08",
+      "css": "sun",
+      "code": 66,
+      "src": "meteocons"
+    },
+    {
+      "uid": "9cd3e294ca3ad3dda66bc5a804021c46",
+      "css": "cloud-sun",
+      "code": 72,
+      "src": "meteocons"
+    },
+    {
+      "uid": "957fd72e52a0e9eb585a0361114c4c83",
+      "css": "fog-sun",
+      "code": 74,
+      "src": "meteocons"
+    },
+    {
+      "uid": "dbf0f9c3d15e5e8046bb5f5fb5898b49",
+      "css": "fog-moon",
+      "code": 75,
+      "src": "meteocons"
+    },
+    {
+      "uid": "17463471d0f132cee16835507ea51ecf",
+      "css": "cloud",
+      "code": 78,
+      "src": "meteocons"
+    },
+    {
+      "uid": "d577552bb94bdeb53e6517873481aeea",
+      "css": "rain",
+      "code": 82,
+      "src": "meteocons"
+    },
+    {
+      "uid": "5fad7d41511701337ddd5ad9896edc4b",
+      "css": "windy",
+      "code": 83,
+      "src": "meteocons"
+    },
+    {
+      "uid": "86351391d6cbc7a85730414294139661",
+      "css": "windy-rain",
+      "code": 84,
+      "src": "meteocons"
+    },
+    {
+      "uid": "b500010a53f4807828ac252725dc6fd1",
+      "css": "hail",
+      "code": 88,
+      "src": "meteocons"
+    },
+    {
+      "uid": "c21d309f797d3644dc8d28c4617738ce",
+      "css": "left-1",
+      "code": 59392,
+      "src": "mfglabs"
+    },
+    {
+      "uid": "1d35198f5190ec004dd4ec742fbe19ca",
+      "css": "right-1",
+      "code": 59393,
+      "src": "mfglabs"
+    },
+    {
+      "uid": "5cbd2b6707adf3ec68a36ec195efe9bd",
+      "css": "cw-circled",
+      "code": 57418,
+      "src": "elusive"
     }
   ]
 }
