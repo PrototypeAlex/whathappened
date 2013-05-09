@@ -11,11 +11,16 @@
       },
       initialize: function() {
         var _this = this;
-        $('body').on('swipeleft', function(e) {
-          return _this.navigate_right(e);
-        });
-        $('body').on('swiperight', function(e) {
-          return _this.navigate_left(e);
+        $('body').swipe({
+          swipe: function(event, direction, distance, duration, fingerCount) {
+            console.log("You swiped " + direction + " with " + fingerCount + " fingers");
+            if (direction === 'left') {
+              return _this.navigate_right(event);
+            } else if (direction === 'right') {
+              return _this.navigate_left(event);
+            }
+          },
+          fingers: 2
         });
         return $('body').on('keydown', function(e) {
           return _this.arrowNavigation(e);

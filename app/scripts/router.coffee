@@ -7,8 +7,16 @@ define ["backbone", "views/home", "views/page", "views/credits", "data/story"], 
       "credits": "renderCredits"
 
     initialize: ->
-      $('body').on('swipeleft',   (e) => @navigate_right(e) )
-      $('body').on('swiperight',  (e) => @navigate_left(e) )
+      $('body').swipe({
+        swipe: (event, direction, distance, duration, fingerCount) =>
+          if direction == 'left'
+            @navigate_right(event)
+          else if direction == 'right'
+            @navigate_left(event)
+        ,
+        fingers:2
+      })
+
       $('body').on('keydown',     (e) => @arrowNavigation(e))
 
     arrowNavigation: (e) ->

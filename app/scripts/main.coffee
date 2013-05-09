@@ -6,8 +6,9 @@ require.config
     text: "../components/requirejs-text/text"
     d3: "../components/d3/d3"
     topojson: "../components/topojson/topojson"
-    jquery_mobile: "../components/jquery-mobile/jquery.mobile.custom.min"
+    jquery_mobile: "../components/jquery-mobile/jquery.mobile.custom"
     jquery_mobile_config: "./jquery_mobile_config"
+    jquery_touch_swipe: "../components/jquery-touch-swipe/jquery.touchSwipe"
 
   shim:
     bootstrap:
@@ -23,6 +24,7 @@ require.config
 
     jquery_mobile_config: ["jquery"]
     jquery_mobile: ["jquery", "jquery_mobile_config"]
+    jquery_touch_swipe: ["jquery"]
 
     d3:
       exports: "d3"
