@@ -154,6 +154,11 @@
 	float: left;
 	margin-bottom: 40px;
 	position: relative;
+	@media screen and (max-width: 768px) {
+		width: auto;
+		float: none;
+		margin-bottom: 20px;
+	}
 	&.has-pie{
 		top: -10px;
 	}
@@ -235,6 +240,9 @@
 	}
 	&.place{
 		position: relative;
+		@media screen and (max-width: 768px) {
+			margin-top: 30px;
+		}
 		.what,
 		.extra{
 			margin-left: 30px;
