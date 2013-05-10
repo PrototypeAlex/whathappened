@@ -15,5 +15,9 @@
 		cursor: pointer;
 		display: inline-block;
 		border-bottom: 2px dotted rgba(255,255,255,.3);
+		&:hover{
+			color: $black;
+			border-bottom-color: $black;
+		}
 	}
 }

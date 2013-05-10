@@ -34,12 +34,6 @@ define ['backbone'], (Backbone) ->
 		reInitialize: ->
 			@wait = 0
 			_.each @$('.number'), @setupNumber
-
-			_.each @$('.gold-star'), (el) =>
-				$el = $(el)
-				$el.css
-					opacity: 0
-				TweenMax.to $el, .5, {opacity: 1, delay: 0, scale: 1.1, ease: Elastic.easeOut}
 			return
 
 	InfographicView

@@ -212,6 +212,9 @@ table{
     a{
       text-decoration: underline;
       color: $black;
+      &:hover{
+        text-decoration: none;
+      }
     }
   }
   p{
