@@ -66,6 +66,7 @@
       },
       openData: function(e) {
         var $marker, id;
+        console.log('clicked #{$(e.target)}');
         $marker = $(e.target);
         if (!$marker.hasClass('data-marker')) {
           $marker = $marker.parents('.data-marker');

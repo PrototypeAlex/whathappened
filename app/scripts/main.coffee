@@ -36,7 +36,6 @@ require.config
     tweenmax:
       exports: "TweenMax"
 
-  include: ["backbone", "app", "d3", "topojson", "initializer"]
 
 require ["app"], (App) ->
   App.initialize()

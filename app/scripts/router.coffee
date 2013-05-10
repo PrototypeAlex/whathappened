@@ -9,15 +9,17 @@ define ["backbone", "views/home", "views/page", "views/credits", "data/story"], 
     initialize: ->
       $('body').swipe({
         swipe: (event, direction, distance, duration, fingerCount) =>
-          if direction == 'left'
+          if direction == 'left' && fingerCount == 2
             @navigate_right(event)
-          else if direction == 'right'
+          else if direction == 'right' && fingerCount == 2
             @navigate_left(event)
         ,
-        fingers:2
+        excludedElements: "button, input, select, textarea, a, .noSwipe, .data-marker, svg, .glare, .city-legend",
+        fingers:"all",
+        allowPageScroll: 'vertical'
       })
 
-      $('body').on('keydown',     (e) => @arrowNavigation(e))
+      $('body').on('keydown', (e) => @arrowNavigation(e))
 
     arrowNavigation: (e) ->
       if e.keyCode == 37
