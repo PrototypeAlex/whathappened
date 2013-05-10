@@ -26,6 +26,9 @@ html, body{
 	font-family: $slab;
 	background-color: $green;
 	color: $black;
+	@media screen and (max-width: 768px) {
+		overflow-x: hidden;
+	}
 }
 
 .hidden{
