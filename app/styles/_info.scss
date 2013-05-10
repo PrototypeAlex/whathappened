@@ -36,6 +36,11 @@
 		left: 50%;
 		margin-left: -384px;
 		margin-bottom: 5%;
+		@media screen and (max-width: 768px) {
+			width: auto;
+			left: auto;
+			margin-left: 0px;
+		}
 		.close{
 			position: relative;
 			display: inline-block;
