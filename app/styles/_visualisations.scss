@@ -124,6 +124,10 @@
       stroke-width: 3px;
     }
   }
+
+  .meteorite-circle{
+    cursor: pointer;
+  }
 }
 
 table{
@@ -200,6 +204,10 @@ table{
   p{
     margin-right: 0px;
     font: 400 15px/22px $slab;
+  }
+
+  &.meteor-file{
+    margin-top: 20px;
   }
 }
 
