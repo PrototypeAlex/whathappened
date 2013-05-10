@@ -6,6 +6,9 @@
       vizualisation_view: null,
       current_visualisation: null,
       initialize: function() {
+        if (window.WhatHappenedCloseCount === void 0) {
+          window.WhatHappenedCloseCount = 0;
+        }
         return this.vizualisation_view = new VisualisationView({
           parentView: this
         });
@@ -57,6 +60,9 @@
             break;
           case "erosion":
             this.renderErosion();
+        }
+        if (window.WhatHappenedCloseCount > 0) {
+          $('#info .close-tip').remove();
         }
         return _.each($('#info .infographic'), function(el) {
           var v;
@@ -110,6 +116,7 @@
       },
       close: function(e) {
         var _this = this;
+        window.WhatHappenedCloseCount++;
         $('body').removeClass('info-open');
         TweenMax.to($('#info .document'), .2, {
           top: 140,

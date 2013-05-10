@@ -73,7 +73,7 @@
         var event;
         event = d3.event;
         $('#x-file').show();
-        return $('#x-file').html("<h3>Meteorite Record: " + d.place + "</h3>        <h4><i class=\"icon icon-calendar\"></i>" + d.year + "  A.D</h4>        <h4><i class=\"icon icon-pen\"></i>" + (d.mass.formatMoney(2, '.', ',')) + " grams of " + d.type + "</h4>        <h4><i class=\"icon icon-pin\"></i><a href='https://maps.google.co.nz/maps?q=" + d.lat + "," + d.long + "' target='_blank'>https://maps.google.co.nz/maps?q=" + d.lat + "," + d.long + "</a></h4>");
+        return $('#x-file').html("<h3>Meteorite Record: " + d.place + "</h3>        <h4><i class=\"icon icon-calendar\"></i>" + d.year + "  A.D</h4>        <h4><i class=\"icon icon-help\"></i>" + (d.mass.formatMoney(2, '.', ',')) + " grams of " + d.type + "</h4>        <h4><i class=\"icon icon-pin\"></i><a href='https://maps.google.co.nz/maps?q=" + d.lat + "," + d.long + "' target='_blank'>https://maps.google.co.nz/maps?q=" + d.lat + "," + d.long + "</a></h4>");
       },
       on_hover: function(d) {
         d3.selectAll("path." + (d.city.split(' ').join('_'))).classed("hovering", true);

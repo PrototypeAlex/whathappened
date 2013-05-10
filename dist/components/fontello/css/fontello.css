@@ -2,11 +2,11 @@
 
  @font-face {
   font-family: 'fontello';
-  src: url('../font/fontello.eot?50892363');
-  src: url('../font/fontello.eot?50892363#iefix') format('embedded-opentype'),
-       url('../font/fontello.woff?50892363') format('woff'),
-       url('../font/fontello.ttf?50892363') format('truetype'),
-       url('../font/fontello.svg?50892363#fontello') format('svg');
+  src: url('../font/fontello.eot?57039116');
+  src: url('../font/fontello.eot?57039116#iefix') format('embedded-opentype'),
+       url('../font/fontello.woff?57039116') format('woff'),
+       url('../font/fontello.ttf?57039116') format('truetype'),
+       url('../font/fontello.svg?57039116#fontello') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -16,7 +16,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'fontello';
-    src: url('../font/fontello.svg?50892363#fontello') format('svg');
+    src: url('../font/fontello.svg?57039116#fontello') format('svg');
   }
 }
 */
@@ -52,101 +52,32 @@
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
  
+.icon-sun:before { content: '\42'; } /* 'B' */
+.icon-cloud-sun:before { content: '\48'; } /* 'H' */
+.icon-fog-sun:before { content: '\4a'; } /* 'J' */
+.icon-fog-moon:before { content: '\4b'; } /* 'K' */
+.icon-cloud:before { content: '\4e'; } /* 'N' */
+.icon-rain:before { content: '\52'; } /* 'R' */
+.icon-windy:before { content: '\53'; } /* 'S' */
+.icon-windy-rain:before { content: '\54'; } /* 'T' */
+.icon-hail:before { content: '\58'; } /* 'X' */
 .icon-left:before { content: '\2190'; } /* '←' */
 .icon-left-1:before { content: '\e800'; } /* '' */
-.icon-right:before { content: '\2192'; } /* '→' */
 .icon-right-1:before { content: '\e801'; } /* '' */
+.icon-right:before { content: '\2192'; } /* '→' */
+.icon-help:before { content: '\2753'; } /* '❓' */
 .icon-ccw:before { content: '\27f2'; } /* '⟲' */
 .icon-cw-circled:before { content: '\e04a'; } /* '' */
 .icon-article-alt:before { content: '\e735'; } /* '' */
 .icon-left-open:before { content: '\e75d'; } /* '' */
 .icon-right-open:before { content: '\e75e'; } /* '' */
 .icon-arrows-cw:before { content: '\e760'; } /* '' */
+.icon-emo-happy:before { content: '\e802'; } /* '' */
+.icon-emo-wink:before { content: '\e803'; } /* '' */
+.icon-emo-unhappy:before { content: '\e804'; } /* '' */
+.icon-emo-sunglasses:before { content: '\e809'; } /* '' */
+.icon-emo-laugh:before { content: '\e812'; } /* '' */
 .icon-spin3:before { content: '\e832'; } /* '' */
 .icon-doc:before { content: '📄'; } /* '\1f4c4' */
-
-/*
-   Animation example, for spinners
-*/
-.animate-spin {
-  -moz-animation: spin 0.7s infinite linear;
-  -o-animation: spin 0.7s infinite linear;
-  -webkit-animation: spin 0.7s infinite linear;
-  animation: spin 0.7s infinite linear;
-  display: inline-block;
-}
-@-moz-keyframes spin {
-  0% {
-    -moz-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  100% {
-    -moz-transform: rotate(359deg);
-    -o-transform: rotate(359deg);
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
-  }
-}
-@-webkit-keyframes spin {
-  0% {
-    -moz-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  100% {
-    -moz-transform: rotate(359deg);
-    -o-transform: rotate(359deg);
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
-  }
-}
-@-o-keyframes spin {
-  0% {
-    -moz-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  100% {
-    -moz-transform: rotate(359deg);
-    -o-transform: rotate(359deg);
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
-  }
-}
-@-ms-keyframes spin {
-  0% {
-    -moz-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  100% {
-    -moz-transform: rotate(359deg);
-    -o-transform: rotate(359deg);
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
-  }
-}
-@keyframes spin {
-  0% {
-    -moz-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  100% {
-    -moz-transform: rotate(359deg);
-    -o-transform: rotate(359deg);
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
-  }
-}
+.icon-calendar:before { content: '📅'; } /* '\1f4c5' */
+.icon-pin:before { content: '📌'; } /* '\1f4cc' */

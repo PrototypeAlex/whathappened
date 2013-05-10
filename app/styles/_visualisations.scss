@@ -209,6 +209,10 @@ table{
       color: $green;
       opacity: .2;
     }
+    a{
+      text-decoration: underline;
+      color: $black;
+    }
   }
   p{
     margin-right: 0px;
@@ -245,11 +249,18 @@ table{
   }
 }
 
-div.tool-tip {   
+.tool-tip {   
   position: absolute; 
   z-index: 9999; 
   visibility: hidden; 
-  background-color: white; 
-  padding: 2px; 
-  border: thin solid black;       
+  background-color: $black; 
+  padding: 4px; 
+  color: $white;
+  height: auto;
+  font: 400 13px/20px $sans;
+  border-radius: 4px;
+  p{
+    margin: 0px;
+    padding: 0px;
+  }       
 }
