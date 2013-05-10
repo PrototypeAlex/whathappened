@@ -209,6 +209,10 @@ table{
       color: $green;
       opacity: .2;
     }
+    a{
+      text-decoration: underline;
+      color: $black;
+    }
   }
   p{
     margin-right: 0px;

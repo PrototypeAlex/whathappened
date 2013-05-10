@@ -1,7 +1,16 @@
 Font license info
 
 
-## Font Awesome
+## meteocons
+
+   Copyright (C) 2012 by Alessio Atzeni
+
+   Author:    Alessio Atzeni
+   License:   SIL (http://scripts.sil.org/OFL)
+   Homepage:  http://www.alessioatzeni.com
+
+
+## fontawesome
 
    Copyright (C) 2012 by Dave Gandy
 
@@ -10,7 +19,7 @@ Font license info
    Homepage:  http://fortawesome.github.com/Font-Awesome/
 
 
-## MFG Labs
+## mfglabs
 
    Copyright (C) 2012 by Daniel Bruce
 
@@ -19,7 +28,16 @@ Font license info
    Homepage:  http://www.mfglabs.com/
 
 
-## Elusive
+## typicons
+
+   (c) Stephen Hutchings 2012
+
+   Author:    Stephen Hutchings
+   License:   CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)
+   Homepage:  http://typicons.com/
+
+
+## elusive
 
    Copyright (C) 2013 by Aristeides Stathopoulos
 
@@ -28,7 +46,7 @@ Font license info
    Homepage:  http://aristeides.com/
 
 
-## Modern Pictograms
+## modernpics
 
    Copyright (c) 2012 by John Caserta. All rights reserved.
 
@@ -37,12 +55,21 @@ Font license info
    Homepage:  http://thedesignoffice.org/project/modern-pictograms/
 
 
-## Fontelico
+## fontelico
 
    Copyright (C) 2012 by Fontello project
 
    Author:    Crowdsourced, for Fontello project
    License:   SIL (http://scripts.sil.org/OFL)
    Homepage:  http://fontello.com
+
+
+## entypo
+
+   Copyright (C) 2012 by Daniel Bruce
+
+   Author:    Daniel Bruce
+   License:   SIL (http://scripts.sil.org/OFL)
+   Homepage:  http://www.entypo.com
 
 

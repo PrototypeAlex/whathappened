@@ -36,7 +36,7 @@
         $('#x-file').html(x_file);
         $('#x-file').show();
         return TweenMax.to($('#info'), .3, {
-          scrollTop: $('#x-file').position().top
+          scrollTop: $('#x-file').position().top - 20
         });
       },
       render_ufo_template: function(region) {

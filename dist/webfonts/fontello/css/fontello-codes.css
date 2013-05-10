@@ -12,8 +12,9 @@
 .icon-hail:before { content: '\58'; } /* 'X' */
 .icon-left:before { content: '\2190'; } /* '←' */
 .icon-left-1:before { content: '\e800'; } /* '' */
-.icon-right:before { content: '\2192'; } /* '→' */
 .icon-right-1:before { content: '\e801'; } /* '' */
+.icon-right:before { content: '\2192'; } /* '→' */
+.icon-help:before { content: '\2753'; } /* '❓' */
 .icon-ccw:before { content: '\27f2'; } /* '⟲' */
 .icon-cw-circled:before { content: '\e04a'; } /* '' */
 .icon-article-alt:before { content: '\e735'; } /* '' */
