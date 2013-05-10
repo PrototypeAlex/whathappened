@@ -49,22 +49,8 @@
         });
       },
       reInitialize: function() {
-        var _this = this;
         this.wait = 0;
         _.each(this.$('.number'), this.setupNumber);
-        _.each(this.$('.gold-star'), function(el) {
-          var $el;
-          $el = $(el);
-          $el.css({
-            opacity: 0
-          });
-          return TweenMax.to($el, .5, {
-            opacity: 1,
-            delay: 0,
-            scale: 1.1,
-            ease: Elastic.easeOut
-          });
-        });
       }
     });
     return InfographicView;
