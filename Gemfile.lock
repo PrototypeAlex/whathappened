@@ -9,6 +9,7 @@ GEM
     fssm (0.2.10)
     json (1.7.7)
     nokogiri (1.5.9)
+    rack (1.5.2)
     sass (3.2.7)
 
 PLATFORMS
@@ -18,3 +19,4 @@ DEPENDENCIES
   compass
   json
   nokogiri
+  rack

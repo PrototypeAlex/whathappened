@@ -12,6 +12,20 @@ define ['backbone', 'views/visualisations/base', 'views/infographic'], (Backbone
             $('#info').removeClass('hidden')
             @renderViz(viz_id)
             @animateIn()
+            if Modernizr.touch
+                console.log 'touched'
+                $('#js-visualisation-container').swipe({
+                  swipe: (event, direction, distance, duration, fingerCount) =>
+                    console.log event
+                    if direction == 'left' && fingerCount == 2
+                      @close()
+                    else if direction == 'right' && fingerCount == 2
+                      @close()
+                  ,
+                  excludedElements: "button, input, select, textarea, a, .noSwipe, .data-marker, svg, .glare, .city-legend",
+                  fingers:"all",
+                  allowPageScroll: 'auto'
+                })
 
         renderViz: (viz_id) ->
             switch viz_id

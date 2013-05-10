@@ -10,6 +10,7 @@ require.config
     jquery_mobile_config: "./jquery_mobile_config"
     jquery_touch_swipe: "../components/jquery-touch-swipe/jquery.touchSwipe"
     tweenmax: "../components/tweenmax/tweenmax.min"
+    modernizr: "../components/modernizr/modernizr"
 
   shim:
     bootstrap:
@@ -36,7 +37,9 @@ require.config
     tweenmax:
       exports: "TweenMax"
 
-  include: ["backbone", "app", "d3", "topojson", "initializer"]
+    modernizr:
+      exports: "Modernizr"
+
 
 require ["app"], (App) ->
   App.initialize()

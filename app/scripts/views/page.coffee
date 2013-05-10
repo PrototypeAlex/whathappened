@@ -99,6 +99,7 @@ define ['backbone', 'views/info'], (Backbone, InfoView) ->
       return
 
     openData: (e) ->
+      console.log 'clicked #{$(e.target)}'
       $marker = $(e.target)
       if !$marker.hasClass 'data-marker'
         $marker = $marker.parents('.data-marker')

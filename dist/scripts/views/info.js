@@ -14,9 +14,26 @@
         });
       },
       render: function(viz_id) {
+        var _this = this;
         $('#info').removeClass('hidden');
         this.renderViz(viz_id);
-        return this.animateIn();
+        this.animateIn();
+        if (Modernizr.touch) {
+          console.log('touched');
+          return $('#js-visualisation-container').swipe({
+            swipe: function(event, direction, distance, duration, fingerCount) {
+              console.log(event);
+              if (direction === 'left' && fingerCount === 2) {
+                return _this.close();
+              } else if (direction === 'right' && fingerCount === 2) {
+                return _this.close();
+              }
+            },
+            excludedElements: "button, input, select, textarea, a, .noSwipe, .data-marker, svg, .glare, .city-legend",
+            fingers: "all",
+            allowPageScroll: 'auto'
+          });
+        }
       },
       renderViz: function(viz_id) {
         switch (viz_id) {
