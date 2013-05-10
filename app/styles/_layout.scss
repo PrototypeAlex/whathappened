@@ -79,6 +79,21 @@
 	}
 }
 
+@media screen and (max-width: 768px) {
+	.words{
+		right: 20px !important;
+		p{
+			margin-right: 0px !important;
+		}
+	}
+}
+
+@media screen and (orientation:landscape) and (max-width: 768px) {
+	.words{
+		top: 0px !important;
+	}
+}
+
 @media screen and (orientation:portrait) {
 	.page{
 		.what-happened-title{
@@ -96,10 +111,11 @@
 			bottom: auto;
 			top: 50%;
 			margin-left: 0px;
-			margin-top: 20px;
+			margin-top: -20px;
 			text-align: center;
 			p{
 				max-width: 100%;
+				margin-right: 0px !important;
 			}
 		}
 	}

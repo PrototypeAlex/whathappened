@@ -86,7 +86,7 @@ a.btn{
 		height: 56px;
 		background-color: #FFF;
 		border-radius: 30px;
-		position: absolute;
+		position: fixed;
 		z-index: 100;
 		top: 50%;
 		margin-top: -30px;
@@ -109,6 +109,22 @@ a.btn{
 		&:active{
 			opacity: 0.5;
 			margin-top: -28px;
+		}
+	}
+	@media screen and (max-width: 768px) {
+		&.arrow{
+			width: 40px;
+			height: 40px;
+			border-radius: 20px;
+			font: 400 20px/43px Sans-Serif;
+			&.left{
+				left: -15px;
+				text-indent: 2px;
+			}
+			&.right{
+				right: -15px;
+				text-indent: -2px;
+			}
 		}
 	}
 }

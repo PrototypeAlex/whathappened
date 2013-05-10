@@ -42,10 +42,19 @@
     width: 370px;
     margin-top: 20px;
     float: right;
+    @media screen and (max-width: 768px) {
+      float: none;
+      width: auto;
+      clear: both;
+      margin-bottom: 20px;
+    }
     .map-region-prompt{
       font: 400 30px/30px $sans;
       color: #DDD;
       margin-top: 90px;
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
       .icon-left{
         font-size: 14px;
         position: relative;

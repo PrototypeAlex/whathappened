@@ -8,6 +8,10 @@
 	margin-left: -200px;
 	margin-top: -150px;
 	text-align: center;
+	padding-bottom: 40px;
+	@media screen and (max-width: 768px) {
+		padding-bottom: 40px;
+	}
 	h1{
 		font: 400 80px/50px $script;
 		text-transform: lowercase;
@@ -15,6 +19,9 @@
 		z-index: 10;
 		color: #FFF;
 		position: relative;
+		@media screen and (max-width: 768px) {
+			font: 400 50px/40px $script;
+		}
 	}
 	.olive{
 		width: 280px;
@@ -68,6 +75,23 @@
 			background-color: #2a84ff;
 			margin-right: 10px;
 			cursor: pointer;
+		}
+	}
+	.guide{
+		color: #FFF;
+		opacity: .4;
+		display: none;
+		padding-bottom: 20px;
+		.finger-icons{
+			width: 128px;
+			height: 43px;
+			background: url('/images/1368170397_two_finger_horizontal_swipe.svg') no-repeat top left;
+			position: relative;
+			left: 50%;
+			margin-left: -46px;
+		}
+		@media screen and (max-width: 1020px) {
+			display: block;
 		}
 	}
 }

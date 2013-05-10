@@ -37,7 +37,7 @@ define ['backbone', 'text!../../../templates/ufo.html', 'd3', "views/visualisati
       $('#x-file').html(x_file)
       $('#x-file').show()
 
-      TweenMax.to $('#info'), .3, {scrollTop: $('#x-file').position().top}
+      TweenMax.to $('#info'), .3, {scrollTop: $('#x-file').position().top - 20}
 
     render_ufo_template: (region) ->
       ufo_sightings = _.filter(@ufo_data, (d) => d.region == region)
