@@ -5,6 +5,7 @@ define ['backbone', 'views/visualisations/base', 'views/infographic'], (Backbone
         current_visualisation: null
 
         initialize: ->
+            window.WhatHappenedCloseCount = 0 if window.WhatHappenedCloseCount is undefined
             @vizualisation_view = new VisualisationView({parentView: @})
 
         render: (viz_id) ->
@@ -22,6 +23,9 @@ define ['backbone', 'views/visualisations/base', 'views/infographic'], (Backbone
                 when "fruit_bat"        then @renderFruitBats()
                 when "bugs"             then @renderBugs()
                 when "erosion"          then @renderErosion()
+
+            if window.WhatHappenedCloseCount > 0
+                $('#info .close-tip').remove()
 
             _.each $('#info .infographic'), (el) ->
                 v = new InfographicView
@@ -71,6 +75,7 @@ define ['backbone', 'views/visualisations/base', 'views/infographic'], (Backbone
 
 
         close: (e) ->
+            window.WhatHappenedCloseCount++;
             $('body').removeClass 'info-open'
             # 
             TweenMax.to $('#info .document'), .2,
