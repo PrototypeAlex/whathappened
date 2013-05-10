@@ -11,18 +11,20 @@
       },
       initialize: function() {
         var _this = this;
-        $('body').swipe({
-          swipe: function(event, direction, distance, duration, fingerCount) {
-            if (direction === 'left' && fingerCount === 2) {
-              return _this.navigate_right(event);
-            } else if (direction === 'right' && fingerCount === 2) {
-              return _this.navigate_left(event);
-            }
-          },
-          excludedElements: "button, input, select, textarea, a, .noSwipe, .data-marker, svg, .glare, .city-legend",
-          fingers: "all",
-          allowPageScroll: 'vertical'
-        });
+        if (Modernizr.touch) {
+          $('body').swipe({
+            swipe: function(event, direction, distance, duration, fingerCount) {
+              if (direction === 'left' && fingerCount === 2) {
+                return _this.navigate_right(event);
+              } else if (direction === 'right' && fingerCount === 2) {
+                return _this.navigate_left(event);
+              }
+            },
+            excludedElements: "button, input, select, textarea, a, .noSwipe, .data-marker, svg, .glare, .city-legend, .document",
+            fingers: "all",
+            allowPageScroll: 'auto'
+          });
+        }
         return $('body').on('keydown', function(e) {
           return _this.arrowNavigation(e);
         });
